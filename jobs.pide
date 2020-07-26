@@ -1,0 +1,68 @@
+#A xslt pipeline as domains specific language (DSL)
+#REQUIREMENTS  
+# - named pipelines
+# - easy linking of output to next input
+# - good readability
+# - transparency: explicit is better than implicit
+# - xsl and python plugins
+
+# A pipeline is a combination of several consecutive steps
+# each step has an input, parameters, output 
+# default behavior is to take output from previous step as input for the next step
+# you can write your own python plugins 
+
+#PIDE DEFINITION
+#reserved keywords: import, input, conf
+#commands can be qualified or unqualified
+# - unqualified: command assumes that job name functions as package
+# - qualified: package.command, e.g. xsl.transform 
+# Commands cannot have periods  
+
+#conf key value; N.B. the value preserves spaces (except at the end of the line)
+conf saxon C:\Program Files\Saxonica\SaxonHE9.9N\bin\transform.exe
+#spaces are ONLY ALLOWED in 2nd parameter of conf, not in other paths
+
+import mpx                      # do imports have to be a top of document or not? probably not
+import xsl                      # but it's good behavior nonetheless
+import vfix
+import shf
+
+cpRes:
+    input 2-MPX/lvlup.freigegeben.mpx
+    mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
+
+datenblatt:                     # for SM/StuSam project
+    start 2-MPX/levelup.mpx
+    xsl datenblatt.xsl 3-datenblatt
+
+mpx:                            # this pipeline/job is called 'mpx'
+	input unused 				# no input since mv2zero always acts on ./*.xls
+    mv2zero 0-IN                # mv all matching files to zero 
+    xls2xml 1-XML       		# transform all files in 0-IN to xml files in 1-XML
+    join 1-XML/join.xml     	# join all xml files into 1-XML/join.xml 
+    lvlup 2-MPX/levelup.mpx     # levelup to 2-MPX/levelup.mpx
+    xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup.freigegeben.mpx
+	#cpRes ../pix               # currently separate job
+
+    input 2-MPX/levelup.mpx
+    testMpx						# run tests to verify mpx
+
+shf:
+    input 2-MPX/levelup.mpx
+    xsl.xsl SHF.xsl 3-SHF/shf.freigegeben.npx
+    npx2csv 3-SHF               # out_dir; produces 2 files now
+
+    input 3-SHF/shf.freigegeben.npx
+    xsl.xsl shf2Html.xsl 3-SHF/shf.freigegeben.html	
+
+    input 3-SHF/shf.freigegeben.npx
+    testShf 3-SHF/lvlup.freigegeben.mpx
+
+vfix:
+    input 2-MPX/levelup.mpx
+    vfix ../../../data2/generalvindex.json .. 2-MPX/vfix.mpx 
+                                # update vindex and translation list
+    gtrans                      # new translation of GTrans installed
+    vokvok ../.. ../../../data2/mpxvoc.xml 
+    							# rewrite and assemble all translations in one mpxvok
+    cpData2                     # cp *.xlsx recursively
