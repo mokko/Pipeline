@@ -2,7 +2,7 @@ import os
 from lvlup.Xls2xml import Xls2xml
 from lvlup.cpResources import cpResources
 from Saxon import Saxon
-import lvlup.test_mpx
+from lvlup.test_mpx import main 
 
 xsl_dir = os.path.realpath (os.path.join (__file__,'../../xsl'))
 emptympx = os.path.join (xsl_dir, 'leer.mpx')
@@ -37,7 +37,7 @@ def mv2zero (conf, in_fn, dest_dir):
     # logging? return message?
     
 def testMpx (conf, in_fn):
-    lvlup.test_mpx.main(in_fn)
+    main(in_fn)
 
 def xls2xml (conf, in_dir, dest_dir): 
     o = Xls2xml ()
