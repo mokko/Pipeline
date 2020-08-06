@@ -33,8 +33,8 @@ cpRes:
     mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
 
 datenblatt:                     # for SM/StuSam project
-    start 2-MPX/levelup.mpx
-    xsl datenblatt.xsl 3-datenblatt
+    input 2-MPX/levelup.mpx
+    xsl.xsl datenblatt.xsl 3-datenblatt/datenblatt.html
 
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls

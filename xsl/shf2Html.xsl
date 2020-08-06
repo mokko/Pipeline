@@ -10,7 +10,7 @@
         <html>
             <xsl:call-template name="htmlHead"/>
             <body>
-                <table>
+                <table style="width:800">
                     <xsl:apply-templates select="/npx:shf/npx:sammlungsobjekt">
                         <xsl:sort select="npx:objId" data-type="number"/>
                     </xsl:apply-templates>
@@ -57,6 +57,12 @@
                     <xsl:value-of select="$src"/>
                 </td>
             </tr>
+			<tr>
+				<td></td>
+				<td>
+					<img style="max-width: 100%" src="{$src}"/>
+				</td>
+			</tr>
             <xsl:apply-templates select="$stdbld/*"/>
         </xsl:if>
         <xsl:for-each select="../npx:multimediaobjekt[npx:verknüpftesObjekt eq $objId 
@@ -75,6 +81,11 @@
                     <xsl:value-of select="$src"/>
                 </td>
             </tr>
+			<tr>
+				<td colspan="2">
+					<img style="max-width: 100%" src="{$src}"/>
+				</td>
+			</tr>
             <xsl:apply-templates select="node()"/>
         </xsl:for-each>
     </xsl:template>
