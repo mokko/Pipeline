@@ -48,7 +48,11 @@ mpx:                            # this pipeline/job is called 'mpx'
     input 2-MPX/levelup.mpx
     testMpx                     # run tests to verify mpx
 
+
 shf:
+	input 2-MPX/levelup.mpx     # mdvos Liste TODO UNTESTED
+	mdl 3-SHF/mdl.xlsx
+
     input 2-MPX/levelup.mpx
     xsl.xsl SHF.xsl 3-SHF/shf.freigegeben.npx
     npx2csv 3-SHF               # out_dir; produces 2 files now
@@ -58,6 +62,7 @@ shf:
 
     input 3-SHF/shf.freigegeben.npx
     testShf 3-SHF/lvlup.freigegeben.mpx
+	
 
 vfix:
     input 2-MPX/levelup.mpx

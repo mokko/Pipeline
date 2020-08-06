@@ -1,8 +1,8 @@
 import os
 from glob import glob
 from shutil import copyfile
-from ExcelTool import ExcelTool
-from vok2vok import vok2vok
+from lvlup.ExcelTool import ExcelTool
+from lvlup.vok2vok import vok2vok
 
 try:
     from Gtrans import Gtrans

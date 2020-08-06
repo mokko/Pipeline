@@ -17,7 +17,7 @@ def test_identNr(xml_fn):
         namespaces={'m': 'http://www.mpx.org/mpx'})
     #r should be empty
     if r:
-        raise ValueError (f'Fehler: DS ohne identNr {r}')
+        print  (F"Fehler: DS ohne identNr {r}")
     #else:
     #    print ('all good')
 
