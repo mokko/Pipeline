@@ -31,6 +31,48 @@ class Saxon:
         else:
             self.type = 'java'
 
+    def join (self, source, stylesheet, output_fn):
+        """ Join all lvl1 files into one big join file"""
+
+        if os.path.isfile(output_fn): #only join if target doesn't exist yet
+            print (f"{output_fn} exists already, no overwrite") 
+        else:
+            #source=self._escapePath(self.lib+'/'+source)
+            #if os.path.isfile(source):
+            #styleorig=self.lib+'/'+stylesheet
+            targetdir=os.path.dirname(output_fn)
+            style_base=os.path.basename(stylesheet)
+            styletarget=os.path.join(targetdir,style_base)
+            print (f"output_fn: {output_fn}")
+            print (f"orig style: {stylesheet}")
+            print (f"style target: {styletarget}")
+            shutil.copy(stylesheet, styletarget) # cp join stylesheet in same dir as *.xml
+            self.transform (source, styletarget, output_fn)
+            os.remove(styletarget)
+
+    def transform (self, source, stylesheet, output):
+        """ Like normal transform plus 
+         a) it makes the output dir if it doesn't exist already
+        """
+
+        output = os.path.realpath (output)
+        out_dir = os.path.dirname (output) 
+        #print (f"******* OUTPUT {output}")
+
+        if os.path.isfile (output):
+            print (f"{output} exists already, no overwrite")
+        else:
+            if not os.path.isdir (out_dir): 
+                os.mkdir (out_dir) # no chmod
+            self._transform (source, stylesheet, output, self.report_fn)
+#
+# private
+#
+
+    def _escapePath (self, path):
+        """escape path w/ spaces"""
+
+        return f'"{path}"'
     def _transform (self, source, stylesheet, output, report_fn=None):
         source = self._escapePath(source)
         stylesheet = self._escapePath(stylesheet)
@@ -55,42 +97,5 @@ class Saxon:
             #result = subprocess.run(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             #print (result.stderr)
             #print (result.stdout)
-
-    def transform (self, source, stylesheet, output):
-        """ Like normal transform plus 
-         a) it makes the output dir if it doesn't exist already
-        """
-
-        output = os.path.realpath(output)
-        out_dir = os.path.dirname (output) 
-
-        if os.path.isfile(output):
-            print ("%s exists already, no overwrite" % output)
-        else:
-            if not os.path.isdir(out_dir): 
-                os.mkdir(out_dir) # no chmod
-            self._transform (source, stylesheet, output, self.report_fn)
-
-    def _escapePath (self, path): 
-        """escape path w/ spaces"""
-
-        return f'"{path}"'
-
-    def join (self, source, stylesheet, output):
-        """ Join all lvl1 files into one big join file"""
-
-        if os.path.isfile(output): #only join if target doesn't exist yet
-            print ("%s exists already, no overwrite" % output) 
-        else:
-            source=self._escapePath(self.lib+'/'+source)
-            #if os.path.isfile(source):
-            styleorig=self.lib+'/'+stylesheet
-            targetdir=os.path.dirname(output)
-            styletarget=targetdir+'/'+stylesheet
-            print (f"orig: {styleorig}")
-            print (f"target: {styletarget}")
-            shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
-            self.transform (source, self._escapePath(styletarget), self._escapePath(output))
-            os.remove(styletarget)
 
 if __name__ == "__main__": pass

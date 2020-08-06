@@ -20,6 +20,7 @@
 
 #conf key value; N.B. the value preserves spaces (except at the end of the line)
 conf saxon C:\Program Files\Saxonica\SaxonHE9.9N\bin\transform.exe
+conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
 #spaces are ONLY ALLOWED in 2nd parameter of conf, not in other paths
 
 import mpx                      # do imports have to be a top of document or not? probably not
@@ -36,16 +37,16 @@ datenblatt:                     # for SM/StuSam project
     xsl datenblatt.xsl 3-datenblatt
 
 mpx:                            # this pipeline/job is called 'mpx'
-	input unused 				# no input since mv2zero always acts on ./*.xls
+    input unused                # no input since mv2zero always acts on ./*.xls
     mv2zero 0-IN                # mv all matching files to zero 
-    xls2xml 1-XML       		# transform all files in 0-IN to xml files in 1-XML
-    join 1-XML/join.xml     	# join all xml files into 1-XML/join.xml 
+    xls2xml 1-XML               # transform all files in 0-IN to xml files in 1-XML
+    join 1-XML/join.xml         # join all xml files into 1-XML/join.xml 
     lvlup 2-MPX/levelup.mpx     # levelup to 2-MPX/levelup.mpx
     xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup.freigegeben.mpx
-	#cpRes ../pix               # currently separate job
+    #cpRes ../pix               # currently separate job
 
     input 2-MPX/levelup.mpx
-    testMpx						# run tests to verify mpx
+    testMpx                     # run tests to verify mpx
 
 shf:
     input 2-MPX/levelup.mpx

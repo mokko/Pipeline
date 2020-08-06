@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET #not yet working with lxml
 
 verbose = 1
 
-'''
+"""
 Mainly convert export data from xls into simple generic xml. The xml should be formally correct xml, but
 it may contain false multiples and other quirks. This object expects certain filenames as input files. Those
 are defined in the configuration.
@@ -94,12 +94,12 @@ b. repeated values (Wiederholfelder) will be written in a single record:
             <geoBezug art="country">Egypt</geoBezug>
         </sammlungsobject>
 
-'''
+"""
 
 class Xls2xml ():
     def __init__ (self): pass
 
-    def mv2zero (self, dest_dir):    
+    def mv2zero (self, dest_dir):
         for infile in glob.glob ('*.xls'):
             self.mkdir (dest_dir) # only mkdir if a file exists
             print ('moving %s to %s' % (infile, dest_dir))
@@ -110,12 +110,13 @@ class Xls2xml ():
     def transformAll (self, in_dir, out_dir):
         for infile in glob.glob (os.path.join(in_dir, '*.xls')):
             print ('Looking for %s' % infile)
-            outfile=os.path.join(in_dir, os.path.basename(infile[:-4] + '.xml'))
+            outfile=os.path.join(out_dir, os.path.basename(infile[:-4] + '.xml'))
             #print ('outfile %s' % outfile)
 
             if os.path.isfile(outfile):
                 print ("%s exists already, no overwrite" % outfile)
             else:
+                self.mkdir (out_dir) # no mkdir in transPerFile currently
                 #if os.path.isfile(infile):
                 self.transPerFile(infile, outfile) 
 

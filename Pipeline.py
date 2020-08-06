@@ -83,7 +83,7 @@ class Pipeline:
         Hand-written python parser. Not worth it to deal with parsers, lexers 
         and grammars."""
         
-        print (f"*LOADING PIDE FILE: {pide_fn}")
+        print (f"*LOADING PIPELINE DESCRIPTION: {pide_fn}")
         self.pide = {'import': []}
         current_job = None
         with open(pide_fn, mode='r') as file:
