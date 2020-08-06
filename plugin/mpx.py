@@ -1,6 +1,6 @@
 import os
 from lvlup.Xls2xml import Xls2xml
-from cpResources import cpResources
+from lvlup.cpResources import cpResources
 from Saxon import Saxon
 import lvlup.test_mpx
 
