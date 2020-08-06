@@ -22,6 +22,10 @@ from lxml import etree
 class Mdl:
     def __init__(self, input_fn, output_fn): 
 
+        if os.path.exists (output_fn):
+            print (f"{output_fn} exists already, no overwrite")
+            return
+
         self._prepare_wb (output_fn)
         self.ns = {'m':'http://www.mpx.org/mpx'}
 
@@ -32,6 +36,11 @@ class Mdl:
 
         for so_node in r:
             self.add_row (so_node)
+
+        out_dir=os.path.dirname(output_fn)
+        if not os.path.exists (out_dir):
+            os.makedirs (out_dir)
+        #print (f"!!!OUT_DIR {out_dir} {output_fn}")
 
         self.wb.save (filename = output_fn)
 

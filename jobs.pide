@@ -50,10 +50,10 @@ mpx:                            # this pipeline/job is called 'mpx'
 
 
 shf:
-	input 2-MPX/levelup.mpx     # mdvos Liste TODO UNTESTED
+	input 2-MPX/levelup.mpx     # mdvos Liste tested
 	mdl 3-SHF/mdl.xlsx
 
-    input 2-MPX/levelup.mpx
+    input 2-MPX/lvlup.freigegeben.mpx
     xsl.xsl SHF.xsl 3-SHF/shf.freigegeben.npx
     npx2csv 3-SHF               # out_dir; produces 2 files now
 
@@ -61,7 +61,7 @@ shf:
     xsl.xsl shf2Html.xsl 3-SHF/shf.freigegeben.html	
 
     input 3-SHF/shf.freigegeben.npx
-    testShf 3-SHF/lvlup.freigegeben.mpx
+    testShf 2-MPX/lvlup.freigegeben.mpx
 	
 
 vfix:

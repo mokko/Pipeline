@@ -62,10 +62,13 @@ class cpResources:
             if (fg is not None):
                 if (fg.text.lower() == "ja"):
                     old_path, new_path=self._out_fn(mume, outdir, pattern)
+                    #print (f"***{old_path}")
                     try:
                         self._cpFile (old_path, new_path)
                     except:
                         self._write_log (f'File not found: {old_path}')
+            else:
+                print ("No mpx:multimediaobjekt found!")
         self._close_log()
 
 
@@ -192,7 +195,7 @@ class cpResources:
 
     def _write_log (self, msg):
         self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
-        print (msg)
+        print (f"LOG: {msg}")
 
 if __name__ == "__main__":
     c=cpResources('2-MPX/levelup.mpx')

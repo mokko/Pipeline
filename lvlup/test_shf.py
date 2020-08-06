@@ -1,7 +1,7 @@
 from lxml import etree
 import argparse
 
-def main (source_fn, dest_fn):
+def main (dest_fn, source_fn):
     test_identNr(dest_fn)
     test_hersteller(source_fn, dest_fn)
     test_künstler(source_fn, dest_fn)

@@ -48,7 +48,6 @@ def test_mume_pfad (mpx_fn):
             #raise ValueError (f"MM path incomplete: mulId {e}")
             print (f"WARNUNG: MM Pfad ist unvollständig: mulId {e}")
 
-
 def standardbild_veröffentlichen (mpx_fn):
     """Warnung wenn Standardbild veröffentlichen nein hat. 
     
