@@ -58,7 +58,7 @@
                 </td>
             </tr>
 			<tr>
-				<td></td>
+				<td width="80"></td>
 				<td>
 					<img style="max-width: 100%" src="{$src}"/>
 				</td>
@@ -82,7 +82,8 @@
                 </td>
             </tr>
 			<tr>
-				<td colspan="2">
+				<td width="80"></td>
+				<td>
 					<img style="max-width: 100%" src="{$src}"/>
 				</td>
 			</tr>
@@ -92,8 +93,8 @@
 
     <xsl:template match="/npx:shf/npx:sammlungsobjekt/*|/npx:shf/npx:multimediaobjekt/*">
         <tr>
-            <td><xsl:value-of select="name()"/></td>
-            <td><xsl:value-of select="."/></td>
+            <td valign="top"><xsl:value-of select="name()"/></td>
+            <td valign="top"><xsl:value-of select="."/></td>
         </tr>
     </xsl:template>
 
