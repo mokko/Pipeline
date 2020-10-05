@@ -72,13 +72,14 @@ class Mdl:
         """apply xpath for Ausstellung and return string"""
         
         r = node.xpath ("m:ausstellung", namespaces = self.ns)
+        #print (f"NoOfAusstellung {len(r)}")
         my_list=[]
         if isinstance (r, list):
-            for each in r:
-                sektion=each.get('sektion')
+            for each_Aus in r:
+                sektion=each_Aus.get('sektion')
                 #show only HUFO exhibits
-                if each.text.startswith('HUFO -'):
-                    my_list.append (f"{each.text} [{sektion}]")
+                if each_Aus.text.startswith('HUFO -'):
+                    my_list.append (f"{each_Aus.text} [{sektion}]")
         else:
             print('Error: Should always be a list!')
             sys.exit(1)
@@ -96,7 +97,7 @@ class Mdl:
         ws1['D'+new_row] = self._xpathify (so_node, "m:titel/text()")
         ws1['E'+new_row] = self._ausify (so_node)
 
-        #print (f"{objId}|{identNr}|{sb}|{t}|{aus}")
+        #print (f"{self._ausify (so_node)}")
 
 if __name__ == "__main__":
     import argparse
