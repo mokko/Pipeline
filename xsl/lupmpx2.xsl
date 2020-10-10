@@ -41,7 +41,7 @@
 
 
 	<!-- triple default -->	
-	<xsl:template match="/museumPlusExport/*/*">
+	<xsl:template match="/museumPlusExport/*/*" priority="1">
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
@@ -72,65 +72,8 @@
 		</museumPlusExport>
 	</xsl:template>
 
-	<!-- Ausstellungen als separate Entität: dazu muss Ausstellung exportiert werden; alternativ 
-    kann man auch die Eigenschaft als ausgestellt worden sein auch exportieren mit RST SO7 -->
 
-
-	<xsl:template match="/museumPlusExport/ausstellung">
-		<xsl:variable name="ausId" select="@ausId"/>
-		<xsl:element name="{name()}">
-			<xsl:attribute name="ausId"><xsl:value-of select="$ausId"/></xsl:attribute>
-			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
-
-			<xsl:message>
-                <xsl:text>lvlup-auss: </xsl:text>
-				<xsl:value-of select="$ausId"/>
-			</xsl:message>
-			<xsl:for-each-group select="/museumPlusExport/ausstellung[@ausId eq $ausId]/*" group-by="string()">
-				<xsl:sort data-type="text" select="name()" />
-				<xsl:apply-templates select="."/>
-			</xsl:for-each-group>
-		</xsl:element>
-	</xsl:template>
-
-
-	<xsl:template match="/museumPlusExport/ausstellung/objId">
-		<xsl:element name="objekt">
-			<xsl:if test="../objektIdentNr">
-				<xsl:attribute name="identNr">
-					<xsl:value-of select="../objektIdentNr" />
-				</xsl:attribute>
-			</xsl:if>
-
-			<xsl:if test="../sektion">
-				<xsl:attribute name="sektion">
-					<xsl:value-of select="../sektion" />
-				</xsl:attribute>
-			</xsl:if>
-
-			<xsl:if test="../entscheid">
-				<xsl:attribute name="entscheid">
-					<xsl:value-of select="../entscheid" />
-				</xsl:attribute>
-			</xsl:if>
-
-			<xsl:if test="../katNr">
-				<xsl:attribute name="katNr">
-					<xsl:value-of select="../katNr" />
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:value-of select="." />
-		</xsl:element>
-	</xsl:template>
-	<xsl:template match="/museumPlusExport/ausstellung/objektIdentNr"/>
-	<xsl:template match="/museumPlusExport/ausstellung/sektion"/>
-	<xsl:template match="/museumPlusExport/ausstellung/entscheid"/>
-	<xsl:template match="/museumPlusExport/ausstellung/katNr"/>
-
-    
 	<!-- MM -->
-
-
 	<xsl:template match="/museumPlusExport/multimediaobjekt">
 		<xsl:variable name="mulId" select="@mulId"/>
 		<xsl:element name="{name()}">
@@ -182,7 +125,7 @@
 	</xsl:template>
 
 	<!-- why would that be necessary? but it is apparently -->
-	<xsl:template match="/museumPlusExport/multimediaobjekt/urheberFotograf">
+	<xsl:template match="/museumPlusExport/multimediaobjekt/urheberFotograf" priority="2">
 		<xsl:element name="urheberFotograf">
 			<xsl:value-of select="." />
 		</xsl:element>
@@ -190,8 +133,6 @@
 	
 	
 	<!-- PK -->
-
-
 	<xsl:template match="/museumPlusExport/personKörperschaft">
 		<xsl:variable name="id" select="@kueId"/>
 		<xsl:element name="{name()}">
@@ -250,8 +191,6 @@
 
 
 	<!-- SO -->
-
-
 	<xsl:template match="/museumPlusExport/sammlungsobjekt">
 		<xsl:variable name="id" select="@objId"/>
 		<xsl:element name="{name()}">
@@ -263,8 +202,7 @@
                 <xsl:value-of select="$id"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="string()">
-				<xsl:sort data-type="text"
-					select="name()" />
+				<xsl:sort select="name()" />
 				<xsl:apply-templates select="."/>
 			</xsl:for-each-group>
 		</xsl:element>
