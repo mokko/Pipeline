@@ -15,20 +15,130 @@
          @outputs RST Deckblatt as html for each Schaumagazin in a different file 
     -->
 
+
     <xsl:template match="/">
-        <html>
-            <head>
-                <meta charset="UTF-8" />
-                <title>Datenblatt v0.3</title>
-                <style>h2 {padding-top: 20px;}</style>
-            </head>
-            <body>
-                <xsl:text>[* Inhalte in eckigen Klammern werden auf Datenblatt NICHT angezeigt.]</xsl:text>
-                <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt">
-                    <xsl:sort select="@objId" data-type="number"/>
-                </xsl:apply-templates>
-            </body>
-        </html>
+        <xsl:call-template name="examples"/>
+        <xsl:call-template name="exhibit">
+            <xsl:with-param name="file">Amerika-Schaumagazin.htm</xsl:with-param>
+            <xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Amerika (Schaumagazin)</xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name="exhibit">
+            <xsl:with-param name="file">Südsee-Schaumagazin.htm</xsl:with-param>
+            <xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Südsee (Schaumagazin)</xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name="exhibit">
+            <xsl:with-param name="file">Afrika-Schaumagazin.htm</xsl:with-param>
+            <xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Afrika (Schaumagazin)</xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name="noExhibit"/>
+        <xsl:call-template name="EM-SM-Plains"/>
+    </xsl:template>
+
+
+    <xsl:template name="htmlHead">
+        <head>
+            <meta charset="UTF-8" />
+            <title>Datenblatt v0.3</title>
+            <style>h2 {padding-top: 20px;}</style>
+        </head>
+    </xsl:template>
+
+    <xsl:template name="intro">
+        <xsl:text>[* Inhalte in eckigen Klammern werden auf Datenblatt NICHT angezeigt.]</xsl:text>
+    </xsl:template>
+
+
+    <xsl:template name="exhibit">
+        <xsl:param name="file" />
+        <xsl:param name="exhibit" />
+        <xsl:message>
+            <xsl:text>datenblatt-exhibit: </xsl:text>
+            <xsl:value-of select="$exhibit" />
+        </xsl:message>
+        
+        <xsl:result-document href="{$file}" method="html" encoding="UTF-8">
+            <html>
+                <xsl:call-template name="htmlHead"/>
+                <body>
+                    <xsl:call-template name="intro"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = $exhibit]">
+                        <xsl:sort select="@objId" data-type="number"/>
+                    </xsl:apply-templates>
+                </body>
+            </html>
+        </xsl:result-document>
+    </xsl:template>
+
+
+    <xsl:template name="noExhibit">
+        <xsl:message>
+            <xsl:text>datenblatt-exhibit: no exhibit</xsl:text>
+        </xsl:message>
+        <xsl:result-document href="keineAusstellung.htm" method="html"
+            encoding="UTF-8">
+            <html>
+                <xsl:call-template name="htmlHead"/>
+                <body>
+                    <xsl:call-template name="intro"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[not(mpx:ausstellung)]">
+                        <xsl:sort select="@objId" data-type="number"/>
+                    </xsl:apply-templates>
+                </body>
+            </html>
+        </xsl:result-document>
+    </xsl:template>
+
+    <xsl:template name="EM-SM-Plains">
+        <xsl:message>
+            <xsl:text>datenblatt - EM Plains</xsl:text>
+        </xsl:message>
+        <xsl:for-each-group select="/mpx:museumPlusExport/mpx:sammlungsobjekt
+            [mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)']" 
+            group-by="mpx:ausstellung/@sektion">
+            <xsl:sort select="@objId" data-type="number"/>
+            <xsl:variable name="path" select="concat ('150/' ,current-grouping-key(),'.htm')"/>
+            <xsl:message><xsl:value-of select="$path"/></xsl:message>
+            <xsl:result-document href="{$path}" method="html"
+                encoding="UTF-8">
+                <html>
+                    <xsl:call-template name="htmlHead"/>
+                    <body>
+
+                    <xsl:for-each select="current-group()">
+                        <!--  xsl:message>
+                            <xsl:value-of select="@objId"/>
+                        -->
+                        <xsl:apply-templates select="."/>
+                    </xsl:for-each>
+                    </body>
+                </html>
+            </xsl:result-document>
+        </xsl:for-each-group>
+    </xsl:template>
+    
+     <xsl:template name="examples">
+        <xsl:message>
+            <xsl:text>datenblatt-exhibit: selected examples</xsl:text>
+        </xsl:message>
+        <xsl:result-document href="Beispiele.htm" method="html"
+            encoding="UTF-8">
+            <html>
+                <xsl:call-template name="htmlHead"/>
+                <body>
+                    <xsl:call-template name="intro"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '1659071']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '939']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '206054']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '736347']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '848050']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '970052']"/>
+                    <!-- AKu -->
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '458415']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '982270']"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '1714903']"/>
+                </body>
+            </html>
+        </xsl:result-document>
     </xsl:template>
 
 
@@ -37,6 +147,10 @@
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
         <xsl:variable name="objId" select="@objId" />
         <xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:standardbild]" />
+        <!-- xsl:message>
+            <xsl:text>datenblatt-objId: </xsl:text>
+            <xsl:value-of select="$objId" />
+        /xsl:message -->
 
         <!-- INTRO -->
         <xsl:element name="a">
@@ -47,7 +161,7 @@
         <table border="0" width="800">
             <tr>
                 <td colspan="2">
-                    <xsl:call-template name="titleBar"/>
+                    <xsl:call-template name="htmlTitle"/>
                 </td>
             </tr>
             <tr>
@@ -135,7 +249,7 @@
                     <td style="padding-top: 7px;" valign="top">
                         Geographischer Bezug
                     </td>
-                    <td style="padding-top: 7px;" valign="top">
+                    <td style="padding-top: 7px; line-height: 66%;" valign="top">
                         <!-- Soll: große Einheiten wie Kontinente oder Länder zu erst
                             if AKu: descending, default: ascending -->
                         <xsl:choose>
@@ -325,13 +439,25 @@
 
     <!-- Derzeit nur der erste Titel-->
     <xsl:template name="Titel">
+        <xsl:choose>
+            <xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
+                <xsl:call-template name="emTitel"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- only one Titel?-->
+                <xsl:value-of select="mpx:titel" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="emTitel">
         <!-- copy italics for einheimischen Bezeichnung here--> 
         <xsl:choose>
             <xsl:when test="@art eq 'Einheimische Bezeichnung (lokal)'">
-                <i><xsl:value-of select="mpx:titel" /></i>
+                <i><xsl:value-of select="." /></i>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="mpx:titel" />
+                <xsl:value-of select="." />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -343,21 +469,26 @@
                 <xsl:call-template name="emSachbegriff"/>
             </xsl:when>
             <xsl:otherwise>
-                <!-- [o:] -->
-                <xsl:value-of select="mpx:sachbegriff[1]" />
+                <xsl:value-of select="mpx:sachbegriff" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
     <xsl:template name="emSachbegriff">
-        <!-- emSachbegriff: -->
         <xsl:for-each select="mpx:sachbegriff[not(
             @art eq 'weiterer Sachbegriff' or 
             @art eq 'Weiterer Sachbegriff' or 
             @art eq 'Sachbegriff engl.' or 
             @art eq 'Alte Bezeichnung')]">
-            <xsl:value-of select="."/>
+            <xsl:sort select="@art"/>
             <xsl:if test="position() &lt; 2">
+                <xsl:text> [</xsl:text>
+                <xsl:value-of select="name()"/>
+                <xsl:if test="@art">
+                   <xsl:text> </xsl:text>
+                    <xsl:value-of select="@art" />
+                </xsl:if>
+                <xsl:text>]</xsl:text>
                 <xsl:if test="position() &lt; 2 and position() &lt; last()">
                     <xsl:text>, </xsl:text>
                 </xsl:if>
@@ -366,19 +497,19 @@
     </xsl:template>
 
     <!-- TODO: multiple titles and sachbegriffe -->
-    <xsl:template name="titleBar">
-        <xsl:choose>
-            <xsl:when test="mpx:titel and mpx:sachbegriff">
-                <h1><xsl:call-template name="Titel"/> [t]</h1>
-                <h2><xsl:call-template name="Sachbegriff"/> [sb]</h2>
-            </xsl:when>
-            <xsl:when test="not(mpx:titel) and mpx:sachbegriff">
-                <h1><xsl:call-template name="Sachbegriff"/> [sb]</h1>
-            </xsl:when>
-            <xsl:when test="mpx:titel and not(mpx:sachbegriff)">
-                <h1><xsl:call-template name="Titel"/> [t]</h1>
-            </xsl:when>
-        </xsl:choose>
+    <xsl:template name="htmlTitle">
+		<xsl:choose>
+			<xsl:when test="mpx:titel and mpx:sachbegriff">
+				<h1><xsl:call-template name="Titel"/> [t]</h1>
+				<h2><xsl:call-template name="Sachbegriff"/> [sb]</h2>
+			</xsl:when>
+			<xsl:when test="not(mpx:titel) and mpx:sachbegriff">
+				<h1><xsl:call-template name="Sachbegriff"/>[sb]</h1>
+			</xsl:when>
+			<xsl:when test="mpx:titel and not(mpx:sachbegriff)">
+				<h1><xsl:call-template name="Titel"/> [t]</h1>
+			</xsl:when>
+		</xsl:choose>
 
         <h3>
             <xsl:text> [objId </xsl:text>
@@ -477,6 +608,7 @@
             </td>
         </tr>
     </xsl:template>
+
 
     <xsl:template match="mpx:bearbStand">
         <xsl:call-template name="genericRow">

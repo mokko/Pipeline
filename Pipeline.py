@@ -129,7 +129,7 @@ if __name__ == "__main__":
     Pipeline - A Simple Python Pipeline Utility
     
     USAGE 
-        pipe.py -c pipe.pide -j mpx -f flag
+        pipe.py -p pipe.pide -j mpx -f flag
     
     A pipeline consists of a series of commands, much like a shell script. You
     can supply a simple and readable script to program your pipelines. 
