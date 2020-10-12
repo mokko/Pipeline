@@ -27,9 +27,9 @@ nsmap = { #currently unused
     'xsd': 'http://www.w3.org/2001/XMLSchema-instance',
 }
 
-def validate (conf, in_fn, label=None):
-    label = os.path.splitext(in_fn)[1][1:]
-    #print (f"schema label {label}")
+def validate (conf, in_fn, xml_fn):
+    label = os.path.splitext(xml_fn)[1][1:]
+    print (f"schema label {label}")
     if label in global_conf:
         print ('***Looking for xsd at %s...' % global_conf[label])
         schema_doc = etree.parse(global_conf[label])
@@ -37,7 +37,7 @@ def validate (conf, in_fn, label=None):
         raise Exception ('Unknown schema')
     schema = etree.XMLSchema(schema_doc)
     #print ('*About to load input document...')
-    doc = etree.parse(in_fn)
+    doc = etree.parse(xml_fn)
     schema.assert_(doc)
     print ('***VALIDATES OK')
 

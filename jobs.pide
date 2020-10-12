@@ -20,14 +20,19 @@ import validate
 cpRes:
     input 2-MPX/lvlup.smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx to be on save side
     mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
+    input 2-MPX/lvlup-sort.mpx  # should run only over smbfreigabe, not general levelup.mpx to be on save side
+    mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case)
+
 
 datenblatt:                     # for SM/StuSam project
     input 2-MPX/levelup.mpx
-    xsl.xsl datenblatt.xsl 3/rst-datenblatt.html
+    xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html
 
 lido:
     input 2-MPX/levelup-sort.mpx
-	xsl.xsl mpx2lido.xsl 3/levelup-sort.lido
+    xsl.xsl mpx2lido.xsl 3/levelup-sort.lido
+    xsl.xsl lido2html.xsl 3/level-sort.html
+    validate.validate 3/levelup-sort.lido
 
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls
@@ -36,7 +41,7 @@ mpx:                            # this pipeline/job is called 'mpx'
     join 1-XML/join.xml         # join all xml files into 1-XML/join.xml 
     lvlup 2-MPX/levelup.mpx     # create levelup.mpx file
 	xsl.xsl mpx_sort.xsl 2-MPX/levelup-sort.mpx
-    xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup.smbfreigabe.mpx # smb Freigabe & veröffentlichen = Ja
+    xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup-smbfreigabe.mpx # smb Freigabe & veröffentlichen = Ja
     validate.validate 2-MPX/levelup-sort.mpx # validate levelup.mpx
     input 2-MPX/levelup-sort.mpx
     testMpx                     # run tests to verify mpx
