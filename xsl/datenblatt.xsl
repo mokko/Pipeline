@@ -12,7 +12,7 @@
 
     <!-- 
     @Expects mpx as input 
-         @outputs RST Deckblatt as html for each Schaumagazin in a different file 
+    @outputs RST Deckblatt as html 
     -->
 
     <xsl:template match="/">
@@ -36,7 +36,11 @@
 
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
         <xsl:variable name="objId" select="@objId" />
-        <xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:standardbild]" />
+        <xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[
+            mpx:standardbild and mpx:verknüpftesObjekt eq $objId]" />
+        <!-- xsl:message>
+            STDBLD: <xsl:value-of select="$stdbld/@mulId"/>
+        -->
 
         <!-- INTRO -->
         <xsl:element name="a">
@@ -584,7 +588,8 @@
     </xsl:template>
 
 
-    <xsl:template match="mpx:sammlungsobjekt/mpx:personenKörperschaften[not(@funktion eq 'Veräußerer' or @funktion eq 'Sammler')]">
+    <xsl:template match="mpx:sammlungsobjekt/mpx:personenKörperschaften[
+        not(@funktion eq 'Veräußerer' or @funktion eq 'Sammler')]">
         <tr>
             <td>
                 <xsl:value-of select="@funktion"/>
@@ -596,7 +601,8 @@
     </xsl:template>
 
 
-    <xsl:template match="mpx:sammlungsobjekt/mpx:personenKörperschaften[@funktion = 'Veräußerer' or @funktion = 'Sammler']">
+    <xsl:template match="mpx:sammlungsobjekt/mpx:personenKörperschaften[
+        @funktion = 'Veräußerer' or @funktion = 'Sammler']">
         <tr>
             <td>
                 <xsl:value-of select="@funktion"/>
@@ -639,5 +645,4 @@
             </td>
         </tr>
     </xsl:template>
-    
 </xsl:stylesheet>
