@@ -34,6 +34,9 @@ lido:
     xsl.xsl lido2html.xsl 3/level-sort.html
     validate.validate 3/levelup-sort.lido
 
+	#input 3/levelup-sort.lido
+    #xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html
+
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls
     mv2zero 0-IN                # mv all matching files to zero 
@@ -61,6 +64,7 @@ shf:
 
     input 3/shf-smbfreigabe.npx
     testShf 2-MPX/lvlup-smbfreigabe.mpx # test includes comparison with pre-npx data
+
 
 vfix:
     input 2-MPX/levelup-sort.mpx

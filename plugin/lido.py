@@ -3,7 +3,7 @@ import glob
 from Saxon import Saxon
 
 def mk_html (conf, indir, outdir):
-    """
+    """ CURRENTLY NOT USED
     current problems: 
     - this step is in string order, not numeric objId
     objId/12345789
