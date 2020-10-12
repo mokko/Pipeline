@@ -34,7 +34,9 @@
     <xsl:strip-space elements="*" />
 
     <xsl:template match="/">
+        <lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
+        </lido:lidoWrap>
     </xsl:template>
 
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
@@ -42,37 +44,32 @@
             <xsl:text>2LIDO-objId: </xsl:text>
             <xsl:value-of select="@objId" />
         -->
-        <xsl:variable name="file" select="concat(normalize-space(@objId),'.lido')"/>
-        <xsl:result-document href="{$file}">
-            <lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-                <lido:lido>
-                    <lido:lidoRecID>
-                        <xsl:attribute name="lido:source">
-                            <xsl:text>Staatliche Museen zu Berlin</xsl:text>
-                        </xsl:attribute>
-                        <xsl:attribute name="lido:type">local</xsl:attribute>
-                        <xsl:text>objId/</xsl:text>
-                        <xsl:value-of select="@objId" />
-                    </lido:lidoRecID>
-        
-                    <!-- lido:category -->
-                    <xsl:apply-templates mode="category" select="mpx:objekttyp" />
-        
-                    <lido:descriptiveMetadata xml:lang="de">
-                        <xsl:call-template name="objectClassificationWrap"/>
-                        <xsl:call-template name="objectIdentificationWrap"/>
-                        <xsl:call-template name="eventWrap"/>
-                        <xsl:call-template name="objectRelationWrap"/>
-                    </lido:descriptiveMetadata>
-        
-                    <lido:administrativeMetadata xml:lang="en">
-                        <xsl:call-template name="rightsWorkWrap"/>
-                        <xsl:call-template name="recordWrap"/>
-                        <xsl:call-template name="resourceWrap"/>
-                    </lido:administrativeMetadata>
-                </lido:lido>
-            </lido:lidoWrap>
-        </xsl:result-document>
+        <lido:lido>
+            <lido:lidoRecID>
+                <xsl:attribute name="lido:source">
+                    <xsl:text>Staatliche Museen zu Berlin</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="lido:type">local</xsl:attribute>
+                <xsl:text>objId/</xsl:text>
+                <xsl:value-of select="@objId" />
+            </lido:lidoRecID>
+
+            <!-- lido:category -->
+            <xsl:apply-templates mode="category" select="mpx:objekttyp" />
+
+            <lido:descriptiveMetadata xml:lang="de">
+                <xsl:call-template name="objectClassificationWrap"/>
+                <xsl:call-template name="objectIdentificationWrap"/>
+                <xsl:call-template name="eventWrap"/>
+                <xsl:call-template name="objectRelationWrap"/>
+            </lido:descriptiveMetadata>
+
+            <lido:administrativeMetadata xml:lang="en">
+                <xsl:call-template name="rightsWorkWrap"/>
+                <xsl:call-template name="recordWrap"/>
+                <xsl:call-template name="resourceWrap"/>
+            </lido:administrativeMetadata>
+        </lido:lido>
     </xsl:template>
 
     <xsl:function name="func:en-from-dict">
