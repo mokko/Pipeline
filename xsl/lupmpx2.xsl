@@ -102,7 +102,7 @@
     <xsl:template match="/museumPlusExport/multimediaobjekt/personenKörperschaften" priority="10"/>
 
     <!-- only include element standardbild if this mume is standardbild-->
-    <xsl:template match="/museumPlusExport/multimediaobjekt/standardbild">
+    <xsl:template match="/museumPlusExport/multimediaobjekt/standardbild" priority="10">
             <xsl:if test=". eq ../@mulId">
                 <!--xsl:message>
                     <xsl:text>STANDARDBILD: </xsl:text>
