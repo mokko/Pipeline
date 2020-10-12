@@ -1,17 +1,4 @@
-#A xslt pipeline as domains specific language (DSL)
-#REQUIREMENTS  
-# - named pipelines
-# - easy linking of output to next input
-# - good readability
-# - transparency: explicit is better than implicit
-# - xsl and python plugins
-
-# A pipeline is a combination of several consecutive steps
-# each step has an input, parameters, output 
-# default behavior is to take output from previous step as input for the next step
-# you can write your own python plugins 
-
-#PIDE DEFINITION
+#PIDE FORMAT DEFINITION
 #reserved keywords: import, input, conf
 #commands can be qualified or unqualified
 # - unqualified: command assumes that job name functions as package
@@ -23,10 +10,12 @@ conf saxon C:\Program Files\Saxonica\SaxonHE9.9N\bin\transform.exe
 #conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
 #spaces are ONLY ALLOWED in 2nd parameter of conf, not in other paths
 
+import lido
 import mpx                      # do imports have to be a top of document or not? probably not
 import xsl                      # but it's good behavior nonetheless
-import vfix                     # pipeline.vfix
+import vfix
 import shf
+import validate
 
 cpRes:
     input 2-MPX/lvlup.smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx to be on save side
@@ -36,20 +25,26 @@ datenblatt:                     # for SM/StuSam project
     input 2-MPX/levelup.mpx
     xsl.xsl datenblatt.xsl 3-datenblatt/datenblatt.html
 
+lido:
+    input 2-MPX/levelup-sort.mpx
+	xsl.xsl mpx2lido.xsl 3-lido/levelup-sort.lido
+
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls
     mv2zero 0-IN                # mv all matching files to zero 
     xls2xml 1-XML               # transform all files in 0-IN to xml files in 1-XML
     join 1-XML/join.xml         # join all xml files into 1-XML/join.xml 
-    lvlup 2-MPX/levelup.mpx     # levelup to 2-MPX/levelup.mpx
-    xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup.smbfreigabe.mpx # smb Freigabe, not veröffentlich = Ja 
+    lvlup 2-MPX/levelup.mpx     # create levelup.mpx file
+	xsl.xsl mpx_sort.xsl 2-MPX/levelup-sort.mpx
+    xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup.smbfreigabe.mpx # smb Freigabe & veröffentlichen = Ja
+    validate.validate 2-MPX/levelup-sort.mpx # validate levelup.mpx
+    input 2-MPX/levelup-sort.mpx
+    testMpx                     # run tests to verify mpx
     #cpRes ../pix               # currently separate job
 
-    input 2-MPX/levelup.mpx
-    testMpx                     # run tests to verify mpx
 
 shf:
-    input 2-MPX/levelup.mpx     # mdvos Liste tested
+    input 2-MPX/levelup-sort.mpx# mdvos Liste tested
     mdl 3-SHF/mdl.xlsx
 
     input 2-MPX/lvlup.smbfreigabe.mpx
@@ -63,10 +58,10 @@ shf:
     testShf 2-MPX/lvlup.smbfreigabe.mpx # test includes comparison with pre-npx data
 
 vfix:
-    input 2-MPX/levelup.mpx
-    vfix ../../../data2/generalvindex.json .. 2-MPX/vfix.mpx 
+    input 2-MPX/levelup-sort.mpx
+    vfix ../../../generalvindex.json .. 2-MPX/vfix.mpx 
                                 # update vindex and translation list
-    gtrans                      # new translation of GTrans installed
-    vokvok ../.. ../../../data2/mpxvoc.xml 
+    gtrans                      # new translation of GTrans IF installed
+    vokvok ../.. ../../../mpxvoc.xml 
     							# rewrite and assemble all translations in one mpxvok
     cpData2                     # cp *.xlsx recursively
