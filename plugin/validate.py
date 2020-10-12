@@ -15,11 +15,12 @@ from lxml import etree
 #one dict that associates labels with their location to rule em all
 lib = os.path.realpath(os.path.join(__file__,'../../lvlup'))
 
-global_conf = {
-    'lido': 'http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd',
-}
+global_conf = {}
+#    'lido': 'http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd',
+#}
 
 global_conf['mpx']=os.path.join (lib, 'mpx20.xsd')
+global_conf['lido']=os.path.join (lib, 'lido-v1.0.xsd')
 
 nsmap = { #currently unused
     'lido' 'http://www.lido-schema.org'
@@ -48,4 +49,4 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--input', required=True)
     #parser.add_argument('-s', '--schema_label', required=True)
     args = parser.parse_args()
-    validate ({}, args.input)
+    validate ({}, None, args.input)
