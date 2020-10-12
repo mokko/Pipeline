@@ -104,8 +104,17 @@
                     <xsl:value-of select="@art"/>
                 </xsl:attribute>
             </xsl:if>
+            <!-- 
+                If mpx has no sort, write 1 into lido even if that doesn't 
+                make a whole lot of sense just to avoid lido validation error. 
+            -->
             <xsl:attribute name="lido:sortorder">
-                <xsl:value-of select="@sort"/>
+                <xsl:choose>
+                    <xsl:when test="@sort">
+                        <xsl:value-of select="@sort"/>
+                    </xsl:when>
+                    <xsl:otherwise>1</xsl:otherwise>
+                </xsl:choose>
             </xsl:attribute>
             <lido:displayPlace>
                 <xsl:attribute name="xml:lang">de</xsl:attribute>
@@ -174,12 +183,12 @@
    <xsl:template match="mpx:materialTechnik">
         <lido:eventMaterialsTech>
              <xsl:if test=".[@art = 'Ausgabe']">
-                <lido:displayMaterialsTech lang="de" encodinganalog="materialTechnik[@art=Ausgabe]">
+                <lido:displayMaterialsTech xml:lang="de" lido:encodinganalog="materialTechnik[@art=Ausgabe]">
                         <xsl:value-of select="."/>
                 </lido:displayMaterialsTech>
                 <xsl:variable name="translation" select="func:en-from-dict('materialTechnik@artAusgabe',.)"/>
                 <xsl:if test=". ne $translation">
-                    <lido:displayMaterialsTech lang="en" encodinganalog="materialTechnik[@art=Ausgabe]">
+                    <lido:displayMaterialsTech xml:lang="en" lido:encodinganalog="materialTechnik[@art=Ausgabe]">
                             <xsl:value-of select="$translation"/>
                     </lido:displayMaterialsTech>
                 </xsl:if>
