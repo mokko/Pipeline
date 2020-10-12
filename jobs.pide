@@ -23,11 +23,11 @@ cpRes:
 
 datenblatt:                     # for SM/StuSam project
     input 2-MPX/levelup.mpx
-    xsl.xsl datenblatt.xsl 3-datenblatt/datenblatt.html
+    xsl.xsl datenblatt.xsl 3/rst-datenblatt.html
 
 lido:
     input 2-MPX/levelup-sort.mpx
-	xsl.xsl mpx2lido.xsl 3-lido/levelup-sort.lido
+	xsl.xsl mpx2lido.xsl 3/levelup-sort.lido
 
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls
@@ -45,23 +45,23 @@ mpx:                            # this pipeline/job is called 'mpx'
 
 shf:
     input 2-MPX/levelup-sort.mpx# mdvos Liste tested
-    mdl 3-SHF/mdl.xlsx
+    mdl 3/shf-mdl.xlsx
 
     input 2-MPX/lvlup.smbfreigabe.mpx
-    xsl.xsl SHF.xsl 3-SHF/shf.smbfreigabe.npx
-    npx2csv 3-SHF               # out_dir; produces 2 csv files
+    xsl.xsl SHF.xsl 3/shf-smbfreigabe.npx
+    npx2csv 3                   # out_dir; produces 2 csv files
 
-    input 3-SHF/shf.smbfreigabe.npx
-    xsl.xsl shf2Html.xsl 3-SHF/shf.smbfreigabe.html	
+    input 3/shf-smbfreigabe.npx
+    xsl.xsl shf2Html.xsl 3/shf-smbfreigabe.html	
 
-    input 3-SHF/shf.smbfreigabe.npx
-    testShf 2-MPX/lvlup.smbfreigabe.mpx # test includes comparison with pre-npx data
+    input 3/shf-smbfreigabe.npx
+    testShf 2-MPX/lvlup-smbfreigabe.mpx # test includes comparison with pre-npx data
 
 vfix:
     input 2-MPX/levelup-sort.mpx
     vfix ../../../generalvindex.json .. 2-MPX/vfix.mpx 
                                 # update vindex and translation list
     gtrans                      # new translation of GTrans IF installed
-    vokvok ../.. ../../../mpxvoc.xml 
+    #vokvok ../../.. ../../../mpxvoc.xml 
     							# rewrite and assemble all translations in one mpxvok
-    cpData2                     # cp *.xlsx recursively
+    #cpData2                    # cp *.xlsx recursively
