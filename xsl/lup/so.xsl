@@ -20,16 +20,11 @@
             </xsl:message>
             <!-- 
                 sachbegriff bug: this one finds most, but not all sachbegriffe
-                WHY 
-                group-by="string()" group by value rather than name()
+                WHY? https://stackoverflow.com/questions/64335452/ 
             -->
-            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*
-                [not(self::sachbegriff)]" group-by="string()">
+            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="concat(name(), '|', string())">
                 <xsl:sort select="name()" />
-                <xsl:apply-templates select="."/>
-            </xsl:for-each-group>
-            <!-- no logic whatsoever -->
-            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/sachbegriff" group-by="string()">
+                <xsl:variable name="name" select="name()"/>
                 <xsl:apply-templates select="."/>
             </xsl:for-each-group>
         </xsl:element>
