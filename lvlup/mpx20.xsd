@@ -5,228 +5,227 @@
  elementFormDefault="unqualified">
 
  <!--
-	20200211: fresh start for mpx version 2.0
+    20200211: fresh start for mpx version 2.0
  -->
 
 <xsd:element name="museumPlusExport">
-	<xsd:annotation>
-		<xsd:documentation>
-			Root Element: Container für MuseumPlus (M+) Datensätze.
-		</xsd:documentation>
-	</xsd:annotation>
-	<xsd:complexType>
-		<xsd:sequence>
-			<xsd:element ref="multimediaobjekt" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="personKörperschaft" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="sammlungsobjekt" minOccurs="0" maxOccurs="unbounded"/>
-		</xsd:sequence>
-		<xsd:attribute name="level" type="xsd:string">
-			<xsd:annotation>
-				<xsd:documentation>
-				Level can be "clean" or "dirty". Clean is proper mpx, dirty is the matrix representation,
-				an intermediate step in the creation of an mpx file.
-				</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		<xsd:attribute name="version" type="xsd:string">
-			<xsd:annotation>
-				<xsd:documentation>
-				MPX Version. Introduced in version 2.0
-				</xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
+    <xsd:annotation>
+        <xsd:documentation>
+            Root Element: Container für MuseumPlus (M+) Datensätze.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="multimediaobjekt" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="personKörperschaft" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="sammlungsobjekt" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="level" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                Level can be "clean" or "dirty". Clean is proper mpx, dirty is the matrix representation,
+                an intermediate step in the creation of an mpx file.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="version" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>
+                MPX Version. Introduced in version 2.0
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
 </xsd:element>
 
 
 <!-- CLASS 1 Multimediaobjekte -->
 
 <xsd:element name="multimediaobjekt">
-	<xsd:annotation>
-		<xsd:documentation> 
-		Container für Multimedia-Datensätze. Das Attribut "mulId" enthält einen
-		eindeutigen Index für jeden Datensatz.
-		Das Attribut "sort" ist ein Integer und sortiert bei Bedarf weitere Medien nach einer
-		Reihenfolge, wobei 0 immer das bevorzugte Medium ist. Wenn kein sort , sind alle Medien gleichbereichtigt.
-		</xsd:documentation>
-	</xsd:annotation>
-	<xsd:complexType>
-		<xsd:sequence>
-			<xsd:element ref="anfertDat" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="bearbDatum" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="bemerkFoto" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="dateiname" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="erweiterung" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="farbe" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="format" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="fotoNegNr" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="funktion" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="inhaltAnsicht" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="matTechn" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="personenKörperschaften" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="pfadangabe" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="standardbild" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="standort" minOccurs="0" maxOccurs="1"/>
-			<!-- currently not in alphabetical order! -->
-			<xsd:element ref="typ" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vervielfVon" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="urhebFotograf" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="verknüpftesObjekt" minOccurs="0" maxOccurs="1"/>
+    <xsd:annotation>
+        <xsd:documentation> 
+        Container für Multimedia-Datensätze. Das Attribut "mulId" enthält einen
+        eindeutigen Index für jeden Datensatz.
+        Das Attribut "sort" ist ein Integer und sortiert bei Bedarf weitere Medien nach einer
+        Reihenfolge, wobei 0 immer das bevorzugte Medium ist. Wenn kein sort , sind alle Medien gleichbereichtigt.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="anfertDat" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="bearbDatum" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="bemerkFoto" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="dateiname" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="erweiterung" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="farbe" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="format" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="fotoNegNr" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="funktion" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="inhaltAnsicht" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="matTechn" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="personenKörperschaften" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="pfadangabe" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="standardbild" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="standort" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="typ" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="urhebFotograf" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="verknüpftesObjekt" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="vervielfVon" minOccurs="0" maxOccurs="1"/>
             <xsd:element ref="veröffentlichen" minOccurs="0" maxOccurs="1"/>
-		</xsd:sequence>
-		<xsd:attribute name="exportdatum" type="xsd:dateTime"/>
-		<xsd:attribute name="mulId" type="xsd:integer"/>
-	</xsd:complexType>
+        </xsd:sequence>
+        <xsd:attribute name="exportdatum" type="xsd:dateTime"/>
+        <xsd:attribute name="mulId" type="xsd:integer"/>
+    </xsd:complexType>
 </xsd:element>
 
 <!-- main level -->
 <xsd:element name="anfertDat" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Anfertigungsdatum des Multimedia-Objekts.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Anfertigungsdatum des Multimedia-Objekts.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="bemerkFoto" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>missing.</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>missing.</xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="dateiname" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Ort der Multimedia-Objekts auf der lokalen Festplatte (Dateiname).
-			SN: wird komplementiert durch den Multimedia.Pfadangabe.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Ort der Multimedia-Objekts auf der lokalen Festplatte (Dateiname).
+            SN: wird komplementiert durch den Multimedia.Pfadangabe.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="erweiterung" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>Dateiendung, z.B. jpg</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>Dateiendung, z.B. jpg</xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="farbe" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		mm/farbe: die Farbgebung des Multimedia-Objekts. 
-		Zusatz1/farbe: Farbformat des Films
+    <xsd:annotation>
+        <xsd:documentation>
+        mm/farbe: die Farbgebung des Multimedia-Objekts. 
+        Zusatz1/farbe: Farbformat des Films
 
-		SN: nur bei Fotos und ähnlichen Objekten. SN: "S/W" (für schwarz/weiß)
-		</xsd:documentation>
-	</xsd:annotation>
+        SN: nur bei Fotos und ähnlichen Objekten. SN: "S/W" (für schwarz/weiß)
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="format" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		mm/format: beschreibt die Maße des Objekts. SN: z.B. Länge, Breite oder Durchmesser.
-		Zusatz 1 Audio: Audio Format des Gegenstandes. 
-		
-		SN: bezieht sich auf Eigenschaften digitaler Formate, z.B. "sample rate".
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+        mm/format: beschreibt die Maße des Objekts. SN: z.B. Länge, Breite oder Durchmesser.
+        Zusatz 1 Audio: Audio Format des Gegenstandes. 
+        
+        SN: bezieht sich auf Eigenschaften digitaler Formate, z.B. "sample rate".
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="fotoNegNr" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Nummer des zu einem Foto gehörenden Negativs.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Nummer des zu einem Foto gehörenden Negativs.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="funktion" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			beschreibt die Verwendung des Multimedia-Objektes.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            beschreibt die Verwendung des Multimedia-Objektes.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="inhaltAnsicht" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			inhaltliche Beschreibung der Abbildung oder Beschreibung der Ansicht des Fotos.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            inhaltliche Beschreibung der Abbildung oder Beschreibung der Ansicht des Fotos.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="matTechn" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation> 
-			Nennt wesentliche Materialien und Techniken. 
-			SN: Bei Fotos beispielsweise "Acetatfilm", "Polaroidverfahren".
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation> 
+            Nennt wesentliche Materialien und Techniken. 
+            SN: Bei Fotos beispielsweise "Acetatfilm", "Polaroidverfahren".
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="personenKörperschaften">
-	<xsd:annotation>
-		<xsd:documentation>
-			in SO and in MM
-			Der Elementname sollte im Singular formuliert sein, aber nicht jetzt.
-			Todo, aber nicht jetzt
-			assozierte Personen/Körperschaften
-		</xsd:documentation>
-	</xsd:annotation>
-	<xsd:complexType>
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="funktion" type="xsd:string"/>
-				<xsd:attribute name="art" type="xsd:string"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
+    <xsd:annotation>
+        <xsd:documentation>
+            in SO and in MM
+            Der Elementname sollte im Singular formuliert sein, aber nicht jetzt.
+            Todo, aber nicht jetzt
+            assozierte Personen/Körperschaften
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="funktion" type="xsd:string"/>
+                <xsd:attribute name="art" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 </xsd:element>
 
 <xsd:element name="pfadangabe" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation> Ort des Multimedia-Objekts auf der lokalen Festplatte
-		(Pfad). SN: wird komplementiert durch den Multimedia.Dateiname.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation> Ort des Multimedia-Objekts auf der lokalen Festplatte
+        (Pfad). SN: wird komplementiert durch den Multimedia.Dateiname.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="typ" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation> 
-			MM/Typ
-			Ort des Multimedia-Objekts auf der lokalen Festplatte (Pfad). 
-			
-			SN: wird komplementiert durch den Multimedia.Dateiname.
-		
-			PK.Typ: Bestimmt die Person oder Institution. 
+    <xsd:annotation>
+        <xsd:documentation> 
+            MM/Typ
+            Ort des Multimedia-Objekts auf der lokalen Festplatte (Pfad). 
+            
+            SN: wird komplementiert durch den Multimedia.Dateiname.
+        
+            PK.Typ: Bestimmt die Person oder Institution. 
 
-			SN: z.B. als "Person" oder "Körperschaft".
-		</xsd:documentation>
-	</xsd:annotation>
+            SN: z.B. als "Person" oder "Körperschaft".
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
-		
+        
 <xsd:element name="urhebFotograf" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Urheber und/oder Fotografen.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Urheber und/oder Fotografen.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="veröffentlichen" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Soll das Medium veröffentlicht werden (ja/nein)?
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Soll das Medium veröffentlicht werden (ja/nein)?
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="vervielfVon" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Todo
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Todo
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="objId" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Index für ein Sammlungsobjekt-Datensatz.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Index für ein Sammlungsobjekt-Datensatz.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 
@@ -241,22 +240,22 @@
   </xsd:annotation>
  <xsd:complexType>
   <xsd:sequence>
-	   <xsd:element ref="artKörpersch" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="bearbDatum" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="bemerkungen" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="berufTätigkeit" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="biographie" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="datierung" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="geogrBezug" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="kurzbiographie" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="name" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="nationalität" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="nennform" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="quelle" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="titelStand" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="typ" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="verantwortlich" minOccurs="0" maxOccurs="unbounded"/>
-	   <xsd:element ref="verknüpftesObjekt" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="artKörpersch" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="bearbDatum" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="bemerkungen" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="berufTätigkeit" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="biographie" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="datierung" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="geogrBezug" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="kurzbiographie" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="name" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="nationalität" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="nennform" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="quelle" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="titelStand" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="typ" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="verantwortlich" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element ref="verknüpftesObjekt" minOccurs="0" maxOccurs="unbounded"/>
    </xsd:sequence>
   <xsd:attribute name="exportdatum" type="xsd:dateTime"/>
   <xsd:attribute name="kueId" type="xsd:integer"/>
@@ -366,24 +365,24 @@
 
 
 <xsd:element name="standort">
-	<xsd:annotation>
-		<xsd:documentation>Standort (aus Standortgeschichte)</xsd:documentation>
-	</xsd:annotation>
-	
-	<xsd:complexType>
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="status" type="xsd:string"/>
-				<xsd:attribute name="art" type="xsd:string"/>
-				<xsd:attribute name="detail" type="xsd:string"/>
-				<xsd:attribute name="bearbMit" type="xsd:string"/>
-				<xsd:attribute name="bearbDat" type="xsd:string"/>
-				<xsd:attribute name="datumVon" type="xsd:string"/>
-				<xsd:attribute name="datumBis" type="xsd:string"/>
-				<xsd:attribute name="kommentar" type="xsd:string"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
+    <xsd:annotation>
+        <xsd:documentation>Standort (aus Standortgeschichte)</xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="status" type="xsd:string"/>
+                <xsd:attribute name="art" type="xsd:string"/>
+                <xsd:attribute name="detail" type="xsd:string"/>
+                <xsd:attribute name="bearbMit" type="xsd:string"/>
+                <xsd:attribute name="bearbDat" type="xsd:string"/>
+                <xsd:attribute name="datumVon" type="xsd:string"/>
+                <xsd:attribute name="datumBis" type="xsd:string"/>
+                <xsd:attribute name="kommentar" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 </xsd:element>
 
 <xsd:element name="standardbild" type="xsd:string">
@@ -398,9 +397,9 @@
 <xsd:element name="verknüpftesObjekt" type="xsd:string">
  <xsd:annotation>
   <xsd:documentation>
-  	Ein mit dieser Person verknüpftes Objekt aus den Sammlungen. Es handelt 
-  	sich bei der Nummer um eine ObjId, die auf einen Sammlungsobjektdatensatz 
-  	referziert.
+      Ein mit dieser Person verknüpftes Objekt aus den Sammlungen. Es handelt 
+      sich bei der Nummer um eine ObjId, die auf einen Sammlungsobjektdatensatz 
+      referziert.
    </xsd:documentation>
   </xsd:annotation>
 </xsd:element>
@@ -439,7 +438,7 @@
    <xsd:element ref="erwerbDatum" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="erwerbNotiz" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="erwerbNr" minOccurs="0" maxOccurs="unbounded"/>
-	<!-- alphabet error -->
+    <!-- alphabet error -->
    <xsd:element ref="erwerbungVon" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="erwerbungsart" minOccurs="0" maxOccurs="unbounded"/>
     <!-- farbe (Film) -->
@@ -515,11 +514,11 @@
    <xsd:element ref="vorlage" minOccurs="0" maxOccurs="unbounded"/>
     <!-- verwendetesLicht (Foto) -->
     <!-- vorlage (Audio) -->
-	<xsd:element ref="wGAusVorgaben" minOccurs="0" maxOccurs="1"/>
-	<xsd:element ref="wGGruppe" minOccurs="0" maxOccurs="1"/>
-	<xsd:element ref="wGRestzeitGh" minOccurs="0" maxOccurs="1"/>
-	<xsd:element ref="wGStänderung" minOccurs="0" maxOccurs="1"/>
-	<xsd:element ref="wGZustand" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="wGAusVorgaben" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="wGGruppe" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="wGRestzeitGh" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="wGStänderung" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="wGZustand" minOccurs="0" maxOccurs="1"/>
     <!-- zielgruppe (Film) -->
    <xsd:element ref="zielgruppe" minOccurs="0" maxOccurs="1"/>
     <!-- zusatzgeräte (Film?) -->
@@ -583,9 +582,9 @@
 </xsd:element>
 
 <xsd:element name="bearbStand" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>missing.</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>missing.</xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="datierung">
@@ -641,40 +640,40 @@
 </xsd:element>
 
 <xsd:element name="ausstellung">
-	<xsd:annotation>
-	<xsd:documentation>
-		dokumentierte Ausstellung, bei denen das Objekt gezeigt wurde
-	</xsd:documentation>
-	</xsd:annotation>
-	<xsd:complexType>
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="entscheid" type="xsd:string"/>
-				<xsd:attribute name="datumVon" type="xsd:string"/>
-				<xsd:attribute name="datumBis" type="xsd:string"/>
+    <xsd:annotation>
+    <xsd:documentation>
+        dokumentierte Ausstellung, bei denen das Objekt gezeigt wurde
+    </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="entscheid" type="xsd:string"/>
+                <xsd:attribute name="datumVon" type="xsd:string"/>
+                <xsd:attribute name="datumBis" type="xsd:string"/>
                 <xsd:attribute name="internExtern" type="xsd:string"/>
                 <xsd:attribute name="jahr" type="xsd:string"/>
                 <xsd:attribute name="katalogNr" type="xsd:string"/>
                 <xsd:attribute name="ort" type="xsd:string"/>
                 <xsd:attribute name="sektion" type="xsd:string"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 </xsd:element>
 
 
 <xsd:element name="besitzart" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Art des Besitzes. SN: z.B. "Eigentum".
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Art des Besitzes. SN: z.B. "Eigentum".
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="credits" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>missing.</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>missing.</xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="erwerbDatum" type="xsd:string">
@@ -686,20 +685,20 @@
 </xsd:element>
 
 <xsd:element name="erwerbNotiz">
-	<xsd:annotation>
-		<xsd:documentation>
-		Anmerkung, die mit dem Erwerb des Gegenstandes in Zusammenhang stehen. 
-		
-		SN: z.B. "Reise", "Tausch", "Spendenbescheinigung".
-		</xsd:documentation>
-	</xsd:annotation>
-	<xsd:complexType>
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="typ" type="xsd:string"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
+    <xsd:annotation>
+        <xsd:documentation>
+        Anmerkung, die mit dem Erwerb des Gegenstandes in Zusammenhang stehen. 
+        
+        SN: z.B. "Reise", "Tausch", "Spendenbescheinigung".
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="typ" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 </xsd:element>
 
 <xsd:element name="erwerbNr" type="xsd:string">
@@ -793,11 +792,11 @@
 </xsd:element>
 
 <xsd:element name="handlingVerpackungTransport" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-  		Information über Auflagen des Handlings, der Verpackung und des Transports.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+          Information über Auflagen des Handlings, der Verpackung und des Transports.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="ikonographischeBeschreibung" type="xsd:string">
@@ -846,56 +845,56 @@
 </xsd:element>
 
 <xsd:element name="kategorieGenre" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			bestimmt die Kategorie und das Genre näher, bspw. Frauenfilm, Tierfilm etc.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            bestimmt die Kategorie und das Genre näher, bspw. Frauenfilm, Tierfilm etc.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="kABeleuchtung" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		Todo
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+        Todo
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="kABemLeihfähigkeit" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		Todo
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+        Todo
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="kALuftfeuchtigkeit" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		Todo
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+        Todo
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 <xsd:element name="kATemperatur" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-		Todo
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+        Todo
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="kurzeBeschreibung" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			Freitextfeld zur kurzen Beschreibung/Zusammenfassung des Inhalts des Objekts.
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            Freitextfeld zur kurzen Beschreibung/Zusammenfassung des Inhalts des Objekts.
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="lagerungSicherheitPräsentation" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation>
-			TODO
-		</xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation>
+            TODO
+        </xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="konvolut" type="xsd:string">
@@ -1023,9 +1022,9 @@
 </xsd:element>
 
  <!-- 
- 	Achtung: aktuell ist der doppelte Singuar: person nicht personen etc. 
+     Achtung: aktuell ist der doppelte Singuar: person nicht personen etc. 
 
-	CURRENTLY NOT USED 	
+    CURRENTLY NOT USED     
 -->
 <xsd:element name="personKörperschaftRef">
  <xsd:annotation>
@@ -1163,34 +1162,34 @@
 </xsd:element>
 
 <xsd:element name="verantwortlich">
-	<xsd:annotation>
-		<xsd:documentation> Bei Sammlungsobjekten und PersonenKörperschaften:
-		Organisatorische
-		Einheit (z.B. Abteilung), die für den Datensatz und das durch ihn beschriebene
-		Objekt bzw. PersonKörperschaft verantwortlich ist.
-		</xsd:documentation>
-	</xsd:annotation>
-	<xsd:simpleType>
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="AKu-Ostasiatische Kunst"/>
-			<xsd:enumeration value="AKu-Süd-, Südost- und Zentralasien"/>
-			<xsd:enumeration value="EM-Afrika"/>
-			<xsd:enumeration value="EM-Allgemein"/>
-			<xsd:enumeration value="EM-Am Archäologie"/>
-			<xsd:enumeration value="EM-Am Ethnologie"/>
-			<xsd:enumeration value="EM-Archiv"/>
-			<xsd:enumeration value="EM-Islamischer Orient"/>
-			<xsd:enumeration value="EM-Ost- und Nordasien"/>
-			<xsd:enumeration value="EM-Phonogramm-Archiv"/>
-			<xsd:enumeration value="EM-Medienarchiv"/>
-			<xsd:enumeration value="EM-Musikethnologie"/>
-			<xsd:enumeration value="EM-Neuerwerbung"/>
-			<xsd:enumeration value="EM-Süd- und Südostasien"/>
-			<xsd:enumeration value="EM-Südsee/Australien"/>
-			<xsd:enumeration value="Musterdatensätze Sammlung"/>
-			<xsd:enumeration value="SPK-Personen/Körperschaften"/>
-		</xsd:restriction>
-	</xsd:simpleType>
+    <xsd:annotation>
+        <xsd:documentation> Bei Sammlungsobjekten und PersonenKörperschaften:
+        Organisatorische
+        Einheit (z.B. Abteilung), die für den Datensatz und das durch ihn beschriebene
+        Objekt bzw. PersonKörperschaft verantwortlich ist.
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AKu-Ostasiatische Kunst"/>
+            <xsd:enumeration value="AKu-Süd-, Südost- und Zentralasien"/>
+            <xsd:enumeration value="EM-Afrika"/>
+            <xsd:enumeration value="EM-Allgemein"/>
+            <xsd:enumeration value="EM-Am Archäologie"/>
+            <xsd:enumeration value="EM-Am Ethnologie"/>
+            <xsd:enumeration value="EM-Archiv"/>
+            <xsd:enumeration value="EM-Islamischer Orient"/>
+            <xsd:enumeration value="EM-Ost- und Nordasien"/>
+            <xsd:enumeration value="EM-Phonogramm-Archiv"/>
+            <xsd:enumeration value="EM-Medienarchiv"/>
+            <xsd:enumeration value="EM-Musikethnologie"/>
+            <xsd:enumeration value="EM-Neuerwerbung"/>
+            <xsd:enumeration value="EM-Süd- und Südostasien"/>
+            <xsd:enumeration value="EM-Südsee/Australien"/>
+            <xsd:enumeration value="Musterdatensätze Sammlung"/>
+            <xsd:enumeration value="SPK-Personen/Körperschaften"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:element>
 
 <xsd:element name="verfügbareFormate" type="xsd:string">
@@ -1219,33 +1218,33 @@
 </xsd:element>
 
 <xsd:element name="wGAusVorgaben" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation></xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="wGGruppe" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation></xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="wGRestzeitGh" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation></xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="wGStänderung" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation></xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="wGZustand" type="xsd:string">
-	<xsd:annotation>
-		<xsd:documentation></xsd:documentation>
-	</xsd:annotation>
+    <xsd:annotation>
+        <xsd:documentation></xsd:documentation>
+    </xsd:annotation>
 </xsd:element>
 
 <xsd:element name="zielgruppe" type="xsd:string">
