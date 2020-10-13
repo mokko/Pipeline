@@ -21,7 +21,7 @@ cpRes:
     input 2-MPX/lvlup.smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx to be on save side
     mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
     input 2-MPX/lvlup-sort.mpx  # should run only over smbfreigabe, not general levelup.mpx to be on save side
-    mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case)
+    mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case) irrespective of smb-freigabe
 
 
 datenblatt:                     # for SM/StuSam project
@@ -67,10 +67,11 @@ shf:
 
 
 vfix:
-    input 2-MPX/levelup-sort.mpx
-    vfix ../../../generalvindex.json .. 2-MPX/vfix.mpx 
                                 # update vindex and translation list
-    gtrans                      # new translation of GTrans IF installed
+                                # vfix signature: conf, in_fn, conf_fn, out_dir, out_fn
+    input 2-MPX/levelup-sort.mpx
+    vfix ../../../generalvindex.json ../.. 2-MPX/vfix.mpx 
+    #gtrans                     # new translation of GTrans IF installed
     #vokvok ../../.. ../../../mpxvoc.xml 
     							# rewrite and assemble all translations in one mpxvok
     #cpData2                    # cp *.xlsx recursively

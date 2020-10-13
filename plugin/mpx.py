@@ -7,7 +7,7 @@ from lvlup.test_mpx import main
 xsl_dir = os.path.realpath (os.path.join (__file__,'../../xsl'))
 emptympx = os.path.join (xsl_dir, 'leer.mpx')
 joinColxsl = os.path.join (xsl_dir, 'joinCol.xsl')
-lvlupxsl = os.path.join (xsl_dir, 'lupmpx2.xsl')
+lvlupxsl = os.path.join (xsl_dir, 'lupmpx.xsl')
 
 def cpRes (conf, in_fn, out_dir):
     rc = cpResources (in_fn)
