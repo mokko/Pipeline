@@ -294,12 +294,6 @@
 
     <!-- sachbegriff bug: on a few records this doesn't get called -->
     <xsl:template match="/museumPlusExport/sammlungsobjekt/sachbegriff">
-        <xsl:if test="../@objId eq '141628'"> 
-            <xsl:message>---------------------NEVER GET HERE
-            <xsl:text>Sachbegriff: </xsl:text>
-                <xsl:value-of select="../@objId"/>
-            </xsl:message>
-        </xsl:if>
         <xsl:call-template name="wAttrib">
             <xsl:with-param name="attrib" select="../sachbegriffArt" />
         </xsl:call-template>
