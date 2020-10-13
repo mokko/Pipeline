@@ -9,6 +9,10 @@
 
     <!-- third level default: for elements whose name I don't know yet -->
     <xsl:template match="/museumPlusExport/*/*">
+        <!-- xsl:message>
+            <xsl:text>def: </xsl:text>
+            <xsl:value-of select="name()" />
+        -->
         <xsl:element name="{name()}">
             <xsl:value-of select="." />
         </xsl:element>

@@ -2,8 +2,7 @@
     xmlns="http://www.mpx.org/mpx"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
-    >
+    xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx">
 
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
@@ -35,10 +34,10 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- delete duplicate; can also be eliminated from RST Liste -->
+    <!-- delete duplicate; can also be eliminated from RST mm -->
     <xsl:template match="/museumPlusExport/multimediaobjekt/personenKörperschaften">
         <xsl:message>
-            obsolete: Please remove personenKörperschaften from rst mm. Use 
+            deprecate: Please remove "personenKörperschaften" from rst mm. Use 
             urhebFotograf instead.
         </xsl:message>
     </xsl:template>
@@ -58,9 +57,11 @@
 
     <!-- rename tag: better rename in rst to avoid sorting mess-->
     <xsl:template match="/museumPlusExport/multimediaobjekt/objId">
+        <xsl:message>
+            deprecated: Please replace "objId" with "verknüpftesObjekt" in rst mm.
+        </xsl:message>
         <xsl:element name="verknüpftesObjekt">
             <xsl:value-of select="." />
         </xsl:element>
     </xsl:template>
-
 </xsl:stylesheet>

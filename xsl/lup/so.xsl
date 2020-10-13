@@ -18,8 +18,18 @@
                 <xsl:text>lvlup-objId: </xsl:text>
                 <xsl:value-of select="$id"/>
             </xsl:message>
-            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="string()">
+            <!-- 
+                sachbegriff bug: this one finds most, but not all sachbegriffe
+                WHY 
+                group-by="string()" group by value rather than name()
+            -->
+            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*
+                [not(self::sachbegriff)]" group-by="string()">
                 <xsl:sort select="name()" />
+                <xsl:apply-templates select="."/>
+            </xsl:for-each-group>
+            <!-- no logic whatsoever -->
+            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/sachbegriff" group-by="string()">
                 <xsl:apply-templates select="."/>
             </xsl:for-each-group>
         </xsl:element>
@@ -173,10 +183,9 @@
                 |/museumPlusExport/sammlungsobjekt/datierungTagBis
                 |/museumPlusExport/sammlungsobjekt/datierungBisMonat
                 |/museumPlusExport/sammlungsobjekt/datierungMonatBis
-                |/museumPlusExport/sammlungsobjekt/datierungJahrBis
-    "/>
-    
-    
+                |/museumPlusExport/sammlungsobjekt/datierungJahrBis"/>
+
+
     <xsl:template match="/museumPlusExport/sammlungsobjekt/erwerbNotiz">
         <xsl:call-template name="wAttrib">
             <xsl:with-param name="attrib" select="../erwerbNotizTyp" />
@@ -214,7 +223,7 @@
     <xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugKommentar"/>
     <xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugBezeichnung"/>
     <xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugSort"/>
-    
+
 
     <xsl:template match="/museumPlusExport/sammlungsobjekt/identNr">
         <xsl:call-template name="wAttrib">
@@ -242,6 +251,7 @@
     <xsl:template match="/museumPlusExport/sammlungsobjekt/materialTechnikArt"/>
 
 
+    <!-- this is a rename, avoid them in rst to avoid sorting later! -->
     <xsl:template match="/museumPlusExport/sammlungsobjekt/objBezIdentNr">
         <xsl:element name="oov">
             <xsl:if test="../objBezArt">
@@ -287,7 +297,14 @@
     <xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenArtDesBe"/>
 
 
+    <!-- sachbegriff bug: on a few records this doesn't get called -->
     <xsl:template match="/museumPlusExport/sammlungsobjekt/sachbegriff">
+        <xsl:if test="../@objId eq '141628'"> 
+            <xsl:message>---------------------NEVER GET HERE
+            <xsl:text>Sachbegriff: </xsl:text>
+                <xsl:value-of select="../@objId"/>
+            </xsl:message>
+        </xsl:if>
         <xsl:call-template name="wAttrib">
             <xsl:with-param name="attrib" select="../sachbegriffArt" />
         </xsl:call-template>
