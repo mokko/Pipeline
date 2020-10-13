@@ -1,4 +1,4 @@
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
     xmlns="http://www.mpx.org/mpx"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -17,7 +17,8 @@
                 <xsl:text>lvlup-kueId: </xsl:text>
                 <xsl:value-of select="$id"/>
             </xsl:message>
-            <xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId eq $id]/*" group-by="string()">
+            <xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId eq $id]/*" 
+                composite="yes" group-by="node-name(), string()">
                 <xsl:sort data-type="text" select="name()" />
                 <xsl:apply-templates select="."/>
             </xsl:for-each-group>

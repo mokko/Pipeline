@@ -1,4 +1,4 @@
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
     xmlns="http://www.mpx.org/mpx"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,7 +22,8 @@
                 sachbegriff bug: this one finds most, but not all sachbegriffe
                 WHY? https://stackoverflow.com/questions/64335452/ 
             -->
-            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="concat(name(), '|', string())">
+            <xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" 
+                composite="yes" group-by="node-name(), string()">
                 <xsl:sort select="name()" />
                 <xsl:variable name="name" select="name()"/>
                 <xsl:apply-templates select="."/>
