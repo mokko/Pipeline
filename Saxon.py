@@ -74,6 +74,7 @@ class Saxon:
 
         return f'"{path}"'
     def _transform (self, source, stylesheet, output, report_fn=None):
+        #source = os.path.abspath(source)
         source = self._escapePath(source)
         stylesheet = self._escapePath(stylesheet)
         output = self._escapePath(output)
