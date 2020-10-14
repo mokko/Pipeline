@@ -1178,6 +1178,7 @@
             <xsd:enumeration value="EM-Am Archäologie"/>
             <xsd:enumeration value="EM-Am Ethnologie"/>
             <xsd:enumeration value="EM-Archiv"/>
+            <xsd:enumeration value="EM-Ausstellungsobjekte"/>
             <xsd:enumeration value="EM-Islamischer Orient"/>
             <xsd:enumeration value="EM-Ost- und Nordasien"/>
             <xsd:enumeration value="EM-Phonogramm-Archiv"/>
