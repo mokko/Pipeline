@@ -141,7 +141,7 @@ class ExcelTool ():
 
         print (f"*About to write xml to {out_fn}")
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
-        self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
+        self.tree.write(out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
     def translate_from_conf (conf_fn, source_xml, xls_dir = None):
         """It's a CONSTRUCTOR analog to from_conf
@@ -289,7 +289,8 @@ class ExcelTool ():
         ws = self._prepare_ws(xpath, self.twb)
         print (f"   sheet {ws.title}")
         self._prepare_header_trans(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies and begin again
+        #if don't trust freq column any longer, we don't need to be acurate
+        #self._col_to_zero(ws, 'D') #drop all frequencies and begin again
         base_xpath, attrib = self._attribute_split(xpath)
         for term, verant in self._iterterms(base_xpath): 
             value = term.get(attrib)
@@ -300,7 +301,10 @@ class ExcelTool ():
                 else:
                     print (f"new term: {term.text}")
                     self._insert_alphabetically(ws, value)
-        self._del0frequency (ws)
+        #in new scheme of things , we save only one translate.xslx per museum 
+        #less effort in keeping Excel files up to date, means we can't trust 
+        #the frequency column anymore. Hence can't delete empty lines anymore
+        #self._del0frequency (ws) 
         self.twb.save(self.trans_xls) 
 
     def translate_element (self, xpath):
@@ -309,7 +313,8 @@ class ExcelTool ():
         print(f"*Creating/updating translation sheet for {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
         self._prepare_header_trans(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies and begin again
+        #if don't trust freq column any longer, we don't need to be acurate
+        #self._col_to_zero(ws, 'D') #drop all frequencies and begin again
         print (f"   sheet {ws.title}")
         for term, verant in self._iterterms(xpath): 
             row = self._term_exists (ws, term.text)
@@ -318,7 +323,8 @@ class ExcelTool ():
             else:
                 print (f"new term: {term.text}")
                 self._insert_alphabetically(ws, term.text)
-        self._del0frequency (ws)
+        #no more deleting lines with freq=0, see translate_attribute
+        #self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
 #    PRIVATE STUFF
@@ -386,7 +392,6 @@ class ExcelTool ():
             else: # correct lno for deleted rows
                 lno+=1 
 
-
     def _get_attribute (self, node, attribute):
         value = node.get(attribute)
         if value is not None:
@@ -453,7 +458,8 @@ class ExcelTool ():
     def _prepare_indexing(self, xpath, wb):
         ws = self._prepare_ws(xpath, wb)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies when updating index
+        #if we can't trust freq column anymore, then we don't need to try being acurate
+        #self._col_to_zero(ws, 'D') #drop all frequencies when updating index
         print (f"   sheet {ws.title}")
         return ws
 
