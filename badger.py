@@ -119,15 +119,21 @@ class Badger:
 
         #todo: set freq column to zero and save
 
+        reset_freq = True
         for project in cdd:
             if types == 'vindex':
                 print (f'*UPDATING VINDEX for {cdd[project]}...')
-                in_fn=os.path.join (cdd[project], in_vindex)
-                ExcelTool.from_conf (conf_fn, in_fn, out_dir) 
+                in_fn = os.path.join(cdd[project], in_vindex)
+                t = ExcelTool(conf_fn, in_fn, out_dir)
+                if reset_freq:
+                    t.reset_freq()
+                    reset_freq = False 
+                t.from_conf()
             elif types == 'translation':
+                in_fn = os.path.join(cdd[project], in_trans)
                 print (f"*UPDATING TRANSLATION LIST from '{in_fn}'")
-                in_fn=os.path.join (cdd[project], in_trans)
-                ExcelTool.translate_from_conf (conf_fn, in_fn, out_dir)
+                t = ExcelTool(conf_fn, in_fn, out_dir)
+                t.translate_from_conf()
             else:
                 raise TypeError ("Unknown type")
 

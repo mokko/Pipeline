@@ -72,6 +72,20 @@ class ExcelTool ():
         self.trans_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'translate.xlsx')))
         self.twb = self._prepare_wb(self.trans_xls)
 
+    def reset_freq(self):
+        """
+            Reset freq to 0 in all sheets mentioned in current conf_fn
+        """
+        for task, cmd in self._itertasks():
+            if (cmd == 'index' 
+                or cmd == 'index_with_attribute'
+                or cmd == 'index_with_2attributes'
+                or cmd == 'attribute_index'):
+                ws = self._get_ws (task[cmd][0]) 
+            self._col_to_zero(ws, 'D')
+        self._save_vindex()
+        print('reset frequency count')
+
     def apply_fix (self, out_fn):
         """Replace syns with prefs in out_fn
         
@@ -144,53 +158,57 @@ class ExcelTool ():
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
-    def translate_from_conf (conf_fn, source_xml, xls_dir = None):
+    def translate_from_conf (self):
         """It's a CONSTRUCTOR analog to from_conf
         
         Parses conf file and creates/updates xls translation file.
         """
 
-        if xls_dir is None:
-            xls_dir = os.path.dirname (conf_fn)
+        #if xls_dir is None:
+        #    xls_dir = os.path.dirname (conf_fn)
         #print (f"---XLS_DIR: {xls_dir}")
-        t = ExcelTool (conf_fn, source_xml, xls_dir)
+        #t = ExcelTool (conf_fn, source_xml, xls_dir)
 
         for task,cmd in t._itertasks (): #sort of a Domain Specific Language DSL
             if cmd == "translate_element": 
                 t.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
                 t.translate_attribute (task[cmd])
+        t._save_translate()
         return t
 
-    def from_conf (conf_fn, source_xml, xls_dir = None): #no self
+    def from_conf (self): #no self
         """
-            Constructor that executes commands from conf_fn (only vindex 
+            Method that executes commands from conf_fn (only vindex 
             related, not for translations)
+            
+            NEW: No longer a constructor!
         """
 
         # as default use the same dir for xls as for conf_fn
-        if xls_dir is None:
-            xls_dir = os.path.dirname (conf_fn)
+        #if xls_dir is None:
+        #    xls_dir = os.path.dirname (conf_fn)
 
         #print (f"---XLS_DIR: {xls_dir}")
-        t = ExcelTool (conf_fn, source_xml, xls_dir)
+        #t = ExcelTool (conf_fn, source_xml, xls_dir)
 
         #sort of a Domain Specific Language DSL
-        for task,cmd in t._itertasks(): 
+        for task,cmd in self._itertasks(): 
             #print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == "index":
-                t.index (task[cmd][0], task[cmd][1])
+                self.index (task[cmd][0], task[cmd][1])
             elif cmd == "index_with_attribute":
-                t.index_with_attribute (task[cmd][0], task[cmd][1])
+                self.index_with_attribute (task[cmd][0], task[cmd][1])
             elif cmd == "index_with_2attributes":
-                t.index_with_2attributes (task[cmd][0], task[cmd][1], task[cmd][2])
+                self.index_with_2attributes (task[cmd][0], task[cmd][1], task[cmd][2])
             elif cmd == "attribute_index":
-                t.index_for_attribute (task[cmd][0], task[cmd][1])
+                self.index_for_attribute (task[cmd][0], task[cmd][1])
             elif cmd == "translate_element": pass
             elif cmd == "translate_attribute": pass
             else:
                 print (f"WARNING: Unknown command in conf {cmd}")
-        return t
+        self._save_vindex()
+        #return self
 
     def index (self, xpath, include_verant=''):
         """Write vocabulary index to the right xls sheet.
@@ -214,7 +232,6 @@ class ExcelTool ():
             else:
                 print (f"new term: {term_str}")
                 self._insert_alphabetically(ws, term_str, verant)
-        self._save_vindex()
 
     def index_for_attribute (self, xpath, include_verant=''):
         """Make vocabulary index for an attribute
@@ -244,7 +261,6 @@ class ExcelTool ():
                 else:
                     print (f"new attribute: {value}")
                     self._insert_alphabetically(ws, value, verant)
-        self._save_vindex()
 
     def index_with_2attributes (self, xpath, quali1, quali2): 
         """Write vocabulary index for an element with 2 qualifiers
@@ -266,8 +282,7 @@ class ExcelTool ():
             else:
                 print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
-        self._save_vindex()
-        
+
     def index_with_attribute (self, xpath, quali): 
         """Write vocabulary index for an element with qualifier
         Treats terms with different qualifiers as two different terms, e.g. 
@@ -286,8 +301,7 @@ class ExcelTool ():
             else:
                 print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
-        self._save_vindex()
-        
+
     def translate_attribute (self, xpath):
         """Write/update translation xls for attribute"""
 
@@ -311,7 +325,6 @@ class ExcelTool ():
         #less effort in keeping Excel files up to date, means we can't trust 
         #the frequency column anymore. Hence can't delete empty lines anymore
         #self._del0frequency (ws) 
-        self._save_translate()
 
     def translate_element (self, xpath):
         """Write/update translation xls based on source_xml"""
@@ -331,7 +344,6 @@ class ExcelTool ():
                 self._insert_alphabetically(ws, term.text)
         #no more deleting lines with freq=0, see translate_attribute
         #self._del0frequency (ws)
-        self._save_translate()
 
 #    PRIVATE STUFF
 
@@ -383,7 +395,7 @@ class ExcelTool ():
 
     def _del0frequency (self, ws):
         """
-        Delete lines with frequency = 0 and EN=None from translate.xlsx
+        Delete lines/rows with frequency = 0 and EN=None from translate.xlsx
         """
         
         lno=1 # 1-based line counter
