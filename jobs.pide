@@ -23,10 +23,9 @@ cpRes:
     input 2-MPX/lvlup-sort.mpx  # should run only over smbfreigabe, not general levelup.mpx to be on save side
     mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case) irrespective of smb-freigabe
 
-
-datenblatt:                     # for SM/StuSam project
-    input 2-MPX/levelup.mpx
-    xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html
+datenblatt: # for Recherchestationen
+    input 2-MPX/levelup-sort.mpx
+    xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html 
 
 lido:
     input 2-MPX/levelup-sort.mpx
@@ -66,6 +65,7 @@ shf:
     testShf 2-MPX/lvlup-smbfreigabe.mpx # test includes comparison with pre-npx data
 
 
+#with the birth of badger we probably want to retire this pipeline's vfix
 vfix:
                                 # update vindex and translation list
                                 # vfix signature: conf, in_fn, conf_fn, out_dir, out_fn
