@@ -155,7 +155,7 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--pipe', 
         nargs='?', 
         required=True,
-        help='Location for pipeline file (optional)')
+        help='Location for pipeline file')
     args = parser.parse_args()
 
     p = Pipeline (args.pipe, args.job, args.flag)
