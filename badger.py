@@ -50,122 +50,136 @@ Terms
         e.g. "AKu/Stu-Sam/20200910"
 """
 
-#quick and dirty conf
-vindexconf = "generalvindex.json" #expect it in cwd and its parent
-in_vindex = os.path.join("2-MPX","levelup-sort.mpx")
-in_trans = os.path.join("2-MPX","vfix.mpx")
+# quick and dirty conf
+vindexconf = "generalvindex.json"  # expect it in cwd and its parent
+in_vindex = os.path.join("2-MPX", "levelup-sort.mpx")
+in_trans = os.path.join("2-MPX", "vfix.mpx")
+
 
 class Badger:
-    def __init__(self): pass
+    def __init__(self):
+        pass
 
-    def list (self):
+    def list(self):
         """
-            Returns a dictionary that associates each project with the current 
-            data directory.
+        Returns a dictionary that associates each project with the current
+        data directory.
         """
         current_projects = dict()
-        projects = set() # use set for unique
-        for root, dirs, files in os.walk(u"."):
+        projects = set()  # use set for unique
+        for root, dirs, files in os.walk("."):
             for each in dirs:
                 if re.match("^\d{8}$", each):
-                    projects.add (root)
-        
+                    projects.add(root)
+
         for project in projects:
-            data_dirs=set()
+            data_dirs = set()
             dirs = os.scandir(path=project)
             for item in dirs:
-                if item.is_dir and re.match("^\d{8}$", item.name) :
+                if item.is_dir and re.match("^\d{8}$", item.name):
                     data_dirs.add(item.path)
             current_projects[project] = max(data_dirs)
         return current_projects
 
-    def pipe (self, job):
-        adir=os.path.realpath(os.path.join(__file__,'..'))
-        pide_fn = os.path.join(adir, 'jobs.pide')
-        if not os.path.isfile (pide_fn):
-            raise FileNotFoundError ("Pide file not found")
+    def pipe(self, job):
+        adir = os.path.realpath(os.path.join(__file__, ".."))
+        pide_fn = os.path.join(adir, "jobs.pide")
+        if not os.path.isfile(pide_fn):
+            raise FileNotFoundError("Pide file not found")
         cdd = self.list()
         savedPath = os.getcwd()
         for project in cdd:
-            print (f"*PIPE {job} for project {project}")
+            print(f"*PIPE {job} for project {project}")
             os.chdir(os.path.abspath(cdd[project]))
-            print (f"*NEW DIR {os.getcwd()}")
+            print(f"*NEW DIR {os.getcwd()}")
             Pipeline(pide_fn, job)
-            os.chdir(savedPath) # return to original path
-            print (f"*NEW DIR {os.getcwd()}")
+            os.chdir(savedPath)  # return to original path
+            print(f"*NEW DIR {os.getcwd()}")
 
-    def update_xlsx (self, types):
+    def update_xlsx(self, types):
         """
-            Create/update the two Excel files for all projects' current data 
-            directories.
-            
-            We look for vindexconf in cwd and its parent.
+        Create/update the two Excel files for all projects' current data
+        directories.
 
-            Let's not automatically update vindex.xlsx and translate.xlsx at 
-            the same time, since our workflow necessitates to work on vindex
-            manually before we do the translation. 
+        We look for vindexconf in cwd and its parent.
+
+        Let's not automatically update vindex.xlsx and translate.xlsx at
+        the same time, since our workflow necessitates to work on vindex
+        manually before we do the translation.
         """
-        path2 = os.path.join('..', vindexconf)
-        if os.path.isfile(vindexconf): 
+        path2 = os.path.join("..", vindexconf)
+        if os.path.isfile(vindexconf):
             conf_fn = vindexconf
-            out_dir ="." 
+            out_dir = "."
         elif os.path.isfile(path2):
             conf_fn = path2
             out_dir = ".."
-        else: 
-            raise ValueError ("Error: vindexconf not found!")
+        else:
+            raise ValueError("Error: vindexconf not found!")
 
         cdd = self.list()
 
-        #todo: set freq column to zero and save
+        # todo: set freq column to zero and save
 
         reset_freq = True
         for project in cdd:
-            if types == 'vindex':
-                print (f'*UPDATING VINDEX for {cdd[project]}...')
+            if types == "vindex":
+                print(f"*UPDATING VINDEX for {cdd[project]}...")
                 in_fn = os.path.join(cdd[project], in_vindex)
                 t = ExcelTool(conf_fn, in_fn, out_dir)
                 if reset_freq:
                     t.reset_freq()
-                    reset_freq = False 
+                    reset_freq = False
                 t.from_conf()
-            elif types == 'translation':
+            elif types == "translation":
                 in_fn = os.path.join(cdd[project], in_trans)
-                print (f"*UPDATING TRANSLATION LIST from '{in_fn}'")
+                print(f"*UPDATING TRANSLATION LIST from '{in_fn}'")
                 t = ExcelTool(conf_fn, in_fn, out_dir)
                 t.translate_from_conf()
             else:
-                raise TypeError ("Unknown type")
+                raise TypeError("Unknown type")
 
-    def write_to_XML (self): 
-        print ("write")
+    def write_to_XML(self):
+        print("write")
+
 
 #
 #
 #
 
-if __name__ == '__main__': 
-    parser = argparse.ArgumentParser(description='Manage vindex.xlsx and translate.xlsx in multiple projects')
-    parser.add_argument('-c', '--cmd', help="Pick your command: list|upvindex|uptrans|toxml|pipe", required=True)
-    parser.add_argument('-p', '--param', help="For pipe you need parameter.")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Manage vindex.xlsx and translate.xlsx in multiple projects"
+    )
+    parser.add_argument(
+        "-c",
+        "--cmd",
+        help="Pick your command: list|upvindex|uptrans|toxml|pipe",
+        required=True,
+    )
+    parser.add_argument("-p", "--param", help="For pipe you need parameter.")
     args = parser.parse_args()
 
     def list_for_humans():
         """
-            Human readable representation of projects and their current data 
-            directories.
+        Human readable representation of projects and their current data
+        directories.
         """
         cdd = b.list()
-        print ("PROJECT:CURRENT DATA DIRECTORY (as seen from current working directory)")
+        print("PROJECT:CURRENT DATA DIRECTORY (as seen from current working directory)")
         for project in cdd:
-            print (f"{project}: {cdd[project]}")
+            print(f"{project}: {cdd[project]}")
 
     b = Badger()
-    if args.cmd.lower() == 'list': list_for_humans()
-    elif args.cmd.lower() == 'pipe': b.pipe(args.param)
-    elif args.cmd.lower() == 'upvindex': b.update_xlsx('vindex')
-    elif args.cmd.lower() == 'uptrans': b.update_xlsx('translate')
-    elif args.cmd.lower() == 'toxml': b.write_to_XML()
+    if args.cmd.lower() == "list":
+        list_for_humans()
+    elif args.cmd.lower() == "pipe":
+        b.pipe(args.param)
+    elif args.cmd.lower() == "upvindex":
+        b.update_xlsx("vindex")
+    elif args.cmd.lower() == "uptrans":
+        b.update_xlsx("translate")
+    elif args.cmd.lower() == "toxml":
+        b.write_to_XML()
     else:
         raise TypeError("Error: Unknown command!")
-
