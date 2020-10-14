@@ -117,13 +117,15 @@ class Badger:
 
         cdd = self.list()
 
+        #todo: set freq column to zero and save
+
         for project in cdd:
             if types == 'vindex':
-                print (f'*Updating VINDEX for {cdd[project]}...')
+                print (f'*UPDATING VINDEX for {cdd[project]}...')
                 in_fn=os.path.join (cdd[project], in_vindex)
                 ExcelTool.from_conf (conf_fn, in_fn, out_dir) 
             elif types == 'translation':
-                print (f"*Updating TRANSLATION LIST from '{in_fn}'")
+                print (f"*UPDATING TRANSLATION LIST from '{in_fn}'")
                 in_fn=os.path.join (cdd[project], in_trans)
                 ExcelTool.translate_from_conf (conf_fn, in_fn, out_dir)
             else:

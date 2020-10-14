@@ -54,6 +54,7 @@ TODO
 
 import json
 import os
+import time
 from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
@@ -162,7 +163,11 @@ class ExcelTool ():
         return t
 
     def from_conf (conf_fn, source_xml, xls_dir = None): #no self
-        """Constructor that executes commands from conf_fn"""
+        """
+            Constructor that executes commands from conf_fn (only vindex 
+            related, not for translations)
+        """
+
         # as default use the same dir for xls as for conf_fn
         if xls_dir is None:
             xls_dir = os.path.dirname (conf_fn)
@@ -170,7 +175,8 @@ class ExcelTool ():
         #print (f"---XLS_DIR: {xls_dir}")
         t = ExcelTool (conf_fn, source_xml, xls_dir)
 
-        for task,cmd in t._itertasks(): #sort of a Domain Specific Language DSL
+        #sort of a Domain Specific Language DSL
+        for task,cmd in t._itertasks(): 
             #print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == "index":
                 t.index (task[cmd][0], task[cmd][1])
@@ -191,7 +197,7 @@ class ExcelTool ():
 
         Sheet depends on xpath expression."""
 
-        print(f"**Creating/updating voc-index for element {xpath}")
+        print(f"**Creating/updating vindex for element {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -208,7 +214,7 @@ class ExcelTool ():
             else:
                 print (f"new term: {term_str}")
                 self._insert_alphabetically(ws, term_str, verant)
-        self.wb.save(self.xls_fn) 
+        self._save_vindex()
 
     def index_for_attribute (self, xpath, include_verant=''):
         """Make vocabulary index for an attribute
@@ -219,7 +225,7 @@ class ExcelTool ():
         Once I have the attribute value I dont get back to parent. Even in 
         lxml."""
 
-        print(f"**Creating/updating voc-index for attribute {xpath}")
+        print(f"**Creating/updating vindex for attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
         base_xpath, attrib = self._attribute_split(xpath)
 
@@ -238,7 +244,7 @@ class ExcelTool ():
                 else:
                     print (f"new attribute: {value}")
                     self._insert_alphabetically(ws, value, verant)
-        self.wb.save(self.xls_fn) 
+        self._save_vindex()
 
     def index_with_2attributes (self, xpath, quali1, quali2): 
         """Write vocabulary index for an element with 2 qualifiers
@@ -246,7 +252,7 @@ class ExcelTool ():
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        print(f"**Creating/updating voc-index for element with 2attributes {xpath} {quali1} {quali2}")
+        print(f"**Creating/updating vindex for element with 2attributes {xpath} {quali1} {quali2}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -260,14 +266,14 @@ class ExcelTool ():
             else:
                 print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
-        self.wb.save(self.xls_fn) 
+        self._save_vindex()
         
     def index_with_attribute (self, xpath, quali): 
         """Write vocabulary index for an element with qualifier
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        print(f"**Creating/updating voc-index for element with attribute {xpath}")
+        print(f"**Creating/updating vindex for element with attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -280,7 +286,7 @@ class ExcelTool ():
             else:
                 print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
-        self.wb.save(self.xls_fn) 
+        self._save_vindex()
         
     def translate_attribute (self, xpath):
         """Write/update translation xls for attribute"""
@@ -305,7 +311,7 @@ class ExcelTool ():
         #less effort in keeping Excel files up to date, means we can't trust 
         #the frequency column anymore. Hence can't delete empty lines anymore
         #self._del0frequency (ws) 
-        self.twb.save(self.trans_xls) 
+        self._save_translate()
 
     def translate_element (self, xpath):
         """Write/update translation xls based on source_xml"""
@@ -325,7 +331,7 @@ class ExcelTool ():
                 self._insert_alphabetically(ws, term.text)
         #no more deleting lines with freq=0, see translate_attribute
         #self._del0frequency (ws)
-        self.twb.save(self.trans_xls) 
+        self._save_translate()
 
 #    PRIVATE STUFF
 
@@ -516,7 +522,7 @@ class ExcelTool ():
             #print (f'   Excel file exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
-            print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
+            #print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
             self.new_file=1
             return Workbook()
 
@@ -524,6 +530,14 @@ class ExcelTool ():
         with open(self.conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
+
+    def _save_translate (self):
+        self.twb.save(self.trans_xls) 
+        time.sleep (1) 
+
+    def _save_vindex (self):
+        self.wb.save(self.xls_fn) 
+        time.sleep (1) 
 
     def _term2str (self, term_node):
         term_str = term_node.text
