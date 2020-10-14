@@ -1,7 +1,6 @@
 import os
 import argparse
 import re
-import sys
 from Pipeline import Pipeline
 from lvlup.ExcelTool import ExcelTool
 from lvlup.vok2vok import vok2vok
@@ -31,7 +30,7 @@ badger.py -c write      writes mpxvoc and vfix for all project for all projects
 badger.py -c pipe -p datenblatt 
                         executes pipeline command "datenblatt" for each 
                         current data dir. Will look for pide file in the same
-                        dir as Pipeline.py
+                        dir as Pipeline.py. Internally changes directory.
 
 Note: badger.py looks for the projects' data directories relative to the 
 current working directory.
@@ -46,10 +45,9 @@ Terms
         e.g. "AKu/Stu-Sam": a project describes a fairly consistent object group 
         (one which remains fairly consistent over multiple exports)
     data directory: all directories named with a 8-digit date
-        e.g. AKu/Stu-Sam/20200910. They contain the data from one export. 
-        
+        e.g. "AKu/Stu-Sam/20200910". They contain the data from one export. 
     current data directories: only the newest of the project's data directories
-        e.g. AKu/Stu-Sam/20200910
+        e.g. "AKu/Stu-Sam/20200910"
 """
 
 #quick and dirty conf
@@ -101,17 +99,11 @@ class Badger:
             Create/update the two Excel files for all projects' current data 
             directories.
             
-            We need vindexconf. How do we find it? Do we expect it in cwd? That 
-            should work at home and at work, but not when we go to subdirs like
-            EM and AKu. Then we could look in cwd and its parent. Fair enough.
+            We look for vindexconf in cwd and its parent.
 
-            Do I want to run update of vindex and translation at the same time?
-            For simplicity, let's update them now together and revisit this 
-            issue later.
-            
-            Of course, first we need to cleanup what we can in the data to 
-            avoid having to translate rubbish. But is it confusing or helpful
-            if we have to lump together two th
+            Let's not automatically update vindex.xlsx and translate.xlsx at 
+            the same time, since our workflow necessitates to work on vindex
+            manually before we do the translation. 
         """
         path2 = os.path.join('..', vindexconf)
         if os.path.isfile(vindexconf): 
@@ -150,8 +142,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--param', help="For pipe you need parameter.")
     args = parser.parse_args()
 
-    b = Badger()
-    if args.cmd.lower() == 'list':
+    def list_for_humans():
         """
             Human readable representation of projects and their current data 
             directories.
@@ -160,14 +151,13 @@ if __name__ == '__main__':
         print ("PROJECT:CURRENT DATA DIRECTORY (as seen from current working directory)")
         for project in cdd:
             print (f"{project}: {cdd[project]}")
-    elif args.cmd.lower() == 'pipe':
-        b.pipe(args.param)
-    elif args.cmd.lower() == 'upvindex':
-        b.update_xlsx('vindex')
-    elif args.cmd.lower() == 'uptrans':
-        b.update_xlsx('translate')
-    elif args.cmd.lower() == 'toxml':
-        b.write_to_XML()
+
+    b = Badger()
+    if args.cmd.lower() == 'list': list_for_humans()
+    elif args.cmd.lower() == 'pipe': b.pipe(args.param)
+    elif args.cmd.lower() == 'upvindex': b.update_xlsx('vindex')
+    elif args.cmd.lower() == 'uptrans': b.update_xlsx('translate')
+    elif args.cmd.lower() == 'toxml': b.write_to_XML()
     else:
         raise TypeError("Error: Unknown command!")
 
