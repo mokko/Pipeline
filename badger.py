@@ -56,6 +56,7 @@ in_vindex = os.path.join("2-MPX", "levelup-sort.mpx")
 in_vfix = os.path.join("2-MPX", "vfix.mpx")
 in_trans = "translate.xlsx"
 
+
 class Badger:
     def __init__(self):
         path2 = os.path.join("..", vindexconf)
@@ -75,7 +76,7 @@ class Badger:
         for project in cdd:
             print(f"*FIXING MPX FOR {project}")
             in_fn = os.path.join(cdd[project], in_vindex)
-            vfix_fn = os.path.join(cdd[project], in_vfix) 
+            vfix_fn = os.path.join(cdd[project], in_vfix)
             t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
             t.apply_fix(vfix_fn)
 
@@ -135,7 +136,7 @@ class Badger:
                 in_fn = os.path.join(cdd[project], in_vindex)
                 t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
                 if reset_freq:
-                    t.reset_freq('vindex')
+                    t.reset_freq("vindex")
                     reset_freq = False
                 t.vindex_from_conf()
             elif types == "translate":
@@ -143,7 +144,7 @@ class Badger:
                 print(f"*UPDATING TRANSLATION LIST from '{in_fn}'")
                 t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
                 if reset_freq:
-                    t.reset_freq('translate')
+                    t.reset_freq("translate")
                     reset_freq = False
                 t.translate_from_conf()
             else:
@@ -153,6 +154,7 @@ class Badger:
         print(f"*Writing new mpxvoc.xml from translation.xlsx")
         t = vocvoc(in_trans)
         t.single(self.mpxvoc_fn)
+
 
 #
 #

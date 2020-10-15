@@ -50,32 +50,37 @@ TODO
 import json
 import os
 import time
-from lxml import etree #has getParent()
+from lxml import etree  # has getParent()
 from openpyxl import Workbook, load_workbook
 
-class ExcelTool ():
-    def __init__ (self, conf_fn, source_xml,xls_dir = '.'):
+
+class ExcelTool:
+    def __init__(self, conf_fn, source_xml, xls_dir="."):
         self.ns = {
-            'npx': 'http://www.mpx.org/npx', #npx is no mpx
-            'mpx': 'http://www.mpx.org/mpx', 
+            "npx": "http://www.mpx.org/npx",  # npx is no mpx
+            "mpx": "http://www.mpx.org/mpx",
         }
-        self.conf_fn=conf_fn
+        self.conf_fn = conf_fn
         self.tree = etree.parse(source_xml)
         self.new_file = 0
-        #Pretty bad design that I load a file even if I don't need it
-        #but should work right now, so now change
-        self.vindex_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
-        print (f"*Using {self.vindex_xls}")
+        # Pretty bad design that I load a file even if I don't need it
+        # but should work right now, so now change
+        self.vindex_xls = os.path.relpath(
+            os.path.realpath(os.path.join(xls_dir, "vindex.xlsx"))
+        )
+        print(f"*Using {self.vindex_xls}")
         self.wb = self._prepare_wb(self.vindex_xls)
-        self.trans_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'translate.xlsx')))
-        print (f"*Using {self.trans_xls}")
+        self.trans_xls = os.path.relpath(
+            os.path.realpath(os.path.join(xls_dir, "translate.xlsx"))
+        )
+        print(f"*Using {self.trans_xls}")
         self.twb = self._prepare_wb(self.trans_xls)
 
     def reset_freq(self, signal):
         """
-            Reset freq to 0 in all sheets mentioned in current conf_fn
-            
-            Will probably die if there is a new sheet that can't be reset.
+        Reset freq to 0 in all sheets mentioned in current conf_fn
+
+        Will probably die if there is a new sheet that can't be reset.
         """
         print(f"reset frequency count ({signal})")
         for task, cmd in self._itertasks():
@@ -83,144 +88,156 @@ class ExcelTool ():
                 xpath = task[cmd][0]
             elif signal == "translate":
                 xpath = task[cmd]
-            #print (f"!!!CHECK {signal}:{cmd}-{xpath}")
-            try: #can't reset a column that has not been created yet
-                ws = self._get_ws_by_xpath (xpath, signal) # dies if sheet doesn't exist
-                self._col_to_zero(ws, 'D')
-            except: pass
-                #now there are no more warnings since it's normal that lots of 
-                #resets will fail. So I have to check Excel to see if it works.
-                #print (f"WARNING: Could not reset column '{xpath}' for {signal}!")
+            # print (f"!!!CHECK {signal}:{cmd}-{xpath}")
+            try:  # can't reset a column that has not been created yet
+                ws = self._get_ws_by_xpath(xpath, signal)  # dies if sheet doesn't exist
+                self._col_to_zero(ws, "D")
+            except:
+                pass
+            # now there are no more warnings since it's normal that lots of
+            # resets will fail. So I have to check Excel to see if it works.
+            # print (f"WARNING: Could not reset column '{xpath}' for {signal}!")
 
-        if signal == 'vindex':
+        if signal == "vindex":
             self._save_vindex()
-        elif signal == 'translate':
+        elif signal == "translate":
             self._save_translate()
         else:
-            raise KeyError ("Unknown signal!")
+            raise KeyError("Unknown signal!")
 
-    def apply_fix (self, out_fn):
+    def apply_fix(self, out_fn):
         """Replace syns with prefs in out_fn
-        
+
         Preparation: read three files
         1. Read conf and process every task
         2. Read xls_fn and use matching sheet
-        3. Read xml/mpx source 
-        Rewrite 
+        3. Read xml/mpx source
+        Rewrite
         4. mpx according to instructions from conf and prefs in xls
         5. save new xml/mpx to out_fn"""
 
-        #primitive Domain Specific Language (DSL)
+        # primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks():
             xpath = task[cmd][0]
-            if cmd == 'attribute_index':
-                xpath, attrib = self._attribute_split(task[cmd][0]) 
- 
-            if (cmd == 'index' 
-                or cmd == 'index_with_attribute'
-                or cmd == 'index_with_2attributes'
-                or cmd == 'attribute_index'):
-                ws = self._get_ws_by_xpath (task[cmd][0]) 
-                print (f"**Checking replacements from sheet '{ws.title}'")
-                print (f"   {cmd}: {task[cmd]}")
-    
-                known=set()
+            if cmd == "attribute_index":
+                xpath, attrib = self._attribute_split(task[cmd][0])
+
+            if (
+                cmd == "index"
+                or cmd == "index_with_attribute"
+                or cmd == "index_with_2attributes"
+                or cmd == "attribute_index"
+            ):
+                ws = self._get_ws_by_xpath(task[cmd][0])
+                print(f"**Checking replacements from sheet '{ws.title}'")
+                print(f"   {cmd}: {task[cmd]}")
+
+                known = set()
                 for term, verant in self._iterterms(xpath):
-                    term_str=self._term2str (term) #strip whitespace
-                    if cmd == 'index': 
+                    term_str = self._term2str(term)  # strip whitespace
+                    if cmd == "index":
                         lno = self._term_verant_exists(ws, term_str, verant)
-                        #print(f"syn term found '{term.text}' {lno}")
-                    elif cmd == 'index_with_attribute':
-                        qu_value = self._get_attribute (term, task[cmd][1]) 
+                        # print(f"syn term found '{term.text}' {lno}")
+                    elif cmd == "index_with_attribute":
+                        qu_value = self._get_attribute(term, task[cmd][1])
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
-                        #print(f"syn term found '{term.text}' {lno}")
-                    elif cmd == 'index_with_2attributes':
+                        # print(f"syn term found '{term.text}' {lno}")
+                    elif cmd == "index_with_2attributes":
                         qu_value = self._2attributes(term, task[cmd][1], task[cmd][2])
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
-                    elif cmd == 'attribute_index':
+                    elif cmd == "attribute_index":
                         try:
-                            value=term.attrib[attrib]
-                        except: pass
+                            value = term.attrib[attrib]
+                        except:
+                            pass
                         include_verant = task[cmd][1]
-                        if include_verant == 'verantwortlich':
+                        if include_verant == "verantwortlich":
                             lno = self._term_verant_exists(ws, value, verant)
                         else:
                             lno = self._term_exists(ws, value)
-                        #print(f"syn attribute found {value} {lno}")
-                    
-                    if lno: # no replace if term is not in xls
-                        pref = ws[f'E{lno}'].value
-                        if pref is not None: #no replace if pref is not given
-                            #print (f"pref found: {pref}")
-                            if (cmd == 'index' 
-                                or cmd == 'index_with_attribute'
-                                or cmd == 'index_with_2attributes'): #if value?
+                        # print(f"syn attribute found {value} {lno}")
+
+                    if lno:  # no replace if term is not in xls
+                        pref = ws[f"E{lno}"].value
+                        if pref is not None:  # no replace if pref is not given
+                            # print (f"pref found: {pref}")
+                            if (
+                                cmd == "index"
+                                or cmd == "index_with_attribute"
+                                or cmd == "index_with_2attributes"
+                            ):  # if value?
                                 if term_str not in known:
                                     known.add(term_str)
-                                    print (f"   replace term: {term_str} --> {pref}")
-                                term.text = pref.strip() # modify xml
-                            elif cmd == 'attribute_index':
+                                    print(f"   replace term: {term_str} --> {pref}")
+                                term.text = pref.strip()  # modify xml
+                            elif cmd == "attribute_index":
                                 if attrib not in known:
                                     known.add(attrib)
-                                    print (f"   replace attribute '{attrib}': {value} --> {pref}")
-                                term.attrib[attrib] = pref.strip() # modify xml
+                                    print(
+                                        f"   replace attribute '{attrib}': {value} --> {pref}"
+                                    )
+                                term.attrib[attrib] = pref.strip()  # modify xml
 
-        print (f"*About to write {out_fn}")
-        #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
-        self.tree.write(out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True)
+        print(f"*About to write {out_fn}")
+        # register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
+        self.tree.write(
+            out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True
+        )
 
-    def translate_from_conf (self):
+    def translate_from_conf(self):
         """
         Parses conf file and creates/updates xls translation file.
         No longer a CONSTRUCTOR!
         """
 
-        #if xls_dir is None:
+        # if xls_dir is None:
         #    xls_dir = os.path.dirname (conf_fn)
-        #print (f"---XLS_DIR: {xls_dir}")
-        #t = ExcelTool (conf_fn, source_xml, xls_dir)
+        # print (f"---XLS_DIR: {xls_dir}")
+        # t = ExcelTool (conf_fn, source_xml, xls_dir)
 
-        for task,cmd in self._itertasks (): #sort of a Domain Specific Language DSL
-            if cmd == "translate_element": 
-                self.translate_element (task[cmd])
-            elif cmd == "translate_attribute": 
-                self.translate_attribute (task[cmd])
+        for task, cmd in self._itertasks():  # sort of a Domain Specific Language DSL
+            if cmd == "translate_element":
+                self.translate_element(task[cmd])
+            elif cmd == "translate_attribute":
+                self.translate_attribute(task[cmd])
         self._save_translate()
 
-    def vindex_from_conf (self): #no self
+    def vindex_from_conf(self):  # no self
         """
-            Method that executes commands from conf_fn (only vindex 
-            related, not for translations)
-            
-            NEW: No longer a constructor!
+        Method that executes commands from conf_fn (only vindex
+        related, not for translations)
+
+        NEW: No longer a constructor!
         """
 
         # as default use the same dir for xls as for conf_fn
-        #if xls_dir is None:
+        # if xls_dir is None:
         #    xls_dir = os.path.dirname (conf_fn)
 
-        #print (f"---XLS_DIR: {xls_dir}")
-        #t = ExcelTool (conf_fn, source_xml, xls_dir)
+        # print (f"---XLS_DIR: {xls_dir}")
+        # t = ExcelTool (conf_fn, source_xml, xls_dir)
 
-        #sort of a Domain Specific Language DSL
-        for task,cmd in self._itertasks(): 
-            #print (f"from_conf: {cmd}: {task[cmd]}")
+        # sort of a Domain Specific Language DSL
+        for task, cmd in self._itertasks():
+            # print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == "index":
-                self.index (task[cmd][0], task[cmd][1])
+                self.index(task[cmd][0], task[cmd][1])
             elif cmd == "index_with_attribute":
-                self.index_with_attribute (task[cmd][0], task[cmd][1])
+                self.index_with_attribute(task[cmd][0], task[cmd][1])
             elif cmd == "index_with_2attributes":
-                self.index_with_2attributes (task[cmd][0], task[cmd][1], task[cmd][2])
+                self.index_with_2attributes(task[cmd][0], task[cmd][1], task[cmd][2])
             elif cmd == "attribute_index":
-                self.index_for_attribute (task[cmd][0], task[cmd][1])
-            elif cmd == "translate_element": pass
-            elif cmd == "translate_attribute": pass
+                self.index_for_attribute(task[cmd][0], task[cmd][1])
+            elif cmd == "translate_element":
+                pass
+            elif cmd == "translate_attribute":
+                pass
             else:
-                print (f"WARNING: Unknown command in conf {cmd}")
+                print(f"WARNING: Unknown command in conf {cmd}")
         self._save_vindex()
-        #return self
+        # return self
 
-    def index (self, xpath, include_verant=''):
+    def index(self, xpath, include_verant=""):
         """Write vocabulary index to the right xls sheet.
 
         Sheet depends on xpath expression."""
@@ -229,27 +246,27 @@ class ExcelTool ():
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
-            term_str = self._term2str (term) #if there is whitespace we don't want it 
-            if include_verant == 'verantwortlich':
+            term_str = self._term2str(term)  # if there is whitespace we don't want it
+            if include_verant == "verantwortlich":
                 row = self._term_verant_exists(ws, term_str, verant)
             else:
-                #print ("verantwortlich is NOT part of the identity test")
-                verant=None
+                # print ("verantwortlich is NOT part of the identity test")
+                verant = None
                 row = self._term_exists(ws, term_str)
-            if row: 
-                #print ('term exists already: '+str(row))
-                self._update_frequency (ws, row)
+            if row:
+                # print ('term exists already: '+str(row))
+                self._update_frequency(ws, row)
             else:
-                print (f"new term: {term_str}")
+                print(f"new term: {term_str}")
                 self._insert_alphabetically(ws, term_str, verant)
 
-    def index_for_attribute (self, xpath, include_verant=''):
+    def index_for_attribute(self, xpath, include_verant=""):
         """Make vocabulary index for an attribute
-        
+
         Assuming the xpath expression ends with something like:
             mpx:bla/@attribute
-        
-        Once I have the attribute value I dont get back to parent. Even in 
+
+        Once I have the attribute value I dont get back to parent. Even in
         lxml."""
 
         print(f"**Creating/updating vindex for attribute {xpath}")
@@ -259,43 +276,45 @@ class ExcelTool ():
         for term, verant in self._iterterms(base_xpath):
             value = term.get(attrib)
             if value is not None:
-                #print (f"***Value {value}")
-                if include_verant == 'verantwortlich':
+                # print (f"***Value {value}")
+                if include_verant == "verantwortlich":
                     row = self._term_verant_exists(ws, value, verant)
                 else:
-                    #print ("verantwortlich is NOT part of the identity test")
-                    verant=None
+                    # print ("verantwortlich is NOT part of the identity test")
+                    verant = None
                     row = self._term_exists(ws, value)
                 if row:
-                    self._update_frequency (ws, row)
+                    self._update_frequency(ws, row)
                 else:
-                    print (f"new attribute: {value}")
+                    print(f"new attribute: {value}")
                     self._insert_alphabetically(ws, value, verant)
 
-    def index_with_2attributes (self, xpath, quali1, quali2): 
+    def index_with_2attributes(self, xpath, quali1, quali2):
         """Write vocabulary index for an element with 2 qualifiers
 
-        Treats terms with different qualifiers as two different terms, e.g. 
+        Treats terms with different qualifiers as two different terms, e.g.
         lists both Indien (Land) and Indien ()."""
 
-        print(f"**Creating/updating vindex for element with 2attributes {xpath} {quali1} {quali2}")
+        print(
+            f"**Creating/updating vindex for element with 2attributes {xpath} {quali1} {quali2}"
+        )
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
             qu_value = self._2attributes(term, quali1, quali2)
-            term_str = self._term2str (term) #no whitespace 
-            #print (f"{qu_value}")
-            row = self._term_quali_exists(ws, term_str,qu_value, verant)
+            term_str = self._term2str(term)  # no whitespace
+            # print (f"{qu_value}")
+            row = self._term_quali_exists(ws, term_str, qu_value, verant)
             if row:
-                #print ('term exists already: '+str(row))
-                self._update_frequency (ws, row)
+                # print ('term exists already: '+str(row))
+                self._update_frequency(ws, row)
             else:
-                print (f'new term: {term_str} ({qu_value})')
+                print(f"new term: {term_str} ({qu_value})")
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
 
-    def index_with_attribute (self, xpath, quali): 
+    def index_with_attribute(self, xpath, quali):
         """Write vocabulary index for an element with qualifier
-        Treats terms with different qualifiers as two different terms, e.g. 
+        Treats terms with different qualifiers as two different terms, e.g.
         lists both Indien (Land) and Indien ()."""
 
         print(f"**Creating/updating vindex for element with attribute {xpath}")
@@ -303,212 +322,213 @@ class ExcelTool ():
 
         for term, verant in self._iterterms(xpath):
             qu_value = self._get_attribute(term, quali)
-            term_str = self._term2str (term) #no whitespace 
-            row = self._term_quali_exists(ws, term_str,qu_value, verant)
+            term_str = self._term2str(term)  # no whitespace
+            row = self._term_quali_exists(ws, term_str, qu_value, verant)
             if row:
-                #print ('term exists already: '+str(row))
-                self._update_frequency (ws, row)
+                # print ('term exists already: '+str(row))
+                self._update_frequency(ws, row)
             else:
-                print (f'new term: {term_str} ({qu_value})')
+                print(f"new term: {term_str} ({qu_value})")
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
 
-    def translate_attribute (self, xpath):
+    def translate_attribute(self, xpath):
         """Write/update translation xls for attribute"""
 
         print(f"*Creating/updating translation sheet for attribute {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
-        print (f"   sheet {ws.title}")
+        print(f"   sheet {ws.title}")
         self._prepare_header_trans(ws)
-        #if don't trust freq column any longer, we don't need to be acurate
-        #self._col_to_zero(ws, 'D') #drop all frequencies and begin again
+        # if don't trust freq column any longer, we don't need to be acurate
+        # self._col_to_zero(ws, 'D') #drop all frequencies and begin again
         base_xpath, attrib = self._attribute_split(xpath)
-        for term, verant in self._iterterms(base_xpath): 
+        for term, verant in self._iterterms(base_xpath):
             value = term.get(attrib)
             if value is not None:
-                row = self._term_exists (ws, value)
+                row = self._term_exists(ws, value)
                 if row:
-                    self._update_frequency (ws, row)
+                    self._update_frequency(ws, row)
                 else:
-                    print (f"new translation: {term.text}")
+                    print(f"new translation: {term.text}")
                     self._insert_alphabetically(ws, value)
-        #in new scheme of things , we save only one translate.xslx per museum 
-        #less effort in keeping Excel files up to date, means we can't trust 
-        #the frequency column anymore. Hence can't delete empty lines anymore
-        #self._del0frequency (ws) 
+        # in new scheme of things , we save only one translate.xslx per museum
+        # less effort in keeping Excel files up to date, means we can't trust
+        # the frequency column anymore. Hence can't delete empty lines anymore
+        # self._del0frequency (ws)
 
-    def translate_element (self, xpath):
+    def translate_element(self, xpath):
         """Write/update translation xls based on source_xml"""
 
         print(f"*Creating/updating translation sheet for {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
         self._prepare_header_trans(ws)
-        #if don't trust freq column any longer, we don't need to be acurate
-        #self._col_to_zero(ws, 'D') #drop all frequencies and begin again
-        print (f"   sheet {ws.title}")
-        for term, verant in self._iterterms(xpath): 
-            row = self._term_exists (ws, term.text)
+        # if don't trust freq column any longer, we don't need to be acurate
+        # self._col_to_zero(ws, 'D') #drop all frequencies and begin again
+        print(f"   sheet {ws.title}")
+        for term, verant in self._iterterms(xpath):
+            row = self._term_exists(ws, term.text)
             if row:
-                self._update_frequency (ws, row)
+                self._update_frequency(ws, row)
             else:
-                print (f"new translation: {term.text}")
+                print(f"new translation: {term.text}")
                 self._insert_alphabetically(ws, term.text)
-        #no more deleting lines with freq=0, see translate_attribute
-        #self._del0frequency (ws)
+        # no more deleting lines with freq=0, see translate_attribute
+        # self._del0frequency (ws)
 
-#    PRIVATE STUFF
+    #    PRIVATE STUFF
 
     def _2attributes(self, term, quali1, quali2):
         qu_value1 = self._get_attribute(term, quali1)
         qu_value2 = self._get_attribute(term, quali2)
         return f"{qu_value1} - {qu_value2}"
 
-    def _attribute_split (self, xpath):
-        attrib = xpath.split('/')[-1]
+    def _attribute_split(self, xpath):
+        attrib = xpath.split("/")[-1]
         if attrib.startswith("@"):
-            elems = xpath.split('/')[:-1]
-            main_xpath = '/'.join(elems)
+            elems = xpath.split("/")[:-1]
+            main_xpath = "/".join(elems)
         else:
             raise ValueError(f"Error: Expect attribute in last position: {xpath}")
         return main_xpath, attrib[1:]
 
-    def _col_to_zero (self,ws,col):
-        """Set all values of a specific column to 0. 
-        
+    def _col_to_zero(self, ws, col):
+        """Set all values of a specific column to 0.
+
         Only header (row=1) remains unchanged.
-        
-        USAGE: 
+
+        USAGE:
             self._col_to_zero (ws, 'B')"""
 
-        c=1 # 1-based line counter 
+        c = 1  # 1-based line counter
         for each in ws[col]:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                each.value=0 # None doesn't work
-            c+=1
+            if c != 1:  # IGNORE HEADER
+                # print (str(c)+': '+each.value)
+                each.value = 0  # None doesn't work
+            c += 1
         return c
 
-    def _del_col (self, ws, col):
-        """ Delete all values in a specific column. 
-        
+    def _del_col(self, ws, col):
+        """Delete all values in a specific column.
+
         Header (row=1) remains as is.
-        
+
         USAGE:
             self._del_col (ws, 'B')"""
 
-        c=1 # 1-based line counter 
+        c = 1  # 1-based line counter
         for each in ws[col]:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                each.value='' # None doesn't work
-            c+=1
+            if c != 1:  # IGNORE HEADER
+                # print (str(c)+': '+each.value)
+                each.value = ""  # None doesn't work
+            c += 1
         return c
 
-    def _del0frequency (self, ws):
+    def _del0frequency(self, ws):
         """
         Delete lines/rows with frequency = 0 and EN=None from translate.xlsx
         """
-        
-        lno=1 # 1-based line counter
-        for freq in ws['D']:
-            B=ws[f"B{lno}"]
-            if (lno > 1 
-                and int(freq.value) == 0
-                and B.value is None):
-                    A=ws[f"A{lno}"]
-                    print (f"\tdel zero translation: {lno} {A.value}")
-                    ws.delete_rows (lno)
-            else: # correct lno for deleted rows
-                lno+=1 
 
-    def _get_attribute (self, node, attribute):
+        lno = 1  # 1-based line counter
+        for freq in ws["D"]:
+            B = ws[f"B{lno}"]
+            if lno > 1 and int(freq.value) == 0 and B.value is None:
+                A = ws[f"A{lno}"]
+                print(f"\tdel zero translation: {lno} {A.value}")
+                ws.delete_rows(lno)
+            else:  # correct lno for deleted rows
+                lno += 1
+
+    def _get_attribute(self, node, attribute):
         value = node.get(attribute)
         if value is not None:
-            return value.strip() #strip probably unnecessary when M+
+            return value.strip()  # strip probably unnecessary when M+
 
-    def _get_ws_by_xpath (self, xpath, signal):
+    def _get_ws_by_xpath(self, xpath, signal):
         """Get existing worksheet based on xpath or die
-        
+
         (Compare with _prepare_ws which doesn't die.)"""
 
-        core=self._xpath2core(xpath) #extracts keyword from xpath to use as sheet.title
-        #print (f"!!!!core: {core}")
-        
-        if signal == 'vindex':
-            return self.wb[core] # dies if sheet with title=core doesn't exist
-        elif signal == 'translate':
-            return self.twb[core] #can die
+        core = self._xpath2core(
+            xpath
+        )  # extracts keyword from xpath to use as sheet.title
+        # print (f"!!!!core: {core}")
+
+        if signal == "vindex":
+            return self.wb[core]  # dies if sheet with title=core doesn't exist
+        elif signal == "translate":
+            return self.twb[core]  # can die
         else:
-            raise KeyError ("Unknown signal")
+            raise KeyError("Unknown signal")
 
-
-    def _insert_alphabetically (self, ws, term, verant=None, quali=None): 
+    def _insert_alphabetically(self, ws, term, verant=None, quali=None):
         """Inserts new term into column A alphabetically."""
 
-        line=self._line_alphabetically(ws, term)
+        line = self._line_alphabetically(ws, term)
         ws.insert_rows(line)
-        ws[f'A{line}'] = term
-        ws[f'B{line}'] = quali
-        ws[f'C{line}'] = verant
-        ws[f'D{line}'] = 1 #this is a new term
+        ws[f"A{line}"] = term
+        ws[f"B{line}"] = quali
+        ws[f"C{line}"] = verant
+        ws[f"D{line}"] = 1  # this is a new term
 
     def _itertasks(self):
         data = self._read_conf()
-        for task in data['tasks']:
+        for task in data["tasks"]:
             for cmd in task:
-                yield task,cmd
+                yield task, cmd
 
-    def _iterterms (self, xpath):
-        """Finds all xpaths nodes and who is verantwortlich. 
-        
+    def _iterterms(self, xpath):
+        """Finds all xpaths nodes and who is verantwortlich.
+
         Assumes that verantwortlich is a sibling node."""
 
         for term in self.tree.xpath(xpath, namespaces=self.ns):
-            verant_node = term.find("../mpx:verantwortlich", self.ns) #assuming that it always exists 
-            try: 
+            verant_node = term.find(
+                "../mpx:verantwortlich", self.ns
+            )  # assuming that it always exists
+            try:
                 verant = verant_node.text
             except:
                 verant = None
-                #Im MM Modul gibt es keine Verantwortlichkeit
-                #print ("*****niemand verantwortlich")
+                # Im MM Modul gibt es keine Verantwortlichkeit
+                # print ("*****niemand verantwortlich")
 
             if term is not None:
                 yield term, verant
 
-    def _line_alphabetically (self, ws, needle_term):
+    def _line_alphabetically(self, ws, needle_term):
         """Assuming alphabetical sort, return line where term fits
-        
+
         Uppercase and lowercase in order ignored."""
 
         if needle_term is None:
-            raise ValueError ("ERROR: Can't locate position for none")
+            raise ValueError("ERROR: Can't locate position for none")
 
-        lno=1 # 1-based line counter 
-        for xlsterm in ws['A']:
-            if lno > 1 and xlsterm.value is not None: 
-                #raise ValueError ("ERROR no entry in xls column A")
-                if  needle_term.lower() < xlsterm.value.lower():
-                    return lno #found
+        lno = 1  # 1-based line counter
+        for xlsterm in ws["A"]:
+            if lno > 1 and xlsterm.value is not None:
+                # raise ValueError ("ERROR no entry in xls column A")
+                if needle_term.lower() < xlsterm.value.lower():
+                    return lno  # found
             lno += 1
-        return lno #if needle not found, return 1
+        return lno  # if needle not found, return 1
 
     def _prepare_indexing(self, xpath, wb):
         ws = self._prepare_ws(xpath, wb)
         self._prepare_header(ws)
-        #if we can't trust freq column anymore, then we don't need to try being acurate
-        #self._col_to_zero(ws, 'D') #drop all frequencies when updating index
-        print (f"   sheet {ws.title}")
+        # if we can't trust freq column anymore, then we don't need to try being acurate
+        # self._col_to_zero(ws, 'D') #drop all frequencies when updating index
+        print(f"   sheet {ws.title}")
         return ws
 
-    def _prepare_ws (self, xpath, wb):
-        """Get existing sheet or make new one. 
-        
+    def _prepare_ws(self, xpath, wb):
+        """Get existing sheet or make new one.
+
         Sheet title is based on xpath expression."""
 
-        sheet_label = self._xpath2core(xpath) 
+        sheet_label = self._xpath2core(xpath)
 
         try:
             ws = wb[sheet_label]
-        except: 
+        except:
             if self.new_file == 1:
                 ws = wb.active
                 ws.title = sheet_label
@@ -517,176 +537,204 @@ class ExcelTool ():
             else:
                 return wb.create_sheet(sheet_label)
         else:
-            return ws #Sheet exists already, just return it
+            return ws  # Sheet exists already, just return it
 
-    def _prepare_header (self, ws):
+    def _prepare_header(self, ws):
         """Fill header columns with default values, if they are empty."""
 
         columns = {
-            'A1': 'GEWIMMEL*',
-            'B1': 'QUALI*', #create this column even if not used
-            'C1': 'VERANTWORTL.*',
-            'D1': 'FREQUENZ*',
-            'E1': 'PREF',
-            'F1': 'NOTIZEN',
-            'G1': 'KONSULTIERTE QUELLEN'
+            "A1": "GEWIMMEL*",
+            "B1": "QUALI*",  # create this column even if not used
+            "C1": "VERANTWORTL.*",
+            "D1": "FREQUENZ*",
+            "E1": "PREF",
+            "F1": "NOTIZEN",
+            "G1": "KONSULTIERTE QUELLEN",
         }
-        self._write_header(columns,ws)
+        self._write_header(columns, ws)
 
-    def _prepare_header_trans (self, ws):
+    def _prepare_header_trans(self, ws):
         columns = {
-            'A1': 'DE*',
-            'B1': 'EN',
-            'C1': 'NOTIZEN',
-            'D1': 'FREQUENZ*',
-            'E1': 'KONSULTIERTE QUELLEN'
+            "A1": "DE*",
+            "B1": "EN",
+            "C1": "NOTIZEN",
+            "D1": "FREQUENZ*",
+            "E1": "KONSULTIERTE QUELLEN",
         }
-        self._write_header(columns,ws)
+        self._write_header(columns, ws)
 
-    def _prepare_wb (self, xls_fn):
+    def _prepare_wb(self, xls_fn):
         """Read existing xls or make new one.
-        
+
         Returns workbook."""
 
-        if os.path.isfile (xls_fn):
-            #print (f'   Excel file exists ({xls_fn})')
-            return load_workbook(filename = xls_fn)
+        if os.path.isfile(xls_fn):
+            # print (f'   Excel file exists ({xls_fn})')
+            return load_workbook(filename=xls_fn)
         else:
-            #print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
-            self.new_file=1
+            # print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
+            self.new_file = 1
             return Workbook()
 
-    def _read_conf (self):
-        with open(self.conf_fn, encoding='utf-8') as json_data_file:
+    def _read_conf(self):
+        with open(self.conf_fn, encoding="utf-8") as json_data_file:
             data = json.load(json_data_file)
         return data
 
-    def _save_translate (self):
-        self.twb.save(self.trans_xls) 
-        time.sleep (1) 
+    def _save_translate(self):
+        self.twb.save(self.trans_xls)
+        time.sleep(1)
 
-    def _save_vindex (self):
-        self.wb.save(self.vindex_xls) 
-        time.sleep (1) 
+    def _save_vindex(self):
+        self.wb.save(self.vindex_xls)
+        time.sleep(1)
 
-    def _term2str (self, term_node):
+    def _term2str(self, term_node):
         term_str = term_node.text
-        if term_str is not None: 
+        if term_str is not None:
             return term_str.strip()
 
-    def _term_exists (self, ws, term):
+    def _term_exists(self, ws, term):
         """Tests if the term exists already.
 
-        Ignores first row assuming it's a header. Returns row of first 
+        Ignores first row assuming it's a header. Returns row of first
         occurrence."""
 
-        lno=1 # 1-based line counter 
-        for each in ws['A']:
-            if lno > 1: #IGNORE HEADER
+        lno = 1  # 1-based line counter
+        for each in ws["A"]:
+            if lno > 1:  # IGNORE HEADER
                 if each.value == term:
-                    #print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
-                    return lno #found
-            lno+=1
-        return 0 #term not found
+                    # print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
+                    return lno  # found
+            lno += 1
+        return 0  # term not found
 
-    def _term_verant_exists (self, ws, term, verant):
+    def _term_verant_exists(self, ws, term, verant):
         """Tests if the combination of term and verantwortlich exists already.
 
         Should we include verantwortlich in identity check?
 
-        Ignores first row assuming it's a header. Returns row of first 
+        Ignores first row assuming it's a header. Returns row of first
         occurrence."""
 
-        lno=1 # 1-based line counter 
-        for each in ws['A']:
-            if lno > 1: #IGNORE HEADER
-                if each.value == term and ws[f'C{lno}'].value == verant:
-                    #print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
-                    return lno #found
-            lno+=1
-        return 0 #term not found
+        lno = 1  # 1-based line counter
+        for each in ws["A"]:
+            if lno > 1:  # IGNORE HEADER
+                if each.value == term and ws[f"C{lno}"].value == verant:
+                    # print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
+                    return lno  # found
+            lno += 1
+        return 0  # term not found
 
-    def _term_quali_exists(self,ws, term,quali, verant):
+    def _term_quali_exists(self, ws, term, quali, verant):
         """Tests if the combination of term/qualifier/verantwortlich exists.
 
-        Returns 0 if combination not found. Otherwise, returns line number 
-        of first occurrence. 
+        Returns 0 if combination not found. Otherwise, returns line number
+        of first occurrence.
 
         SEE ALSO: _term_exists
 
-        If user deletes verantwortlich anywhere in Excel file, program will 
+        If user deletes verantwortlich anywhere in Excel file, program will
         die."""
 
-        lno=1 # 1-based line counter 
-        for each in ws['A']:
-            if lno != 1: #IGNORE HEADER
-                #print (f"{c}: {each.value}")
-                if (each.value == term 
-                    and ws[f'B{lno}'].value == quali 
-                    and ws[f'C{lno}'].value == verant) :
-                    return lno #found
-            lno+=1
-        return 0 #not found
+        lno = 1  # 1-based line counter
+        for each in ws["A"]:
+            if lno != 1:  # IGNORE HEADER
+                # print (f"{c}: {each.value}")
+                if (
+                    each.value == term
+                    and ws[f"B{lno}"].value == quali
+                    and ws[f"C{lno}"].value == verant
+                ):
+                    return lno  # found
+            lno += 1
+        return 0  # not found
 
-    def _update_frequency (self, ws, row_no):
+    def _update_frequency(self, ws, row_no):
         """Adds one to frequency column"""
 
-        cell = f"D{row_no}" #frequency in column D 
+        cell = f"D{row_no}"  # frequency in column D
         value = ws[cell].value
-        if value == '':
+        if value == "":
             ws[cell] = 1
         else:
             ws[cell] = value + 1
 
-    def _write_header (self, columns, ws):
+    def _write_header(self, columns, ws):
         from openpyxl.styles import Font
+
         for key in columns:
             if ws[key].value is None:
                 ws[key] = columns[key]
                 c = ws[key]
                 c.font = Font(bold=True)
 
-    def _xpath2core (self,xpath):
+    def _xpath2core(self, xpath):
         """Take xpath and return a string suitable that works as a sheet title.
-        
+
         This algorithm is pretty stupid, but it'll do for the moment."""
 
-        core = xpath.split('/')[-1]
-        if core.startswith('@'): #assumes that attributes don't have ns
-            core = xpath.split('/')[-2] + core
+        core = xpath.split("/")[-1]
+        if core.startswith("@"):  # assumes that attributes don't have ns
+            core = xpath.split("/")[-2] + core
         try:
-            core = core.split(':')[1]
-        except: pass
-        core = core.replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
+            core = core.split(":")[1]
+        except:
+            pass
+        core = (
+            core.replace("[", "")
+            .replace("]", "")
+            .replace(" ", "")
+            .replace("=", "")
+            .replace("'", "")
+        )
         if len(core) > 31:
-            core=core[:24]+'...'
-        #print (f"***xpath->core: {xpath} -> {core}")
+            core = core[:24] + "..."
+        # print (f"***xpath->core: {xpath} -> {core}")
         return core
 
-if __name__ == '__main__': 
-    import argparse
-    parser = argparse.ArgumentParser(description='creates/updates vindex and translate lists and applies vindex to mpx')
-    parser.add_argument('-v', '--vindex', help="Create/update vindex.xlsx", action='store_true')
-    parser.add_argument('-a', '--apply', help="Apply vindex to mpx", action='store_true')
-    parser.add_argument('-t', '--translate', help="Create/update translate.xlsx", action='store_true')
 
-    parser.add_argument('-c', '--conf', help="Path to config file", default="..\..\..\data2\generalvindex.json")
-    parser.add_argument('-s', '--source', help="Path to source mpx", default='2-MPX/levelup.mpx')
-    parser.add_argument('-o', '--output', help="Path to output (for apply)", default='2-MPX/vfix.mpx')
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="creates/updates vindex and translate lists and applies vindex to mpx"
+    )
+    parser.add_argument(
+        "-v", "--vindex", help="Create/update vindex.xlsx", action="store_true"
+    )
+    parser.add_argument(
+        "-a", "--apply", help="Apply vindex to mpx", action="store_true"
+    )
+    parser.add_argument(
+        "-t", "--translate", help="Create/update translate.xlsx", action="store_true"
+    )
+
+    parser.add_argument(
+        "-c",
+        "--conf",
+        help="Path to config file",
+        default="..\..\..\data2\generalvindex.json",
+    )
+    parser.add_argument(
+        "-s", "--source", help="Path to source mpx", default="2-MPX/levelup.mpx"
+    )
+    parser.add_argument(
+        "-o", "--output", help="Path to output (for apply)", default="2-MPX/vfix.mpx"
+    )
     args = parser.parse_args()
 
-    #assuming here you run this from normal scope/date directory    
-    outdir='..' #no need right now to parameterize it right now
+    # assuming here you run this from normal scope/date directory
+    outdir = ".."  # no need right now to parameterize it right now
     if args.vindex:
-        print ("*CREATING/UPDATING VINDEX")
-        t = ExcelTool.from_conf (args.conf, args.source, outdir) 
-    elif args.apply: 
-        print ("*APPLYING FIX")
-        #currently overwrites vfix.mpx without warning in contrast to lvlupChain
-        t = ExcelTool (args.conf, args.source, outdir) 
-        t.apply_fix (args.output)
+        print("*CREATING/UPDATING VINDEX")
+        t = ExcelTool.from_conf(args.conf, args.source, outdir)
+    elif args.apply:
+        print("*APPLYING FIX")
+        # currently overwrites vfix.mpx without warning in contrast to lvlupChain
+        t = ExcelTool(args.conf, args.source, outdir)
+        t.apply_fix(args.output)
     elif args.translate:
-        print ("*CREATING/UPDATING TRANSLATION (should be using vfix as input)")
-        #source should be  fix, manually overwrite default
-        t = ExcelTool.translate_from_conf (args.conf, args.source, outdir)
-
+        print("*CREATING/UPDATING TRANSLATION (should be using vfix as input)")
+        # source should be  fix, manually overwrite default
+        t = ExcelTool.translate_from_conf(args.conf, args.source, outdir)
