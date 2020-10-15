@@ -38,7 +38,10 @@ class Gtrans:
             "sachbegriffnot(@artSachb...": "lower",
             "titelnot(@artÜbersetzungengl.)": "title",
             "geogrBezug": "exclude",
-            "geogrBezug@bezeichnung": "lower"
+            "geogrBezug@art": "lower",
+            "geogrBezug@bezeichnung": "lower",
+            "sachbegriff@art": "lower",
+            "titel@art": "lower"
         }
         self.xls_fn = xls_fn
         self.wb = load_workbook(filename=xls_fn)
@@ -81,7 +84,6 @@ class Gtrans:
                     # without saving after every translation i get 403 User
                     # Rate Limit Exceeded from Google occasionally
             c += 1
-        self.wb.save(self.xls_fn)
     
     def _translate_v2(self, de):
         if not hasattr(self, "client"):
