@@ -77,6 +77,7 @@ class ExcelTool ():
             
             Will probably die if there is a new sheet that can't be reset.
         """
+        print(f"reset frequency count ({signal})")
         for task, cmd in self._itertasks():
             if (cmd == 'index' 
                 or cmd == 'index_with_attribute'
@@ -85,11 +86,12 @@ class ExcelTool ():
                 ws = self._get_ws (task[cmd][0]) # dies if sheet doesn't exist
             elif (cmd == "translate_element"
                   or cmd == "translate_attribute"):
+                sheet = self._xpath2core(task[cmd])
                 try:
-                    ws = self._get_ws (task[cmd]) # dies if sheet doesn't exist
+                    ws = self._get_ws (sheet) # dies if sheet doesn't exist
                     self._col_to_zero(ws, 'D')
                 except: 
-                    print (f"Warning: could not reset {task[cmd]}")
+                    print (f"Warning: could not reset {sheet}")
 
         if signal == 'vindex':
             self._save_vindex()
@@ -97,7 +99,6 @@ class ExcelTool ():
             self._save_translate()
         else:
             raise KeyError ("Unknown signal")
-        print(f"reset frequency count ({signal})")
 
     def apply_fix (self, out_fn):
         """Replace syns with prefs in out_fn
