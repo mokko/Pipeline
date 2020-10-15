@@ -3,7 +3,7 @@ import argparse
 import re
 from Pipeline import Pipeline
 from lvlup.ExcelTool import ExcelTool
-from lvlup.vok2vok import vok2vok
+from lvlup.vocvoc import vocvoc
 
 """
 COMMAND LINE USAGE
@@ -21,11 +21,11 @@ badger.py -c uptrans    Creates/updates translate.xlsx for all projects in the
                         one common translate.xlsx (located in same dir as
                         generalvindex.json) 
 
-badger.py -c write      writes mpxvoc and vfix for all project for all projects
-                        in the current working directory (overwriting vfix and
-                        mpxvoc).
-                        2-MPX/vfix.mpx (per project)
-                        ../../mpxvoc.xml (one file for all projects)
+badger.py -c fixmpx     writes new vfix for each current project data directory 
+                        (overwriting previous vfix.mpx files).
+
+badger.py -c vocvoc     from translation.xslx write new ../../mpxvoc.xml (one 
+                        file for all projects)
 
 badger.py -c pipe -p datenblatt 
                         executes pipeline command "datenblatt" for each 
@@ -46,19 +46,38 @@ Terms
         (one which remains fairly consistent over multiple exports)
     data directory: all directories named with a 8-digit date
         e.g. "AKu/Stu-Sam/20200910". They contain the data from one export. 
-    current data directories: only the newest of the project's data directories
+    current data directory: only the newest of the project's data directories
         e.g. "AKu/Stu-Sam/20200910"
 """
 
 # quick and dirty conf
 vindexconf = "generalvindex.json"  # expect it in cwd and its parent
 in_vindex = os.path.join("2-MPX", "levelup-sort.mpx")
-in_trans = os.path.join("2-MPX", "vfix.mpx")
-
+in_vfix = os.path.join("2-MPX", "vfix.mpx")
+in_trans = "translate.xlsx"
 
 class Badger:
     def __init__(self):
-        pass
+        path2 = os.path.join("..", vindexconf)
+        if os.path.isfile(vindexconf):
+            self.conf_fn = vindexconf
+            self.out_dir = "."
+        elif os.path.isfile(path2):
+            self.conf_fn = path2
+            self.out_dir = ".."
+        else:
+            raise ValueError("Error: vindexconf not found!")
+        self.trans_fn = os.path.join(self.out_dir, "translate.xslx")
+        self.mpxvoc_fn = os.path.join(self.out_dir, "mpxvoc.xml")
+
+    def fix_mpx(self):
+        cdd = self.list()
+        for project in cdd:
+            print(f"*FIXING MPX FOR {project}")
+            in_fn = os.path.join(cdd[project], in_vindex)
+            vfix_fn = os.path.join(cdd[project], in_vfix) 
+            t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
+            t.apply_fix(vfix_fn)
 
     def list(self):
         """
@@ -107,43 +126,34 @@ class Badger:
         the same time, since our workflow necessitates to work on vindex
         manually before we do the translation.
         """
-        path2 = os.path.join("..", vindexconf)
-        if os.path.isfile(vindexconf):
-            conf_fn = vindexconf
-            out_dir = "."
-        elif os.path.isfile(path2):
-            conf_fn = path2
-            out_dir = ".."
-        else:
-            raise ValueError("Error: vindexconf not found!")
-
-        cdd = self.list()
-
-        # todo: set freq column to zero and save
 
         reset_freq = True
+        cdd = self.list()
         for project in cdd:
             if types == "vindex":
                 print(f"*UPDATING VINDEX for {cdd[project]}...")
                 in_fn = os.path.join(cdd[project], in_vindex)
-                t = ExcelTool(conf_fn, in_fn, out_dir)
+                t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
                 if reset_freq:
                     t.reset_freq()
                     reset_freq = False
-                t.from_conf()
-            elif types == "translation":
-                in_fn = os.path.join(cdd[project], in_trans)
+                t.vindex_from_conf()
+            elif types == "translate":
+                in_fn = os.path.join(cdd[project], in_vfix)
                 print(f"*UPDATING TRANSLATION LIST from '{in_fn}'")
-                t = ExcelTool(conf_fn, in_fn, out_dir)
+                t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
+                if reset_freq:
+                    t.reset_freq()
+                    reset_freq = False
                 t.translate_from_conf()
             else:
                 raise TypeError("Unknown type")
 
-    def write_to_XML(self):
-        print("write")
+    def vocvoc(self):
+        print(f"*Writing new mpxvoc.xml from translation.xlsx")
+        t = vocvoc(in_trans)
+        t.single(self.mpxvoc_fn)
 
-
-#
 #
 #
 
@@ -171,7 +181,9 @@ if __name__ == "__main__":
             print(f"{project}: {cdd[project]}")
 
     b = Badger()
-    if args.cmd.lower() == "list":
+    if args.cmd.lower() == "fixmpx":
+        b.fix_mpx()
+    elif args.cmd.lower() == "list":
         list_for_humans()
     elif args.cmd.lower() == "pipe":
         b.pipe(args.param)
@@ -179,7 +191,7 @@ if __name__ == "__main__":
         b.update_xlsx("vindex")
     elif args.cmd.lower() == "uptrans":
         b.update_xlsx("translate")
-    elif args.cmd.lower() == "toxml":
-        b.write_to_XML()
+    elif args.cmd.lower() == "vocvoc":
+        b.vocvoc()
     else:
         raise TypeError("Error: Unknown command!")

@@ -77,13 +77,14 @@ class ExcelTool ():
             Reset freq to 0 in all sheets mentioned in current conf_fn
         """
         for task, cmd in self._itertasks():
-            if (cmd == 'index' 
-                or cmd == 'index_with_attribute'
-                or cmd == 'index_with_2attributes'
-                or cmd == 'attribute_index'):
-                ws = self._get_ws (task[cmd][0]) 
+            #if (cmd == 'index' 
+            #    or cmd == 'index_with_attribute'
+            #    or cmd == 'index_with_2attributes'
+            #    or cmd == 'attribute_index'):
+            ws = self._get_ws (task[cmd][0]) 
             self._col_to_zero(ws, 'D')
         self._save_vindex()
+        self._save_trans()
         print('reset frequency count')
 
     def apply_fix (self, out_fn):
@@ -97,8 +98,6 @@ class ExcelTool ():
         4. mpx according to instructions from conf and prefs in xls
         5. save new xml/mpx to out_fn"""
 
-        print ('*About to apply vocabulary control')
-        
         #primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks():
             xpath = task[cmd][0]
@@ -154,7 +153,7 @@ class ExcelTool ():
                                     print (f"   replace attribute '{attrib}': {value} --> {pref}")
                                 term.attrib[attrib] = pref.strip() # modify xml
 
-        print (f"*About to write xml to {out_fn}")
+        print (f"*About to write {out_fn}")
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
@@ -169,15 +168,14 @@ class ExcelTool ():
         #print (f"---XLS_DIR: {xls_dir}")
         #t = ExcelTool (conf_fn, source_xml, xls_dir)
 
-        for task,cmd in t._itertasks (): #sort of a Domain Specific Language DSL
+        for task,cmd in self._itertasks (): #sort of a Domain Specific Language DSL
             if cmd == "translate_element": 
-                t.translate_element (task[cmd])
+                self.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
-                t.translate_attribute (task[cmd])
-        t._save_translate()
-        return t
+                self.translate_attribute (task[cmd])
+        self._save_translate()
 
-    def from_conf (self): #no self
+    def vindex_from_conf (self): #no self
         """
             Method that executes commands from conf_fn (only vindex 
             related, not for translations)
@@ -319,7 +317,7 @@ class ExcelTool ():
                 if row:
                     self._update_frequency (ws, row)
                 else:
-                    print (f"new term: {term.text}")
+                    print (f"new translation: {term.text}")
                     self._insert_alphabetically(ws, value)
         #in new scheme of things , we save only one translate.xslx per museum 
         #less effort in keeping Excel files up to date, means we can't trust 
@@ -340,7 +338,7 @@ class ExcelTool ():
             if row:
                 self._update_frequency (ws, row)
             else:
-                print (f"new term: {term.text}")
+                print (f"new translation: {term.text}")
                 self._insert_alphabetically(ws, term.text)
         #no more deleting lines with freq=0, see translate_attribute
         #self._del0frequency (ws)

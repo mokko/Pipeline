@@ -27,7 +27,7 @@ def gtrans(conf, inp):
         print("Google translate not installed; omitting this step")
 
 
-def vokvok(conf, imput, src_dir, out):
+def vokvok(conf, input, src_dir, out):
     vok2vok(src_dir, out)  # work on new data2 dir
 
 
@@ -50,7 +50,7 @@ def cpData2(conf, imput):
 def update_xlsx(in_fn, conf_fn, out_dir):
     print("*Updating VINDEX...")
     t = ExcelTool(conf_fn, in_fn, out_dir)
-    t.from_conf()
+    t.vindex_from_conf()
 
 
 def update_vfix(in_fn, conf_fn, out_dir, out_fn):
