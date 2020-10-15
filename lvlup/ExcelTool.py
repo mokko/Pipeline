@@ -85,10 +85,11 @@ class ExcelTool ():
                 xpath = task[cmd]
             #print (f"!!!CHECK {signal}:{cmd}-{xpath}")
             try: #can't reset a column that has not been created yet
-                # dies if sheet doesn't exist
-                ws = self._get_ws_by_xpath (xpath, signal) 
+                ws = self._get_ws_by_xpath (xpath, signal) # dies if sheet doesn't exist
                 self._col_to_zero(ws, 'D')
             except: pass
+                #now there are no more warnings since it's normal that lots of 
+                #resets will fail. So I have to check Excel to see if it works.
                 #print (f"WARNING: Could not reset column '{xpath}' for {signal}!")
 
         if signal == 'vindex':
