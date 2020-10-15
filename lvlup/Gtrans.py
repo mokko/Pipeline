@@ -18,7 +18,7 @@ it.
     we execute when we need automatic translations
     
 USAGE
-    gtrans ..\translate.xslx
+    gtrans -i ..\translate.xslx
 """
 
 from openpyxl import Workbook, load_workbook
@@ -32,23 +32,28 @@ class Gtrans:
     def __init__(self, xls_fn):
 
         self.case = {
+            "erwerbungsart": "lower",
+            "materialTechnik@artAusgabe": "lower",
+            "maßangaben@typ": "lower",
             "sachbegriffnot(@artSachb...": "lower",
             "titelnot(@artÜbersetzungengl.)": "title",
             "geogrBezug": "exclude",
+            "geogrBezug@bezeichnung": "lower"
         }
         self.xls_fn = xls_fn
         self.wb = load_workbook(filename=xls_fn)
         for sheet in self.wb.worksheets:
             print(f"*Working on {sheet.title}")
             self.translate(sheet)
-            # self.wb.save(xls_fn)
+            self.wb.save(xls_fn)
 
     def translate(self, sheet):
         """Translate sheet
 
         Column A is DE, column B is EN
         Only fill in translation if there is none yet
-        Save after every sheet.
+
+        Save excel only once, no longer after every sheet.
         """
 
         if sheet.title in self.case.keys():
@@ -75,9 +80,9 @@ class Gtrans:
                     sheet[f"B{c}"] = en
                     # without saving after every translation i get 403 User
                     # Rate Limit Exceeded from Google occasionally
-                    self.wb.save(self.xls_fn)
             c += 1
-
+        self.wb.save(self.xls_fn)
+    
     def _translate_v2(self, de):
         if not hasattr(self, "client"):
             self.client = translate_v2.Client()
@@ -109,6 +114,16 @@ class Gtrans:
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="Trigger google translate on a single on translate.xlsx"
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        help="specificy location of translate.xlsx",
+        required=True,
+    )
+    args = parser.parse_args()
 
-    Gtrans(sys.argv[1])
+    Gtrans(args.input)
