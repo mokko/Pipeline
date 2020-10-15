@@ -82,16 +82,19 @@ class ExcelTool ():
                 or cmd == 'index_with_attribute'
                 or cmd == 'index_with_2attributes'
                 or cmd == 'attribute_index'):
-                ws = self._get_ws (task[cmd][0]) 
+                ws = self._get_ws (task[cmd][0]) # dies if sheet doesn't exist
             elif (cmd == "translate_element"
                   or cmd == "translate_attribute"):
-                ws = self._get_ws (task[cmd]) # dies if sheet doesn't exist
-                self._col_to_zero(ws, 'D')
+                try:
+                    ws = self._get_ws (task[cmd]) # dies if sheet doesn't exist
+                    self._col_to_zero(ws, 'D')
+                except: 
+                    print (f"Warning: could not reset {task[cmd]}")
 
         if signal == 'vindex':
             self._save_vindex()
         elif signal == 'translate':
-            self._save_trans()
+            self._save_translate()
         else:
             raise KeyError ("Unknown signal")
         print(f"reset frequency count ({signal})")
@@ -425,9 +428,9 @@ class ExcelTool ():
     def _get_ws (self,xpath):
         """Get existing worksheet based on xpath or die
         
-        Compare with _prepare_ws which doesn't die"""
+        (Compare with _prepare_ws which doesn't die.)"""
 
-        core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
+        core=self._xpath2core(xpath) #extracts keyword from xpath to use as sheet.title
         #print (f"!!!!core: {core}")
         return self.wb[core] # dies if sheet with title=core doesn't exist
 
