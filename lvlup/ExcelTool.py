@@ -62,7 +62,7 @@ class ExcelTool ():
         self.conf_fn=conf_fn
         self.tree = etree.parse(source_xml)
         self.new_file = 0
-        #Pretty bad design that I load a file even if I dont need it
+        #Pretty bad design that I load a file even if I don't need it
         #but should work right now, so now change
         self.vindex_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
         print (f"*Using {self.vindex_xls}")
@@ -79,26 +79,24 @@ class ExcelTool ():
         """
         print(f"reset frequency count ({signal})")
         for task, cmd in self._itertasks():
-            if (cmd == 'index' 
-                or cmd == 'index_with_attribute'
-                or cmd == 'index_with_2attributes'
-                or cmd == 'attribute_index'):
-                ws = self._get_ws (task[cmd][0]) # dies if sheet doesn't exist
-            elif (cmd == "translate_element"
-                  or cmd == "translate_attribute"):
-                sheet = self._xpath2core(task[cmd])
-                try:
-                    ws = self._get_ws (sheet) # dies if sheet doesn't exist
-                    self._col_to_zero(ws, 'D')
-                except: 
-                    print (f"Warning: could not reset {sheet}")
+            if signal == "vindex":
+                xpath = task[cmd][0]
+            elif signal == "translate":
+                xpath = task[cmd]
+            #print (f"!!!CHECK {signal}:{cmd}-{xpath}")
+            try: #can't reset a column that has not been created yet
+                # dies if sheet doesn't exist
+                ws = self._get_ws_by_xpath (xpath, signal) 
+                self._col_to_zero(ws, 'D')
+            except: pass
+                #print (f"WARNING: Could not reset column '{xpath}' for {signal}!")
 
         if signal == 'vindex':
             self._save_vindex()
         elif signal == 'translate':
             self._save_translate()
         else:
-            raise KeyError ("Unknown signal")
+            raise KeyError ("Unknown signal!")
 
     def apply_fix (self, out_fn):
         """Replace syns with prefs in out_fn
@@ -121,7 +119,7 @@ class ExcelTool ():
                 or cmd == 'index_with_attribute'
                 or cmd == 'index_with_2attributes'
                 or cmd == 'attribute_index'):
-                ws = self._get_ws (task[cmd][0]) 
+                ws = self._get_ws_by_xpath (task[cmd][0]) 
                 print (f"**Checking replacements from sheet '{ws.title}'")
                 print (f"   {cmd}: {task[cmd]}")
     
@@ -426,14 +424,21 @@ class ExcelTool ():
         if value is not None:
             return value.strip() #strip probably unnecessary when M+
 
-    def _get_ws (self,xpath):
+    def _get_ws_by_xpath (self, xpath, signal):
         """Get existing worksheet based on xpath or die
         
         (Compare with _prepare_ws which doesn't die.)"""
 
         core=self._xpath2core(xpath) #extracts keyword from xpath to use as sheet.title
         #print (f"!!!!core: {core}")
-        return self.wb[core] # dies if sheet with title=core doesn't exist
+        
+        if signal == 'vindex':
+            return self.wb[core] # dies if sheet with title=core doesn't exist
+        elif signal == 'translate':
+            return self.twb[core] #can die
+        else:
+            raise KeyError ("Unknown signal")
+
 
     def _insert_alphabetically (self, ws, term, verant=None, quali=None): 
         """Inserts new term into column A alphabetically."""
