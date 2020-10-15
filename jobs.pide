@@ -28,10 +28,10 @@ datenblatt: # for Recherchestationen
     xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html 
 
 lido:
-    input 2-MPX/levelup-sort.mpx
-    xsl.xsl mpx2lido.xsl 3/levelup-sort.lido
-    xsl.xsl lido2html.xsl 3/level-sort.html
-    validate.validate 3/levelup-sort.lido
+    input 2-MPX/vfix.mpx #new
+    xsl.xsl mpx2lido.xsl 3/vfix.lido
+    xsl.xsl lido2html.xsl 3/vfix.html
+    validate.validate 3/vfix.lido
 
 	#input 3/levelup-sort.lido
     #xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html

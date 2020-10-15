@@ -1,7 +1,7 @@
 """From several smaller xlsx translation tables to one bigger xml dictionary.
 
 USAGE:
-    vok2vok(src_dir, out_xml)
+    vocvoc(src_dir, out_xml)
 
 assembles translations in xml to make them available to xslt looking 
 recursively through src_dir.
@@ -52,11 +52,11 @@ class vocvoc:
         if os.path.exists(in_fn):
             self.in_fn = in_fn
         else:
-            raise FileNotFoundError("Vok2vok: Input file/dir not found!")
-        print("*VOK2VOK")
+            raise FileNotFoundError("vocvoc: Input file/dir not found!")
+        print("*vocvoc")
 
     def recursive(self, out_fn):
-        print(f"**vok2vok source dir {self.in_fn}")
+        print(f"**vocvoc source dir {self.in_fn}")
         root = ET.Element("mpxvoc")  # start a new document
         needle_path = os.path.realpath(os.path.join(self.in_fn, f"./**/{needle_fn}"))
         for path in glob.iglob(needle_path, recursive=True):
@@ -68,7 +68,7 @@ class vocvoc:
         self._write_xml(root, out_fn)
 
     def single(self, out_fn):
-        print(f"**vok2vok in_fn {self.in_fn}")
+        print(f"**vocvoc in_fn {self.in_fn}")
         root = ET.Element("mpxvoc")  # start a new document
         wb = self._prepare_wb(self.in_fn)
         for sheet in wb.worksheets:
@@ -189,6 +189,19 @@ class vocvoc:
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="Manually create a mpxvoc.xml file from a translate.xlsx"
+    )
+    parser.add_argument(
+        "-i",
+        "--input",
+        help="specificy location of translate.xlsx",
+        required=True,
+    )
+    args = parser.parse_args()
+    args.output="mpxvoc.xml" #quick and dirty default
+
     # execute from usual dir data/scope/date
-    t = vocvoc("../..")
-    t.recursive("../../../data2/mpxvoc.xml")
+    t = vocvoc(args.input)
+    t.single(args.output)

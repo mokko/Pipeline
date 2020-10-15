@@ -2,7 +2,7 @@ import os
 from glob import glob
 from shutil import copyfile
 from lvlup.ExcelTool import ExcelTool
-from lvlup.vok2vok import vok2vok
+from lvlup.vocvoc import vocvoc
 
 try:
     from Gtrans import Gtrans
@@ -28,7 +28,8 @@ def gtrans(conf, inp):
 
 
 def vokvok(conf, input, src_dir, out):
-    vok2vok(src_dir, out)  # work on new data2 dir
+    t = vocvoc (src_dir)
+    t.single (out)  
 
 
 def cpData2(conf, imput):
