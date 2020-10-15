@@ -131,7 +131,7 @@ class ExcelTool:
                 or cmd == "index_with_2attributes"
                 or cmd == "attribute_index"
             ):
-                ws = self._get_ws_by_xpath(task[cmd][0])
+                ws = self._get_ws_by_xpath(task[cmd][0], "vindex")
                 print(f"**Checking replacements from sheet '{ws.title}'")
                 print(f"   {cmd}: {task[cmd]}")
 

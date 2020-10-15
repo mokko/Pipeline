@@ -8,6 +8,11 @@ from lvlup.vocvoc import vocvoc
 """
 COMMAND LINE USAGE
 
+badger.py -c del -p 3\vfix.lido in all current data directories, delete this file
+
+badger.py -c fixmpx     writes new vfix for each current project data directory 
+                        (overwriting previous vfix.mpx files).
+
 badger.py -c list       list all projects
 
 badger.py -c upvindex   Creates/updates vindex.xlsx  for all projects in the
@@ -20,9 +25,6 @@ badger.py -c uptrans    Creates/updates translate.xlsx for all projects in the
                         Expect info in 2-MPX/vfix.mpx and writes to
                         one common translate.xlsx (located in same dir as
                         generalvindex.json) 
-
-badger.py -c fixmpx     writes new vfix for each current project data directory 
-                        (overwriting previous vfix.mpx files).
 
 badger.py -c vocvoc     from translation.xslx write new ../../mpxvoc.xml (one 
                         file for all projects)
@@ -68,8 +70,19 @@ class Badger:
             self.out_dir = ".."
         else:
             raise ValueError("Error: vindexconf not found!")
+        #built-in paths are bad, bad, bad...
         self.trans_fn = os.path.join(self.out_dir, "translate.xslx")
-        self.mpxvoc_fn = os.path.join(self.out_dir, "mpxvoc.xml")
+        self.mpxvoc_fn = os.path.join(__file__, "..", "data", "mpxvoc.xml")
+
+    def delete(self, file):
+        cdd = self.list()
+        for project in cdd:
+            path=os.path.join (cdd[project], file)
+            print(f"*Delete {path}")
+            try:
+                os.remove(path)
+            except:
+                print(f"WARNING: File not found!")
 
     def fix_mpx(self):
         cdd = self.list()
@@ -151,7 +164,7 @@ class Badger:
                 raise TypeError("Unknown type")
 
     def vocvoc(self):
-        print(f"*Writing new mpxvoc.xml from translation.xlsx")
+        print(f"*Writing new mpxvoc.xml from translation.xlsx directly to data dir")
         t = vocvoc(in_trans)
         t.single(self.mpxvoc_fn)
 
@@ -166,7 +179,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-c",
         "--cmd",
-        help="Pick your command: list|upvindex|uptrans|toxml|pipe",
+        help="Pick your command: del|fixmpx|list|pipe|upvindex|uptrans|vocvoc",
         required=True,
     )
     parser.add_argument("-p", "--param", help="For pipe you need parameter.")
@@ -183,7 +196,9 @@ if __name__ == "__main__":
             print(f"{project}: {cdd[project]}")
 
     b = Badger()
-    if args.cmd.lower() == "fixmpx":
+    if args.cmd.lower() == "del":
+        b.delete(args.param)
+    elif args.cmd.lower() == "fixmpx":
         b.fix_mpx()
     elif args.cmd.lower() == "list":
         list_for_humans()
