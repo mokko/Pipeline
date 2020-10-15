@@ -45,11 +45,6 @@ TODO
 * We might like to have a method that deletes lines in translation file if
   a) frequency = 0 and 
   b) no translation is entered
-
-* We would like to merge individual translations lists and write them one table;
-  if I use one translation table for multiple exports the frequency count doesn't work anymore.
-  compromise might be to find a way to run all current exports one in a row.
-
 """
 
 import json
@@ -67,25 +62,39 @@ class ExcelTool ():
         self.conf_fn=conf_fn
         self.tree = etree.parse(source_xml)
         self.new_file = 0
-        self.xls_fn = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
-        self.wb = self._prepare_wb(self.xls_fn) 
+        #Pretty bad design that I load a file even if I dont need it
+        #but should work right now, so now change
+        self.vindex_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
+        print (f"*Using {self.vindex_xls}")
+        self.wb = self._prepare_wb(self.vindex_xls)
         self.trans_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'translate.xlsx')))
+        print (f"*Using {self.trans_xls}")
         self.twb = self._prepare_wb(self.trans_xls)
 
-    def reset_freq(self):
+    def reset_freq(self, signal):
         """
             Reset freq to 0 in all sheets mentioned in current conf_fn
+            
+            Will probably die if there is a new sheet that can't be reset.
         """
         for task, cmd in self._itertasks():
-            #if (cmd == 'index' 
-            #    or cmd == 'index_with_attribute'
-            #    or cmd == 'index_with_2attributes'
-            #    or cmd == 'attribute_index'):
-            ws = self._get_ws (task[cmd][0]) 
-            self._col_to_zero(ws, 'D')
-        self._save_vindex()
-        self._save_trans()
-        print('reset frequency count')
+            if (cmd == 'index' 
+                or cmd == 'index_with_attribute'
+                or cmd == 'index_with_2attributes'
+                or cmd == 'attribute_index'):
+                ws = self._get_ws (task[cmd][0]) 
+            elif (cmd == "translate_element"
+                  or cmd == "translate_attribute"):
+                ws = self._get_ws (task[cmd]) # dies if sheet doesn't exist
+                self._col_to_zero(ws, 'D')
+
+        if signal == 'vindex':
+            self._save_vindex()
+        elif signal == 'translate':
+            self._save_trans()
+        else:
+            raise KeyError ("Unknown signal")
+        print(f"reset frequency count ({signal})")
 
     def apply_fix (self, out_fn):
         """Replace syns with prefs in out_fn
@@ -158,9 +167,9 @@ class ExcelTool ():
         self.tree.write(out_fn, pretty_print=True, encoding="UTF-8", xml_declaration=True)
 
     def translate_from_conf (self):
-        """It's a CONSTRUCTOR analog to from_conf
-        
+        """
         Parses conf file and creates/updates xls translation file.
+        No longer a CONSTRUCTOR!
         """
 
         #if xls_dir is None:
@@ -419,6 +428,7 @@ class ExcelTool ():
         Compare with _prepare_ws which doesn't die"""
 
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
+        #print (f"!!!!core: {core}")
         return self.wb[core] # dies if sheet with title=core doesn't exist
 
     def _insert_alphabetically (self, ws, term, verant=None, quali=None): 
@@ -546,7 +556,7 @@ class ExcelTool ():
         time.sleep (1) 
 
     def _save_vindex (self):
-        self.wb.save(self.xls_fn) 
+        self.wb.save(self.vindex_xls) 
         time.sleep (1) 
 
     def _term2str (self, term_node):

@@ -46,6 +46,7 @@ from openpyxl import Workbook, load_workbook
 
 needle_fn = "translate.xlsx"
 
+
 class vocvoc:
     def __init__(self, in_fn):
         if os.path.exists(in_fn):

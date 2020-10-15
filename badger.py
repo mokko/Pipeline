@@ -135,7 +135,7 @@ class Badger:
                 in_fn = os.path.join(cdd[project], in_vindex)
                 t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
                 if reset_freq:
-                    t.reset_freq()
+                    t.reset_freq('vindex')
                     reset_freq = False
                 t.vindex_from_conf()
             elif types == "translate":
@@ -143,7 +143,7 @@ class Badger:
                 print(f"*UPDATING TRANSLATION LIST from '{in_fn}'")
                 t = ExcelTool(self.conf_fn, in_fn, self.out_dir)
                 if reset_freq:
-                    t.reset_freq()
+                    t.reset_freq('translate')
                     reset_freq = False
                 t.translate_from_conf()
             else:
