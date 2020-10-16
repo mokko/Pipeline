@@ -96,13 +96,18 @@ class Badger:
     def list(self):
         """
         Returns a dictionary that associates each project with the current
-        data directory.
+        data directory. Directories with the name "IGNORE" are ignored. 
+        
+        Question: Will subdirs of IGNORE also be ignored? At the moment not.
         """
         current_projects = dict()
         projects = set()  # use set for unique
-        for root, dirs, files in os.walk("."):
-            for each in dirs:
-                if re.match("^\d{8}$", each):
+        for root, dirs, files in os.walk("."): 
+            if "IGNORE" in root.split(os.sep):
+                print (f"***ignored: {root}")
+                continue #not next()
+            for adir in dirs:
+                if re.match("^\d{8}$", adir):
                     projects.add(root)
 
         for project in projects:
