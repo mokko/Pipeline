@@ -28,13 +28,13 @@ datenblatt: # for Recherchestationen
     xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html 
 
 lido:
-    input 2-MPX/vfix.mpx #new
+    input 2-MPX/vfix.mpx # new
     xsl.xsl mpx2lido.xsl 3/vfix.lido
     xsl.xsl lido2html.xsl 3/vfix.html
+    xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html
     validate.validate 3/vfix.lido
 
-	#input 3/levelup-sort.lido
-    #xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html
+	#input 3/vfix.lido # necessary?
 
 mpx:                            # this pipeline/job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls

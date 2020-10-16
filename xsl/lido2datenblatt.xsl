@@ -44,18 +44,16 @@
                 </head>
                 <body>
                     <table border="1" width="1000">
-                        <tr>
-                            <td colspan="3" align="center">
-                                <h1>LIDO Datenblatt </h1>
-                            </td>
-                        </tr>
+                    <tr><td colspan="3">
+                        <h1 align="center">LIDO Datenblatt</h1>
+                    </td></tr>
                     <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
-                        <xsl:sort select="/lido:lidoWrap/lido:lido/lido:lidoRecID"/>
+                        <xsl:sort select="." data-type="number"/>
                     </xsl:apply-templates>
                         <tr>
                             <td colspan="3">
-        In dieser Darstellung sind leere Felder leere Zellen in der Tabelle.
-        Diese Darstellung folgt in der Reihenfolge und Struktur LIDO, auch
+        N.B. In dieser Darstellung sind leere Felder leere Zellen in der Tabelle.
+        Diese Darstellung folgt in der Reihenfolge und Struktur in LIDO, auch
         wenn sie in erster Spalte M+ Felder anzeigt. Gezeigt werden nur Felder,
         die für das Datenblatt ausgewählt wurden.
                             </td>
@@ -73,13 +71,20 @@
             <xsl:text>datenblatt-lidoRecID: </xsl:text>
             <xsl:value-of select="$lidoRecID" />
         </xsl:message>
-
-        <!-- INTRO -->
-        <xsl:element name="a">
-            <xsl:attribute name="name">
-                <xsl:value-of select="$lidoRecID" />
-            </xsl:attribute>
-        </xsl:element>
+            <tr>
+                <td colspan="3">
+                    <!-- INTRO -->
+                    <xsl:element name="a">
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="$lidoRecID" />
+                        </xsl:attribute>
+                    </xsl:element>
+                    <h2 align="center">
+                        lido RecId: 
+                        <xsl:value-of select="$lidoRecID" />
+                    </h2>
+                </td>
+            </tr>
             <tr>
                 <td width="15%"><h4>M+</h4></td>
                 <td width="15%"><h4>LIDO</h4></td>
@@ -92,8 +97,6 @@
             </tr>
             <xsl:apply-templates select="lido:descriptiveMetadata"/>
             <xsl:apply-templates select="lido:administrativeMetadata"/>
-        <br/>
-        <br/>
     </xsl:template>
 
     <xsl:template match="lido:descriptiveMetadata">
