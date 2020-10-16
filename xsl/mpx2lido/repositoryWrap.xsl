@@ -75,9 +75,21 @@
                 
                 SPEC: Location of the object, especially relevant for architecture and archaeological sites.
             -->
+
+            <xsl:variable name="mpxAusstellung" select="mpx:ausstellung[
+                contains(.,'HUFO - ') 
+                and (contains(.,'(Schaumagazin)') 
+                    or contains(.,'(Studiensammlung)'))]"/>
+            <xsl:variable name="rstAusstellung" select="document('file:./rst-ausstellungen.xml')
+                /ausstellungen/ausstellung[titel eq $mpxAusstellung and sektion = $mpxAusstellung/@sektion]"/>
+            <xsl:variable name="rstSektion" select="$rstAusstellung/sektion[. = $mpxAusstellung/@sektion]/@kurz"/>
             <lido:repositorySet lido:type="rst">
                 <lido:repositoryLocation>
-                    <lido:placeID lido:type="URI">daf.rst.hf/Südsee/Fidschi/1/1234 (todo)</lido:placeID>
+                    <lido:placeID lido:type="URI">
+                            <xsl:value-of select="$rstAusstellung/@url"/>
+                        <xsl:text>/</xsl:text>
+                        <xsl:value-of select="$rstSektion"/>
+                    </lido:placeID>
                 </lido:repositoryLocation>
             </lido:repositorySet>
         </lido:repositoryWrap>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ausstellungen>
+    <ausstellung url="daf.rst.hf/Afrika">
+        <titel>HUFO - Ersteinrichtung - Afrika (Schaumagazin)</titel>
+    </ausstellung>
+    <ausstellung url="daf.rst.hf/Plains">
+        <comment>
+            m+Ausstellung knows only the Amerika-Ausstellung, not Plains and Keramik. 
+            But we do have some xslt expression that filters by Sektion.
+        </comment>
+        <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
+            <sektion kurz="Pferd">150.30 Pferd</sektion>
+            <sektion kurz="Pferd">150.31 Pferd</sektion>
+            <sektion kurz="TabakSchmuck">150.32 Tabak, Schmuck</sektion>
+            <sektion kurz="TabakSchmuck">150.33 Tabak, Schmuck</sektion>
+            <sektion kurz="Leggings">150.34 Leggins</sektion>
+            <sektion kurz="Leggings">150.35 Leggins</sektion>
+            <sektion kurz="Leggings">150.36 A Leggins</sektion>
+            <sektion kurz="Bekleidung">150.36 B Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="Bekleidung">150.37 Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="Bekleidung">150.38 Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="Bekleidung">150.39 Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="Bekleidung">150.40 Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="Bekleidung">150.41 A Zierränder, Bekleidung, Mokassins</sektion>
+            <sektion kurz="FederhaubenGürtel">150.41 B Federhauben, Gürtel, Bänder</sektion>
+            <sektion kurz="FederhaubenGürtel">150.42 Federhauben, Gürtel, Bänder</sektion>
+            <sektion kurz="FederhaubenGürtel">150.43 Federhauben, Gürtel, Bänder</sektion>
+            <sektion kurz="MusikJagd">150.44 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="MusikJagd">150.45 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="MusikJagd">150.46 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="MusikJagd">150.47 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="MusikJagd">150.48 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="MusikJagd">150.49 Musik, Jagd und Waffen</sektion>
+            <sektion kurz="SpielTaschen">150.50 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+            <sektion kurz="SpielTaschen">150.51 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+            <sektion kurz="SpielTaschen">150.52 A Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+            <sektion kurz="SpielTaschen">150.52 B Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+            <!-- kein 150.53 ? -->
+            <sektion kurz="SpielTaschen">150.54 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+            <sektion kurz="SpielTaschen">150.55 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+</ausstellung>
+    <ausstellung url="daf.rst.hf/Keramik">
+        <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
+    </ausstellung>
+    <ausstellung url="daf.rst.hf/Südsee">
+        <titel>HUFO - Ersteinrichtung - Südsee (Schaumagazin)</titel>
+    </ausstellung>
+    <ausstellung url="daf.rst.hf/AKu">
+        <comment>
+            this ausstellung doesn't exist yet. I create this record only
+            as a reminder.
+        </comment>
+        <titel>HUFO - Ersteinrichtung - Aku (Schaumagazin)</titel>
+    </ausstellung>
+</ausstellungen>

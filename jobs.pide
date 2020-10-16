@@ -31,12 +31,12 @@ lido:
     input 2-MPX/vfix.mpx # new
     xsl.xsl mpx2lido.xsl 3/vfix.lido
     xsl.xsl lido2html.xsl 3/vfix.html
+
+    input 3/vfix.lido
     xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html
     validate.validate 3/vfix.lido
 
-	#input 3/vfix.lido # necessary?
-
-mpx:                            # this pipeline/job is called 'mpx'
+mpx:                            # this job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls
     mv2zero 0-IN                # mv all matching files to zero 
     xls2xml 1-XML               # transform all files in 0-IN to xml files in 1-XML

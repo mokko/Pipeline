@@ -16,8 +16,8 @@
         Nur Felder des m+ Datenblatts! Dafür ist primitives push Design Pattern
         durchaus geeignet:
         
-        1. Titelzeile: mpx:Titel, 
-        2. Titelzeile: mpx:Sachbegriff (max. 2 Stück)
+        1. mpx:Titel, 
+        2. mpx:Sachbegriff (max. 2 Stück)
         3. GeogrBezug (Wiederholfeld, @bezeichnung wird angezeigt)
         4. Mat/Technik@Ausgabe
         5. Maßangaben (ohne Anzeige der Dimensionen)
@@ -45,7 +45,7 @@
                 <body>
                     <table border="1" width="1000">
                     <tr><td colspan="3">
-                        <h1 align="center">LIDO Datenblatt</h1>
+                        <h1 align="center">LIDO Datenblatt für rst</h1>
                     </td></tr>
                     <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
                         <xsl:sort select="." data-type="number"/>
@@ -91,7 +91,7 @@
                 <td width="70%"><h4>Content</h4></td>
             </tr>
             <tr>
-                <td>objId</td>
+                <td>(objId)</td>
                 <td>lidoRedID</td>
                 <td><xsl:value-of select="lido:lidoRecID"/></td>
             </tr>
@@ -115,9 +115,12 @@
         </tr>
         <tr>
             <td colspan="3">
-        Hier werden u.U. mehr Sachbegriffe angezeigt als in rst. Wenn nur ein 
-        Sachbegriff gewünscht ist, den mit kleinster sortorder wählen. 
-        Sachbegriff (Hierarchie) kann noch zu lido:classification werden.
+        LIDO hat möglicherweise mehr Sachbegriffe als das rst Datenblatt braucht. Wenn 
+        nur ein Sachbegriff gewünscht ist, den mit kleinster sortorder wählen. 
+        In m+ scheint es aber auch Fälle zu geben, wo mehrere Sachbegriffe ohne
+        sortorder exportiert werden.
+
+        Vgl.: Sachbegriff (Hierarchie) kann zu lido:classification werden.
             </td>
         </tr>
         <tr>
@@ -125,32 +128,36 @@
         </tr>
         <tr>
             <td>Titel</td>
-            <td>title (min sortorder)</td>
             <td>
-                <xsl:apply-templates select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[min (@lido:sortorder)]"/>
+                title (pref eq preferred, <br/>
+                <xsl:text>encodinganalog: </xsl:text>
+                <xsl:value-of select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[
+                    @lido:pref eq 'preferred']/@lido:encodinganalog"/>
+                <xsl:text>)</xsl:text>
+            </td>
+            <td>
+                <xsl:apply-templates select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[
+                    lido:appellationValue/@lido:pref eq 'preferred']"/>
             </td>
         </tr>
         <tr>
             <td>Weitere Titel</td>
-            <td>title</td>
+            <td>title (pref ne preferred
+                <xsl:text>encodinganalog: </xsl:text>
+                <xsl:value-of select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[
+                    @lido:pref ne 'preferred']/@lido:encodinganalog"/>
+                <xsl:text>)</xsl:text>
+            </td>
             <td>
-                <xsl:for-each 
-                    select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[not (min (@lido:sortorder))]">
-                    <xsl:text>sortorder: </xsl:text>
-                    <xsl:value-of select="@lido:sortorder"/><br/>
-                    <xsl:for-each select="lido:appellationValue">
-                        <xsl:value-of select="@xml:lang"/>
-                        <xsl:text>: </xsl:text>
-                        <xsl:value-of select="."/><br/>
-                    </xsl:for-each>
-                </xsl:for-each> 
+                <xsl:apply-templates select="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[
+                lido:appellationValue/@lido:pref ne 'preferred']"/>
             </td>
         </tr>
         <tr>
             <td colspan="3">
         lido:titleSet wird aus mpx:titel gebaut oder, wenn kein mpx:titel 
-        vorhanden ist, aus mpx:sachbegriff. Haupttitle mit kleinster sortorder
-        wird oben angezeigt. Alle weiteren, unter Weitere.
+        vorhanden ist, aus mpx:sachbegriff. Ursprungsfeld ist in @type und 
+        @encodinganalog verzeichnet. Haupttitel ist als pref gekennzeichnet.
             </td>
         </tr>
         <tr>
@@ -162,7 +169,7 @@
         </tr>
         <tr>
             <td>IdentNr</td>
-            <td>repositorySet [@type=current]/ workID</td>
+            <td>repositorySet[@type=current]/workID</td>
             <td>
                 <xsl:for-each select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type = 'current']/lido:workID">
                     <xsl:sort select="@sortorder" data-type="number"/>
@@ -174,19 +181,18 @@
             <td colspan="3">Es kann mehrere IdentNr.n geben.</td>
         </tr>
         <tr>
-            <td>rst STO [m+Ausstellung, AndereNr]</td>
-            <td>repositorySet[@type=rst]/ repositoryLocation</td>
+            <td>m+Ausstellung als rst Sektion</td>
+            <td>repositorySet[@type=rst]/repositoryLocation</td>
             <td>
                 <xsl:value-of select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type = 'rst']/lido:repositoryLocation/lido:placeID"/>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-            rst.sto hat mehrere Elemente (1) daf.rst.hf für alle Objekte in Recherchestationen 
-            (2) Kennwort für die spezifische Recherchestation; (3) Segment;  (4) Position (v.l.n.r.). 
-            (2) kommt Ausstellungstitel; (3) könnte aus Sektion kommen; (4) muss manuell in AndereNr. 
-            eingegeben werden. Alternativ könnte man sicher auch m+sto verwenden.
-            </td>
+            rst position hat mehrere Elemente (1) daf.rst.hf für alle Objekte in 
+            Recherchestationen; (2) Kennwort für die spezifische Recherchestation; 
+            (3) Sektion sollte so geschrieben sein, wie analog auf Glas geplottet; 
+            momentan aber noch provisorisch.</td>
         </tr>
         <tr>
             <td>Maßangaben</td>
@@ -216,15 +222,21 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[min (@lido:sortorder)]">
-        <xsl:text>sortorder: </xsl:text>
-        <xsl:value-of select="@lido:sortorder"/><br/>
+
+    <xsl:template match="lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet">
         <xsl:for-each select="lido:appellationValue">
             <xsl:value-of select="@xml:lang"/>
             <xsl:text>: </xsl:text>
-            <xsl:value-of select="."/><br/>
+            <xsl:value-of select="."/>
+            <xsl:if test="@lido:pref">
+                <xsl:text>(</xsl:text>
+                <xsl:value-of select="@lido:pref"/>
+                <xsl:text>)</xsl:text>
+            </xsl:if>
+            <br/>
         </xsl:for-each>
     </xsl:template> 
+
 
     <xsl:template match="lido:administrativeMetadata">
         <tr>
@@ -234,7 +246,7 @@
             <td align="left" colspan="3"><h4>rightsWorkWrap</h4></td>
         </tr>
         <tr>
-            <td>Credits?</td>
+            <td>verwaltendeInstitution</td>
             <td>rightsWorkSet</td>
             <td>
                 <xsl:value-of select="lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyName/lido:appellationValue" />
@@ -371,10 +383,15 @@
                 </td>
             </tr>
             <tr>
-                <td>Mat/Technik (@Ausgabe)</td>
+                <td>Material/Technik (@Ausgabe)</td>
                 <td>displayMaterialsTech</td>
                 <td>
-                    <xsl:value-of select="lido:event/lido:eventMaterialsTech/lido:displayMaterialsTech"/>
+                    <xsl:for-each select="lido:event/lido:eventMaterialsTech/lido:displayMaterialsTech">
+                        <xsl:value-of select="@xml:lang"/>
+                        <xsl:text>: </xsl:text>
+                        <xsl:value-of select="."/>
+                        <br/>
+                    </xsl:for-each>
                 </td>
             </tr>
     </xsl:template>
