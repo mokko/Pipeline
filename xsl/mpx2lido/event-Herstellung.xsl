@@ -21,14 +21,15 @@
                 <xsl:apply-templates mode="eventActor" select="mpx:geogrBezug[
                     @bezeichnung eq 'Kultur' 
                     or @bezeichnung eq 'Ethnie'
-                    or @bezeichnung eq 'Sprachgruppe'
-                    ]"/>
+                    or @bezeichnung eq 'Sprachgruppe']"/>
                 <!-- Todo: There could be a PK@Hersteller -->
 
                 <!-- lido: eventDate 
-                SPEC: repeated displayDates only for language variants; 
-                according to spec event dates cannot be repeated. AKu often 
-                has multiple dates representing multiple estimates.-->
+                SPEC allows repeated displayDates only for language variants; 
+                according to spec event dates cannot be repeated. 
+                
+                BUT: AKu says it often has multiple dates representing multiple
+                estimates.-->
 
                 <xsl:apply-templates select="mpx:datierung[min(@sort)][1]"/>
                 <xsl:apply-templates mode="eventPlace" select="mpx:geogrBezug[

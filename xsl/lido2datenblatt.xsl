@@ -115,12 +115,13 @@
         </tr>
         <tr>
             <td colspan="3">
-        LIDO hat möglicherweise mehr Sachbegriffe als das rst Datenblatt braucht. Wenn 
-        nur ein Sachbegriff gewünscht ist, den mit kleinster sortorder wählen. 
+        <p>LIDO hat möglicherweise mehr Sachbegriffe als das rst Datenblatt braucht. 
+        Wenn nur ein Sachbegriff gewünscht ist, den mit kleinster sortorder wählen. 
         In m+ scheint es aber auch Fälle zu geben, wo mehrere Sachbegriffe ohne
-        sortorder exportiert werden.
-
-        Vgl.: Sachbegriff (Hierarchie) kann zu lido:classification werden.
+        sortorder exportiert werden. Da kann ich nichts mappen. Ich schaue noch 
+        einmal, ob M+ da überhaupt eine Möglichkei hat sort o. dergleichen zu 
+        vergeben.</p>
+        N.B.: lido:title kann auch mpx:Sachbegriff haben.<br/>
             </td>
         </tr>
         <tr>
@@ -156,13 +157,13 @@
         <tr>
             <td colspan="3">
         lido:titleSet wird aus mpx:titel gebaut oder, wenn kein mpx:titel 
-        vorhanden ist, aus mpx:sachbegriff. Ursprungsfeld ist in @type und 
-        @encodinganalog verzeichnet. Haupttitel ist als pref gekennzeichnet.
+        vorhanden ist, aus mpx:sachbegriff. Ursprungsfeld ist in @encodinganalog 
+        verzeichnet. Haupttitel ist als pref gekennzeichnet.
             </td>
         </tr>
         <tr>
             <td>verwaltendeInstitution</td>
-            <td>repositorySet [@type=current]/ repositoryName</td>
+            <td>repositorySet [@type=current]/repositoryName</td>
             <td>
                 <xsl:value-of select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type = 'current']/lido:repositoryName/lido:legalBodyName/lido:appellationValue"/>
             </td>
@@ -178,10 +179,10 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3">Es kann mehrere IdentNr.n geben.</td>
+            <td colspan="3">Es kann in m+ mehrere IdentNr.n pro Objekt geben.</td>
         </tr>
         <tr>
-            <td>m+Ausstellung als rst Sektion</td>
+            <td>m+Ausstellung und Sektion</td>
             <td>repositorySet[@type=rst]/repositoryLocation</td>
             <td>
                 <xsl:value-of select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type = 'rst']/lido:repositoryLocation/lido:placeID"/>
@@ -189,10 +190,11 @@
         </tr>
         <tr>
             <td colspan="3">
-            rst position hat mehrere Elemente (1) daf.rst.hf für alle Objekte in 
-            Recherchestationen; (2) Kennwort für die spezifische Recherchestation; 
-            (3) Sektion sollte so geschrieben sein, wie analog auf Glas geplottet; 
-            momentan aber noch provisorisch.</td>
+            rst position hat mehrere Elemente: <ol><li>daf.rst.hf für alle Objekte in 
+            Recherchestationen</li><li>Kennwort für die spezifische 
+            Recherchestation</li><li>Sektion sollte so geschrieben sein, wie 
+            analog auf Glas geplottet; noch nicht final.</li></ol>
+            </td>
         </tr>
         <tr>
             <td>Maßangaben</td>
@@ -301,6 +303,15 @@
                 <td align="left" colspan="3"><h4>Event: Herstellung</h4></td>
             </tr>
             <tr>
+                <td>PK/Hersteller, Geogr.Bezug[Ethnie|Kultur|Sprachgruppe]</td>
+                <td>eventActor/displayActorInRole, actorRole</td>
+                <td>
+                    <xsl:value-of select="lido:event/lido:eventActor/lido:displayActorInRole" />
+                    <xsl:text> als </xsl:text>
+                    <xsl:value-of select="lido:event/lido:eventActor/lido:actorInRole/lido:roleActor" />
+                </td>
+            </tr>
+            <tr>
                 <td>Datierung</td>
                 <td>event, display date</td>
                 <td>
@@ -349,8 +360,8 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    nach eventPlace@sortorder sortiert (von großer Zahl nach
-                    kleiner)
+                    nach eventPlace@sortorder sortiert (im EM: von großer Zahl nach
+                    kleiner, im AKu andersherum)
                 </td>
             </tr>
             <tr>
@@ -376,10 +387,9 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    Viele der unterschiedlichen Orte in M+ sollten mittels 
-                    lido:partOfPlace dargestellt werden. Allerdings gibt es
-                    keine Möglichkeit partOfPlace von nicht-partOfPlace
-                    maschinell zu erkennen.
+                    Viele der Orte in M+ sollten vielleicht mittels lido:partOfPlace 
+                    dargestellt werden. Da scheint aber allein mit den Daten aus m+ 
+                    unmöglich.
                 </td>
             </tr>
             <tr>
