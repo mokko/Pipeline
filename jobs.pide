@@ -31,10 +31,10 @@ lido:
     input 2-MPX/vfix.mpx # new
     xsl.xsl mpx2lido.xsl 3/vfix.lido
     xsl.xsl lido2html.xsl 3/vfix.html
+    validate.validate 3/vfix.lido
 
     input 3/vfix.lido
-    xsl.xsl lido2datenblatt.xsl 3/lido-datenblatt.html
-    validate.validate 3/vfix.lido
+    xsl.xsl lido2datenblatt.xsl 3/vfix.lido-datenblatt.html
 
 mpx:                            # this job is called 'mpx'
     input unused                # no input since mv2zero always acts on ./*.xls

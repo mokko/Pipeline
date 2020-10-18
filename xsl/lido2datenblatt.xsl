@@ -280,23 +280,63 @@
             <td align="left" colspan="3"><h4>resourceWrap</h4></td>
         </tr>
         <tr>
-            <td>MM.Erweiterung, mulId</td>
-            <td>linkResource [@lido:sortorder = 1] (entspricht Standardbild)</td>
+            <td>Standardbild</td>
+            <td>resourceSet [@lido:sortorder = 1]</td>
             <td>
-                <xsl:value-of select="lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:resourceRepresentation/lido:linkResource" />
+                <xsl:apply-templates select="lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]"/> 
             </td>
         </tr>
         <tr>
-            <td colspan="3">Standardbild in M+ wird zu lido:resourceSet[@sortorder = 1]</td>
+            <td>Weitere Bilder</td>
+            <td>resourceSet [@lido:sortorder != 1]</td>
+            <td>
+                <xsl:apply-templates select="lido:resourceWrap/lido:resourceSet[@lido:sortorder != 1]"/> 
+            </td>
         </tr>
         <tr>
-            <td>Urheb/Fotograf</td>
-            <td>rightsholder (Urheber)</td>
-            <td>
-                <xsl:value-of select="lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:rightsResource[lido:rightsType/lido:term ='Urheber']/lido:rightsHolder/lido:legalBodyName/lido:appellationValue" />
+            <td colspan="3">
+                <xsl:for-each select="lido:resourceWrap/lido:resourceSet/lido:resourceRepresentation/lido:linkResource">
+                    <xsl:sort select="@lido:sortorder" data-type="number" order="ascending"/>
+                    <img width="300">
+                        <xsl:attribute name="src">
+                            <xsl:value-of select="."/>
+                        </xsl:attribute>
+                    </img>
+                    <xsl:text> </xsl:text>
+                </xsl:for-each>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            Ich bin nicht sicher, ob ich Bilder, die kein explizites veröffentlichen = ja 
+            in m+ haben, nach LIDO exportieren soll. Rst könnte das wohl gebrauchen, andere
+            Exporte wohl eher nicht. Im Zweifel wohl lieber nur Bilder mit 
+            veröffentlichen = ja, auch wenn das mehr Tipparbeit in M+ benötigt.
             </td>
         </tr>
     </xsl:template>
+
+    <xsl:template match="lido:resourceWrap/lido:resourceSet">
+        <xsl:text>resourceId: </xsl:text>
+        <xsl:value-of select="lido:resourceID"/>
+        <xsl:text> (type:</xsl:text>
+        <xsl:value-of select="@lido:type"/>
+        <xsl:text>)</xsl:text><br/>
+        <xsl:text>resourceRepresentation/linkResource: </xsl:text>
+        <xsl:value-of select="lido:resourceRepresentation/lido:linkResource"/>
+        <xsl:text> (</xsl:text>
+        <xsl:value-of select="lido:resourceRepresentation/@lido:type"/>
+        <xsl:text>)</xsl:text><br/>
+        <xsl:text>resourceDateTaken/displayDate: </xsl:text>
+        <xsl:value-of select="lido:resourceDateTaken/lido:displayDate"/><br/>
+        <xsl:text>rights:</xsl:text><br/>
+        <xsl:for-each select="lido:rightsResource/lido:rightsHolder/lido:legalBodyName/lido:appellationValue">
+            - <xsl:value-of select="."/>
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="../../../lido:rightsType/lido:term"/>
+            <xsl:text>)</xsl:text><br/>
+        </xsl:for-each><br/>
+    </xsl:template>    
     
     <xsl:template mode="Herstellung" match="lido:eventWrap/lido:eventSet">
             <tr>
@@ -460,6 +500,5 @@
                 mpx:erwerbungVon oder mpx:personenKörperschaften kommt.
                 </td>
             </tr>
-</xsl:template>
-    
+    </xsl:template>
 </xsl:stylesheet>

@@ -57,7 +57,7 @@
 
     <xsl:template match="mpx:erwerbungVon">
         <lido:eventActor>
-            <lido:displayActorInRole encodinganalog="mpx:erwerbungVon">
+            <lido:displayActorInRole lido:encodinganalog="mpx:erwerbungVon">
                 <xsl:value-of select="."/>
                 <xsl:text> (Veräußerer)</xsl:text>
             </lido:displayActorInRole>
@@ -82,7 +82,7 @@
         <xsl:variable name="translation" select="document('file:./translations.xml')
             /translations/concept/term[. eq 'Veräußerer' and @lang eq 'de']/../term[@lang eq 'en']"/>
         <lido:eventActor>
-            <lido:displayActorInRole encodinganalog="mpx:personenKörperschaften">
+            <lido:displayActorInRole lido:encodinganalog="mpx:personenKörperschaften">
                 <xsl:value-of select="."/>
                 <xsl:text> (Veräußerer)</xsl:text>
             </lido:displayActorInRole>

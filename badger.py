@@ -77,7 +77,7 @@ class Badger:
     def delete(self, file):
         cdd = self.list()
         for project in cdd:
-            path=os.path.join (cdd[project], file)
+            path=os.path.realpath(os.path.join (cdd[project], file))
             print(f"*Delete {path}")
             try:
                 os.remove(path)
@@ -96,15 +96,13 @@ class Badger:
     def list(self):
         """
         Returns a dictionary that associates each project with the current
-        data directory. Directories with the name "IGNORE" are ignored. 
-        
-        Question: Will subdirs of IGNORE also be ignored? At the moment not.
+        data directory. Directories with the name "IGNORE" are processed. 
         """
         current_projects = dict()
         projects = set()  # use set for unique
         for root, dirs, files in os.walk("."): 
             if "IGNORE" in root.split(os.sep):
-                print (f"***ignored: {root}")
+                #print (f"***ignored: {root}")
                 continue #not next()
             for adir in dirs:
                 if re.match("^\d{8}$", adir):
@@ -129,10 +127,10 @@ class Badger:
         for project in cdd:
             print(f"*PIPE {job} for project {project}")
             os.chdir(os.path.abspath(cdd[project]))
-            print(f"*NEW DIR {os.getcwd()}")
+            #print(f"*NEW DIR {os.getcwd()}")
             Pipeline(pide_fn, job)
             os.chdir(savedPath)  # return to original path
-            print(f"*NEW DIR {os.getcwd()}")
+            #print(f"*NEW DIR {os.getcwd()}")
 
     def update_xlsx(self, types):
         """
