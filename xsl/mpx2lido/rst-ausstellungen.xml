@@ -1,55 +1,165 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!-- For Plains/Keramik we're requiring identity of ausstellungstitel and a sektion!!!-->
 <ausstellungen>
-    <ausstellung url="daf.rst.hf/Afrika">
-        <titel>HUFO - Ersteinrichtung - Afrika (Schaumagazin)</titel>
-    </ausstellung>
-    <ausstellung url="daf.rst.hf/Plains">
-        <comment>
-            m+Ausstellung knows only the Amerika-Ausstellung, not Plains and Keramik. 
-            But we do have some xslt expression that filters by Sektion.
-        </comment>
-        <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
-            <sektion kurz="Pferd">150.30 Pferd</sektion>
-            <sektion kurz="Pferd">150.31 Pferd</sektion>
-            <sektion kurz="TabakSchmuck">150.32 Tabak, Schmuck</sektion>
-            <sektion kurz="TabakSchmuck">150.33 Tabak, Schmuck</sektion>
-            <sektion kurz="Leggings">150.34 Leggins</sektion>
-            <sektion kurz="Leggings">150.35 Leggins</sektion>
-            <sektion kurz="Leggings">150.36 A Leggins</sektion>
-            <sektion kurz="Bekleidung">150.36 B Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="Bekleidung">150.37 Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="Bekleidung">150.38 Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="Bekleidung">150.39 Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="Bekleidung">150.40 Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="Bekleidung">150.41 A Zierränder, Bekleidung, Mokassins</sektion>
-            <sektion kurz="FederhaubenGürtel">150.41 B Federhauben, Gürtel, Bänder</sektion>
-            <sektion kurz="FederhaubenGürtel">150.42 Federhauben, Gürtel, Bänder</sektion>
-            <sektion kurz="FederhaubenGürtel">150.43 Federhauben, Gürtel, Bänder</sektion>
-            <sektion kurz="MusikJagd">150.44 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="MusikJagd">150.45 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="MusikJagd">150.46 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="MusikJagd">150.47 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="MusikJagd">150.48 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="MusikJagd">150.49 Musik, Jagd und Waffen</sektion>
-            <sektion kurz="SpielTaschen">150.50 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-            <sektion kurz="SpielTaschen">150.51 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-            <sektion kurz="SpielTaschen">150.52 A Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-            <sektion kurz="SpielTaschen">150.52 B Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-            <!-- kein 150.53 ? -->
-            <sektion kurz="SpielTaschen">150.54 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-            <sektion kurz="SpielTaschen">150.55 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
-</ausstellung>
-    <ausstellung url="daf.rst.hf/Keramik">
-        <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
-    </ausstellung>
-    <ausstellung url="daf.rst.hf/Südsee">
-        <titel>HUFO - Ersteinrichtung - Südsee (Schaumagazin)</titel>
-    </ausstellung>
-    <ausstellung url="daf.rst.hf/AKu">
-        <comment>
-            this ausstellung doesn't exist yet. I create this record only
-            as a reminder.
-        </comment>
-        <titel>HUFO - Ersteinrichtung - Aku (Schaumagazin)</titel>
-    </ausstellung>
+  <ausstellung url="daf.rst.hf/Afrika">
+		<titel>HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin) HUFO - Ersteinrichtung - Afrika (Schaumagazin)</titel>
+		<sektion kurz="Oberes Nilgebiet">250.02 a.Oberes Nilgebiet (Ivanov)</sektion>
+		<sektion kurz="Rohlfs">250.04 Rohlfs (Ivanov)</sektion>
+		<sektion kurz="Bastian und die Loango-Expedition">250.06 a_Bastian und die Loango-Expedition (Ivanov)</sektion>
+		<sektion kurz="Afrikanische Gesellschaft Angola">250.08 a_Afrikanische Gesellschaft Angola (Ivanov)</sektion>
+		<sektion kurz="Wissmann">250.10 a_Wissmann (Ivanov)</sektion>
+		<sektion kurz="Glauning Ostafrika">250.17 Glauning Ostafrika (Ivanov)</sektion>
+		<sektion kurz="Frobenius Kongo">250.20 a_Frobenius Kongo (Ivanov)</sektion>
+		<sektion kurz="Frobenius Westafrika">250.22 a_Frobenius Westafrika (Fine)</sektion>
+		<sektion kurz="Ankermann">250.25 a_Ankermann (Fine)</sektion>
+		<sektion kurz="Baumann">250.27 a_Baumann (Ivanov)</sektion>
+		<sektion kurz="Einstein">250.30 a_Einstein (Fine)</sektion>
+		<sektion kurz="Etta Donner">250.34 a_Etta Donner (Fine)</sektion>
+		<sektion kurz="Krieger/Menzel">250.37 Krieger/Menzel (Fine)</sektion>
+		<sektion kurz="Pferd">250.51 Schaumagazin Afrika (Wand)</sektion>
+	</ausstellung>
+  <ausstellung url="daf.rst.hf/Plains">
+    <comment>
+      m+Ausstellung knows only the Amerika-Ausstellung, not Plains and Keramik. 
+      But we do have some xslt expression that filters by Sektion.
+    </comment>
+    <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
+      <sektion kurz="Pferd">150.30 Pferd</sektion>
+      <sektion kurz="Pferd">150.31 Pferd</sektion>
+      <sektion kurz="TabakSchmuck">150.32 Tabak, Schmuck</sektion>
+      <sektion kurz="TabakSchmuck">150.33 Tabak, Schmuck</sektion>
+      <sektion kurz="Leggings">150.34 Leggins</sektion>
+      <sektion kurz="Leggings">150.35 Leggins</sektion>
+      <sektion kurz="Leggings">150.36 A Leggins</sektion>
+      <sektion kurz="Bekleidung">150.36 B Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="Bekleidung">150.37 Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="Bekleidung">150.38 Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="Bekleidung">150.39 Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="Bekleidung">150.40 Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="Bekleidung">150.41 A Zierränder, Bekleidung, Mokassins</sektion>
+      <sektion kurz="FederhaubenGürtel">150.41 B Federhauben, Gürtel, Bänder</sektion>
+      <sektion kurz="FederhaubenGürtel">150.42 Federhauben, Gürtel, Bänder</sektion>
+      <sektion kurz="FederhaubenGürtel">150.43 Federhauben, Gürtel, Bänder</sektion>
+      <sektion kurz="MusikJagd">150.44 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="MusikJagd">150.45 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="MusikJagd">150.46 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="MusikJagd">150.47 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="MusikJagd">150.48 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="MusikJagd">150.49 Musik, Jagd und Waffen</sektion>
+      <sektion kurz="SpielTaschen">150.50 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+      <sektion kurz="SpielTaschen">150.51 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+      <sektion kurz="SpielTaschen">150.52 A Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+      <sektion kurz="SpielTaschen">150.52 B Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+      <!-- kein 150.53 ? -->
+      <sektion kurz="SpielTaschen">150.54 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+      <sektion kurz="SpielTaschen">150.55 Spiel, Taschen, Beutel, Behälter, Parfleche</sektion>
+	</ausstellung>
+  <ausstellung url="daf.rst.hf/Keramik">
+    <titel>HUFO - Ersteinrichtung - Amerika (Schaumagazin)</titel>
+		<sektion kurz="Keine Ahnung">150.01. N.N.</sektion>
+		<sektion kurz="USA Südwesten">150.02. Keramik Südwesten NA</sektion>
+		<sektion kurz="USA Südwesten">150.03. Keramik Südwesten NA</sektion>
+		<sektion kurz="Westmexiko">150.04. Keramik Westmexico</sektion>
+		<sektion kurz="Maya">150.05. Keramik Maya (Pelling Zarnitz)</sektion>
+		<sektion kurz="Ostmexiko">150.06. Keramik Ostmexiko</sektion>
+		<sektion kurz="Puebla Mixteca">150.07. Keramik Puebla Mixteca</sektion>
+		<sektion kurz="Costa Rica">150.08. Keramik Costa Rica</sektion>
+		<sektion kurz="Kolumbien">150.09. Keramik Kolumbien</sektion>
+		<sektion kurz="Chimu">150.10. Keramik Chimu</sektion>
+		<sektion kurz="Chimu">150.11. Keramik Chimu</sektion>
+		<sektion kurz="Inka">150.12. Keramik Inka</sektion>
+		<sektion kurz="Chancay">150.13. Keramik Chancay</sektion>
+		<sektion kurz="Recay">150.14. Keramik Recuay</sektion>
+		<sektion kurz="Ica">150.15. Keramik Ica</sektion>
+		<sektion kurz="Ica">150.16. Keramik Ica</sektion>
+		<sektion kurz="Nazca">150.17. Keramik Nazca</sektion>
+		<sektion kurz="Moche">150.18. Keramik Moche</sektion>
+		<sektion kurz="Moche">150.19. Keramik Moche</sektion>
+		<sektion kurz="Argentinien">150.20. Keramik NW-Argentinien</sektion>
+		<sektion kurz="Argentinien">150.21. Keramik NW-Argentinien</sektion>
+		<sektion kurz="Xingu">150.22. Keramik Xingu</sektion>
+		<sektion kurz="Amazonien">150.23. Keramik Amazonien Nord und West</sektion>
+		<sektion kurz="Shipibo/Jivaro">150.24. Keramik Shipibo/ Jivaro</sektion>
+		<sektion kurz="Chaco">150.25. Keramik Chaco</sektion>
+		<sektion kurz="Kaduveo">150.26. Keramik Kaduveo</sektion>
+		<sektion kurz="Kaduveo">150.27. Keramik Kaduveo</sektion>
+		<sektion kurz="Masken">150.28 (Masken Amerika 1)</sektion>
+		<sektion kurz="Masken">150.29 (Masken Amerika 2)</sektion>
+		<sektion kurz="Fälschungen">150.56. N.N.</sektion>
+  </ausstellung>
+  <ausstellung url="daf.rst.hf/Südsee">
+    <titel>HUFO - Ersteinrichtung - Südsee (Schaumagazin)</titel>
+		<sektion kurz="SpielTaschen">350.1.01 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.02 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.03 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.04 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.05 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.06 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.07 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.08 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.09 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.10 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.11 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.12 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.13 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.14 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.15 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.16 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.17 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.18 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.19 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.20 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.21 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.22 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.23 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.24 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.25 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.26 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.27 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.28 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.29 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.30 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.31 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.32 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.33 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.34 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.1.35 Schrank</sektion>
+		<sektion kurz="SpielTaschen">350.2.01 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.02 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.03 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.04 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.05 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.06 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.07 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.08 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.09 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.10 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.11 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.12 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.13 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.14 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.15 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.16 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.17 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.18 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.19 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.20 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.21 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.22 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.23 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.24 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.25 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.26 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.27 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.28 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.29 Schublade</sektion>
+		<sektion kurz="SpielTaschen">350.2.30 Schublade</sektion>
+  </ausstellung>
+  <ausstellung url="daf.rst.hf/AKu">
+    <comment>
+      this ausstellung doesn't exist yet. I create this record only
+      as a reminder.
+    </comment>
+    <titel>HUFO - Ersteinrichtung - Aku (Schaumagazin)</titel>
+  </ausstellung>
 </ausstellungen>

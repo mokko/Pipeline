@@ -34,6 +34,13 @@ badger.py -c pipe -p datenblatt
                         current data dir. Will look for pide file in the same
                         dir as Pipeline.py. Internally changes directory.
 
+badger.py -c writeback  series of the following commands, which updates everything:
+                        - del 3/vfix.lido 
+                        - del 3/vfix.lido-datenblatt.html 
+                        - vovvoc
+                        - fixmpx
+                        - pipe lido
+
 Note: badger.py looks for the projects' data directories relative to the 
 current working directory.
 
@@ -171,7 +178,12 @@ class Badger:
         t = vocvoc(in_trans)
         t.single(self.mpxvoc_fn)
 
-
+    def writeback (self):
+        self.delete("3/vfix.lido")
+        self.delete("3/vfix.lido-datenblatt.html")
+        self.vocvoc()
+        self.fix_mpx()
+        self.pipe('lido')
 #
 #
 
@@ -213,5 +225,7 @@ if __name__ == "__main__":
         b.update_xlsx("translate")
     elif args.cmd.lower() == "vocvoc":
         b.vocvoc()
+    elif args.cmd.lower() == "writeback":
+        b.writeback()
     else:
         raise TypeError("Error: Unknown command!")

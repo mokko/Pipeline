@@ -179,13 +179,13 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3">Es kann in m+ mehrere IdentNr.n pro Objekt geben.</td>
+            <td colspan="3">Es kann in m+ mehrere IdentNr.n pro Objekt bzw. Datensatz geben.</td>
         </tr>
         <tr>
             <td>m+Ausstellung und Sektion</td>
-            <td>repositorySet[@type=rst]/repositoryLocation</td>
+            <td>repositorySet[@type=rst]</td>
             <td>
-                <xsl:value-of select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type = 'rst']/lido:repositoryLocation/lido:placeID"/>
+                <xsl:value-of select="lido:objectIdentificationWrap/lido:repositoryWrap/lido:repositorySet[@lido:type eq 'rst']/lido:repositoryLocation/lido:placeID"/>
             </td>
         </tr>
         <tr>
@@ -214,8 +214,8 @@
 
     <xsl:template match="lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType">
         <xsl:value-of select="@lido:type"/>
-        <xsl:text> sortorder: </xsl:text>
-        <xsl:value-of select="@lido:sortorder"/><br/>
+        <xsl:text> (sortorder: </xsl:text>
+        <xsl:value-of select="@lido:sortorder"/>)<br/>
         <xsl:for-each select="lido:term">
             <xsl:text>- </xsl:text>
             <xsl:value-of select="@xml:lang"/>
@@ -231,7 +231,7 @@
             <xsl:text>: </xsl:text>
             <xsl:value-of select="."/>
             <xsl:if test="@lido:pref">
-                <xsl:text>(</xsl:text>
+                <xsl:text> (</xsl:text>
                 <xsl:value-of select="@lido:pref"/>
                 <xsl:text>)</xsl:text>
             </xsl:if>
