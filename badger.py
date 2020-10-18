@@ -178,12 +178,14 @@ class Badger:
         t = vocvoc(in_trans)
         t.single(self.mpxvoc_fn)
 
-    def writeback (self):
+    def writeback(self):
         self.delete("3/vfix.lido")
         self.delete("3/vfix.lido-datenblatt.html")
         self.vocvoc()
         self.fix_mpx()
-        self.pipe('lido')
+        self.pipe("lido")
+
+
 #
 #
 
