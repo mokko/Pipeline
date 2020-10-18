@@ -255,19 +255,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="transform a single xls to xml (dirty/stupid mpx)"
     )
-    parser.add_argument(
-        "-i", "--input", help="xls for input", required=True
-    )
-    parser.add_argument(
-        "-o", "--output", help="output xml file", required=True
-    )
+    parser.add_argument("-i", "--input", help="xls for input", required=True)
+    parser.add_argument("-o", "--output", help="output xml file", required=True)
     args = parser.parse_args()
-    
+
     conf = {
         "lib": "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
         "infiles": ["so.xls", "mm.xls", "pk.xls"],
         "zerodir": "0-IN",
         "onedir": "1-XML",
     }
-    o = Xls2xml() #conf
+    o = Xls2xml()  # conf
     o.transPerFile(args.input, args.output)

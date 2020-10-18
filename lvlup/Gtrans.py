@@ -41,7 +41,7 @@ class Gtrans:
             "geogrBezug@art": "lower",
             "geogrBezug@bezeichnung": "lower",
             "sachbegriff@art": "lower",
-            "titel@art": "lower"
+            "titel@art": "lower",
         }
         self.xls_fn = xls_fn
         self.wb = load_workbook(filename=xls_fn)
@@ -84,7 +84,7 @@ class Gtrans:
                     # without saving after every translation i get 403 User
                     # Rate Limit Exceeded from Google occasionally
             c += 1
-    
+
     def _translate_v2(self, de):
         if not hasattr(self, "client"):
             self.client = translate_v2.Client()
@@ -117,6 +117,7 @@ class Gtrans:
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(
         description="Trigger google translate on a single on translate.xlsx"
     )

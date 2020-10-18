@@ -190,6 +190,7 @@ class vocvoc:
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(
         description="Manually create a mpxvoc.xml file from a translate.xlsx"
     )
@@ -200,7 +201,7 @@ if __name__ == "__main__":
         required=True,
     )
     args = parser.parse_args()
-    args.output="mpxvoc.xml" #quick and dirty default
+    args.output = "mpxvoc.xml"  # quick and dirty default
 
     # execute from usual dir data/scope/date
     t = vocvoc(args.input)

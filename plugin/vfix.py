@@ -28,8 +28,8 @@ def gtrans(conf, inp):
 
 
 def vokvok(conf, input, src_dir, out):
-    t = vocvoc (src_dir)
-    t.single (out)  
+    t = vocvoc(src_dir)
+    t.single(out)
 
 
 def cpData2(conf, imput):

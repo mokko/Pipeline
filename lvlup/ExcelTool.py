@@ -68,9 +68,9 @@ class ExcelTool:
         self.vindex_xls = os.path.relpath(
             os.path.realpath(os.path.join(xls_dir, "vindex.xlsx"))
         )
-        #bad design to load both excel tables while
-        #bad design to have the paths built-in
-        #I will change this at some point, but not now
+        # bad design to load both excel tables while
+        # bad design to have the paths built-in
+        # I will change this at some point, but not now
         print(f"*Using {self.vindex_xls}")
         self.wb = self._prepare_wb(self.vindex_xls)
         self.trans_xls = os.path.relpath(
