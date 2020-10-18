@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<translations>
+    <concept>
+        <term lang="de">Veräußerer</term>
+        <term lang="en">seller</term>
+    </concept>
+    <concept>
+        <term lang="de">Ankauf</term>
+        <term lang="en">purchase</term>
+    </concept>
+</translations>

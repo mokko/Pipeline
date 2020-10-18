@@ -304,16 +304,15 @@
             </tr>
             <tr>
                 <td>PK/Hersteller, Geogr.Bezug[Ethnie|Kultur|Sprachgruppe]</td>
-                <td>eventActor/displayActorInRole, actorRole</td>
+                <td>eventActor/displayActorInRole<br/>actorRole</td>
                 <td>
-                    <xsl:value-of select="lido:event/lido:eventActor/lido:displayActorInRole" />
-                    <xsl:text> als </xsl:text>
+                    <xsl:value-of select="lido:event/lido:eventActor/lido:displayActorInRole" /><br/>
                     <xsl:value-of select="lido:event/lido:eventActor/lido:actorInRole/lido:roleActor" />
                 </td>
             </tr>
             <tr>
                 <td>Datierung</td>
-                <td>event, display date</td>
+                <td>event/display date</td>
                 <td>
                     <xsl:value-of select="lido:event/lido:eventDate/lido:displayDate" />
                 </td>
@@ -411,15 +410,22 @@
                 <td align="left" colspan="3"><h4>Event: Erwerb</h4></td>
             </tr>
             <tr>
-                <td>Veräußerer; erwerbungVon</td>
+                <td>
+                    PK:Veräußerer<br/>
+                    erwerbungVon</td>
                 <td>displayActorInRole</td>
                 <td>
-                    <xsl:value-of select="lido:event/lido:eventActor/lido:displayActorInRole"/>
+                    <xsl:for-each select="lido:event/lido:eventActor/lido:displayActorInRole">
+                        <xsl:value-of select="."/> 
+                        <xsl:text> (encodinganalog: </xsl:text>
+                        <xsl:value-of select="@encodinganalog"/>
+                        <xsl:text>)</xsl:text>
+                    </xsl:for-each>
                 </td>
             </tr>
             <tr>
                 <td>Datierung</td>
-                <td>event, display date</td>
+                <td>event/display date</td>
                 <td>
                     <xsl:value-of select="lido:event/lido:eventDate/lido:displayDate" />
                 </td>
@@ -440,7 +446,18 @@
                 <td>Erwerbungsart</td>
                 <td>eventMethod</td>
                 <td>
-                    <xsl:value-of select="lido:event/lido:eventMethod/lido:term" />
+                    <xsl:for-each select="lido:event/lido:eventMethod/lido:term">
+                        <xsl:value-of select="." />
+                        <xsl:text> (lang:</xsl:text>
+                        <xsl:value-of select="@xml:lang" />
+                        <xsl:text>)</xsl:text><br/>
+                    </xsl:for-each>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                Verwende encodinganalog, um zu entscheiden, ob Veräußerer aus 
+                mpx:erwerbungVon oder mpx:personenKörperschaften kommt.
                 </td>
             </tr>
 </xsl:template>
