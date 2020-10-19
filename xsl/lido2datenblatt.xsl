@@ -407,28 +407,26 @@
                 <td>Geogr. Bezug</td>
                 <td>place (@lido:geographicalEntity)</td>
                 <td>
-                    <xsl:for-each select="lido:event/lido:eventPlace">
-                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
-                        <xsl:if test="@lido:type">
-                            <xsl:value-of select="@lido:type" />
-                            <xsl:text>: </xsl:text>
-                        </xsl:if>
-                        <xsl:value-of select="lido:place/lido:namePlaceSet/lido:appellationValue[@xml:lang ='de']" />
-                        <xsl:text>/</xsl:text>
-                        <xsl:value-of select="lido:place/lido:namePlaceSet/lido:appellationValue[@xml:lang ='en']" />
-                        <xsl:text> (</xsl:text>
-                        <xsl:value-of select="lido:place/@lido:geographicalEntity" />
-                        <xsl:value-of select="lido:place/@lido:politicalEntity" />
-                        <xsl:text>)</xsl:text>
-                        <br/>
-                    </xsl:for-each>
+                    <xsl:text>de: </xsl:text><br/>
+                    <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
+                        [@xml:lang ='de']">
+                        <xsl:sort select="@sortorder" data-type="number" order="ascending"/>
+                        </xsl:apply-templates>
+                    <xsl:text>en: </xsl:text><br/>
+                    <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
+                        [@xml:lang ='en']">
+                        <xsl:sort select="@sortorder" data-type="number" order="ascending"/>
+                    </xsl:apply-templates>
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     Viele der Orte in M+ sollten vielleicht mittels lido:partOfPlace 
                     dargestellt werden. Da scheint aber allein mit den Daten aus m+ 
-                    unmöglich.
+                    unmöglich. TO DO: Qualifikator Ortstyp soll in rst-Datenblatt 
+                    ausgespielt werden, dann muss ich sie noch übersetzen (vocvoc). 
+                    
+                    TO DO: AKu-sortoder in LIDO umdrehen.
                 </td>
             </tr>
             <tr>
@@ -443,6 +441,21 @@
                     </xsl:for-each>
                 </td>
             </tr>
+    </xsl:template>
+    
+    <xsl:template match="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue">
+        <xsl:if test="@lido:type">
+            <xsl:value-of select="@lido:type" />
+            <xsl:text>: </xsl:text>
+        </xsl:if>
+        <xsl:text>- </xsl:text>
+        <xsl:value-of select="." />
+        <xsl:text> (</xsl:text>
+        <xsl:value-of select="../../@lido:geographicalEntity" />
+        <xsl:value-of select="../../@lido:politicalEntity" />
+        <xsl:text> sortoder: </xsl:text>
+        <xsl:value-of select="../../../@lido:sortorder"/>
+        <xsl:text>)</xsl:text><br/>
     </xsl:template>
 
     <xsl:template mode="Erwerb" match="lido:eventWrap/lido:eventSet">
@@ -487,10 +500,9 @@
                 <td>eventMethod</td>
                 <td>
                     <xsl:for-each select="lido:event/lido:eventMethod/lido:term">
-                        <xsl:value-of select="." />
-                        <xsl:text> (lang:</xsl:text>
                         <xsl:value-of select="@xml:lang" />
-                        <xsl:text>)</xsl:text><br/>
+                        <xsl:text>: </xsl:text>
+                        <xsl:value-of select="." /><br/>
                     </xsl:for-each>
                 </td>
             </tr>
