@@ -410,12 +410,10 @@
                     <xsl:text>de: </xsl:text><br/>
                     <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
                         [@xml:lang ='de']">
-                        <xsl:sort select="@sortorder" data-type="number" order="ascending"/>
                         </xsl:apply-templates>
                     <xsl:text>en: </xsl:text><br/>
                     <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
                         [@xml:lang ='en']">
-                        <xsl:sort select="@sortorder" data-type="number" order="ascending"/>
                     </xsl:apply-templates>
                 </td>
             </tr>
