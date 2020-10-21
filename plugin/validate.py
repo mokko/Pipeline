@@ -30,7 +30,7 @@ nsmap = {  # currently unused
 
 def validate(conf, in_fn, xml_fn):
     label = os.path.splitext(xml_fn)[1][1:]
-    print(f"schema label {label}")
+    #print(f"schema label {label}")
     if label in global_conf:
         print("***Looking for xsd at %s..." % global_conf[label])
         schema_doc = etree.parse(global_conf[label])

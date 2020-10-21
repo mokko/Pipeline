@@ -308,10 +308,9 @@
         </tr>
         <tr>
             <td colspan="3">
-            Ich bin nicht sicher, ob ich Bilder, die kein explizites veröffentlichen = ja 
-            in m+ haben, nach LIDO exportieren soll. Rst könnte das wohl gebrauchen, andere
-            Exporte wohl eher nicht. Im Zweifel wohl lieber nur Bilder mit 
-            veröffentlichen = ja, auch wenn das mehr Tipparbeit in M+ benötigt.
+            Ich bin inzwischen, dass ich nur Bilder/Medien mit explizitem veröffentlichen = ja 
+            für rst nach LIDO exportieren soll. rst bekommt Objekte unabhängig von ihrer 
+            smb-digital Freigabe, SHF bekommt nur Objekte die für smb-digital freigegeben sind.
             </td>
         </tr>
     </xsl:template>
@@ -381,7 +380,7 @@
                 <td>display place</td>
                 <td>de: 
                     <xsl:for-each select="lido:event/lido:eventPlace">
-                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
+                        <xsl:sort select="@lido:sortorder" data-type="number" order="ascending"/>
                         <xsl:value-of select="lido:displayPlace[@xml:lang ='de']" />
                         <xsl:if test="position()!=last()">
                             <xsl:text> &gt;&gt; </xsl:text>
@@ -389,7 +388,7 @@
                     </xsl:for-each>
                     <br/>en: 
                     <xsl:for-each select="lido:event/lido:eventPlace">
-                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
+                        <xsl:sort select="@lido:sortorder" data-type="number" order="ascending"/>
                         <xsl:value-of select="lido:displayPlace[@xml:lang ='en']" />
                         <xsl:if test="position()!=last()">
                             <xsl:text> &gt;&gt; </xsl:text>
@@ -399,8 +398,9 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    nach eventPlace@sortorder sortiert (im EM: von großer Zahl nach
-                    kleiner, im AKu andersherum)
+                    nach eventPlace@sortorder sortiert. SOLL: von Groß (China) zu Klein (Beijing). Im EM soll von großer nach
+                    kleiner Zahl in sortorder sortiert werden; im AKu sind die sortorder Zahlen andersherum eingegeben. NEU: 
+                    Daher drehe ich sie in LIDO so um, damit sie alle in gleicher Reihenfolge in LIDO sind.
                 </td>
             </tr>
             <tr>
@@ -410,21 +410,22 @@
                     <xsl:text>de: </xsl:text><br/>
                     <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
                         [@xml:lang ='de']">
+                        <xsl:sort select="../../../@lido:sortorder" data-type="number" order="ascending"/>
                         </xsl:apply-templates>
                     <xsl:text>en: </xsl:text><br/>
                     <xsl:apply-templates select="lido:event/lido:eventPlace/lido:place/lido:namePlaceSet/lido:appellationValue
                         [@xml:lang ='en']">
+                        <xsl:sort select="../../../@lido:sortorder" data-type="number" order="ascending"/>
                     </xsl:apply-templates>
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    Viele der Orte in M+ sollten vielleicht mittels lido:partOfPlace 
+                    <p>Viele der Orte in M+ sollten vielleicht mittels lido:partOfPlace 
                     dargestellt werden. Da scheint aber allein mit den Daten aus m+ 
-                    unmöglich. TO DO: Qualifikator Ortstyp soll in rst-Datenblatt 
-                    ausgespielt werden, dann muss ich sie noch übersetzen (vocvoc). 
-                    
-                    TO DO: AKu-sortoder in LIDO umdrehen.
+                    unmöglich.</p><p>Qualifikator "Ortstyp" lässt sich in LIDO nicht 
+                    übersetzen (https://github.com/mokko/Pipeline/issues/11).</p><p> 
+                    TO DO: AKu-sortoder in LIDO umdrehen.</p>
                 </td>
             </tr>
             <tr>

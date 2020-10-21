@@ -71,9 +71,9 @@ class Pipeline:
                 else:
                     pkg = job
                     com = cmd[0]
-                print(
-                    f"**pkg:{pkg} cmd:{com} conf:{self.pide['conf']} in:{self.current} args:{cmd[1:]}"
-                )
+                # print(
+                #   f"**pkg:{pkg} cmd:{com} conf:{self.pide['conf']} in:{self.current} args:{cmd[1:]}"
+                # )
                 # pkg.cmd (conf, input, output [, arg1, argN])
                 pkg = f"plugin.{pkg}"
                 getattr(sys.modules[pkg], com)(
