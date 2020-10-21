@@ -71,6 +71,11 @@
 				 http://smb-digital.de/eMuseumPlus?service=ExternalInterface&module=collection&objectId=255188&viewType=detailView 
 			-->
 			<lido:recordInfoSet>
+                <xsl:if test="mpx:bearbStand">
+                    <xsl:attribute name="lido:type">
+                        <xsl:value-of select="mpx:bearbStand"/>
+                    </xsl:attribute>
+                </xsl:if>
 				<lido:recordInfoLink lido:formatResource="html">
 					<xsl:text>http://smb-digital.de/eMuseumPlus?service=ExternalInterface</xsl:text>
 					<xsl:text>&amp;module=collection&amp;objectId=</xsl:text>
