@@ -351,7 +351,7 @@ class ExcelTool:
                 if row:
                     self._update_frequency(ws, row)
                 else:
-                    print(f"new translation: {term.text}")
+                    print(f"new text for translation: {term.text}")
                     self._insert_alphabetically(ws, value)
         # in new scheme of things , we save only one translate.xslx per museum
         # less effort in keeping Excel files up to date, means we can't trust
