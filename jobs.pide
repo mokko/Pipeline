@@ -18,9 +18,9 @@ import shf
 import validate
 
 cpRes:
-    input 2-MPX/lvlup.smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx to be on save side
+    input 2-MPX/lvlup-smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx for smaller selction
     mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
-    input 2-MPX/lvlup-sort.mpx  # should run only over smbfreigabe, not general levelup.mpx to be on save side
+    input 2-MPX/levelup-sort.mpx  # 
     mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case) irrespective of smb-freigabe
 
 datenblatt: # for Recherchestationen
