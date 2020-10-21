@@ -111,10 +111,22 @@
             -->
             <xsl:attribute name="lido:sortorder">
                 <xsl:choose>
-                    <xsl:when test="@sort">
-                        <xsl:value-of select="@sort"/>
-                    </xsl:when>
-                    <xsl:otherwise>1</xsl:otherwise>
+                <xsl:when test="../mpx:verwaltendeInstitution eq 'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
+                    <xsl:choose>
+                        <xsl:when test="@sort">
+                            <xsl:value-of select="@sort"/>
+                        </xsl:when>
+                        <xsl:otherwise>100</xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:choose>
+                        <xsl:when test="@sort">
+                            <xsl:value-of select="@sort"/>
+                        </xsl:when>
+                        <xsl:otherwise>1</xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
                 </xsl:choose>
             </xsl:attribute>
             <lido:displayPlace>
