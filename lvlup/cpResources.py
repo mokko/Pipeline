@@ -69,8 +69,8 @@ class cpResources:
                         self._cpFile(old_path, new_path)
                     except:
                         self._write_log(f"File not found: {old_path}")
-            else:
-                print("No mpx:multimediaobjekt found!")
+            else: pass
+                # print("record has no mpx:veröffentlichen!")
         self._close_log()
 
     def tifs(self, outdir, pattern):
