@@ -80,7 +80,7 @@
                 contains(.,'HUFO - ') 
                 and (contains(.,'(Schaumagazin)') 
                     or contains(.,'(Studiensammlung)'))]"/>
-            <xsl:variable name="rstAusstellung" select="document('file:./rst-ausstellungen.xml')
+            <xsl:variable name="rstAusstellung" select="document('./rst-ausstellungen.xml')
                 /ausstellungen/ausstellung[titel eq $mpxAusstellung and sektion = $mpxAusstellung/@sektion]"/>
             <xsl:variable name="rstSektion" select="$rstAusstellung/sektion[. = $mpxAusstellung/@sektion]/@kurz"/>
             <lido:repositorySet lido:type="rst">

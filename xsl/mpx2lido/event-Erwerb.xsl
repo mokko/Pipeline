@@ -79,7 +79,7 @@
     </xsl:template>
 
     <xsl:template mode="Erwerb" match="mpx:personenKörperschaften">
-        <xsl:variable name="translation" select="document('file:./translations.xml')
+        <xsl:variable name="translation" select="document('./translations.xml')
             /translations/concept/term[. eq 'Veräußerer' and @lang eq 'de']/../term[@lang eq 'en']"/>
         <lido:eventActor>
             <lido:displayActorInRole lido:encodinganalog="mpx:personenKörperschaften">
