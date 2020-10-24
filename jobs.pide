@@ -6,8 +6,9 @@
 # Commands cannot have periods  
 
 #conf key value; N.B. the value preserves spaces (except at the end of the line)
-#conf saxon C:\Program Files\Saxonica\SaxonHE10.2N\bin\transform.exe
-conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
+conf saxon C:\Program Files\Saxonica\SaxonHE10.2N\bin\transform.exe
+conf saxon C:\Program Files\Saxonica\SaxonHE10.2J\saxon-he-10.2.exe
+#conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
 #spaces are ONLY ALLOWED in 2nd parameter of conf, not in other paths
 
 import lido

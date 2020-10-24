@@ -66,7 +66,7 @@
                     <xsl:attribute name="lido:formatResource">
                         <xsl:value-of select="lower-case(mpx:erweiterung)"/>
                     </xsl:attribute>
-                    <xsl:text>../../pix2/</xsl:text>
+                    <!-- xsl:text>../../pix2/xsl:text  -->
                     <xsl:value-of select="@mulId" />
                     <xsl:text>.</xsl:text>
                     <xsl:value-of select="mpx:dateiname"/>

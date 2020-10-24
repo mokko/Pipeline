@@ -60,7 +60,7 @@
                         <xsl:element name="img">
                             <xsl:attribute name="style">width: 50%</xsl:attribute>
                             <xsl:attribute name="src">
-                                <xsl:text>../../pix/</xsl:text>
+                                <xsl:text>../../pix2/</xsl:text>
                                 <xsl:value-of select="$stdbld/@mulId" />
                                 <xsl:text>.</xsl:text>
                                 <xsl:value-of select="$stdbld/mpx:dateiname" />

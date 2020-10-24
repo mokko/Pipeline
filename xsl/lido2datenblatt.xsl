@@ -299,6 +299,7 @@
                     <xsl:sort select="@lido:sortorder" data-type="number" order="ascending"/>
                     <img width="300">
                         <xsl:attribute name="src">
+                            <xsl:text>../../pix2/</xsl:text>
                             <xsl:value-of select="."/>
                         </xsl:attribute>
                     </img>
