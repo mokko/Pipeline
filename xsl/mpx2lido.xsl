@@ -75,7 +75,7 @@
     <xsl:function name="func:en-from-dict">
         <xsl:param name="context"/>
         <xsl:param name="nterm"/>
-        <xsl:variable name="dict" select="document('file:../data/mpxvoc.xml')"/>
+        <xsl:variable name="dict" select="document('../data/mpxvoc.xml')"/>
         <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq $context]/concept[
             substring (pref[@lang = 'de'],1,100) = substring($nterm,1,100)]
             /pref[@lang eq 'en'][1]"/>
