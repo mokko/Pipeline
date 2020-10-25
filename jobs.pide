@@ -26,7 +26,10 @@ cpRes:                          # this job is called 'cpRes'
 
 datenblatt: # for Recherchestationen
     input 2-MPX/levelup-sort.mpx
-    xsl.xsl rst-datenblatt.xsl 3-LIDO/rst-datenblatt.html 
+    xsl.xsl rst-datenblatt.xsl 3-LIDO/lvlup-s.rst-datenblatt.html 
+
+    input 2-MPX/vfix.mpx
+    xsl.xsl rst-datenblatt.xsl 3-LIDO/vfix.rst-datenblatt.html 
 
 lido:       # currently only used for rst
     input 2-MPX/vfix.mpx # new
