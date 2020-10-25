@@ -1,6 +1,8 @@
 import os
 import argparse
 import re
+import zipfile
+from datetime import datetime
 from Pipeline import Pipeline
 from lvlup.ExcelTool import ExcelTool
 from lvlup.vocvoc import vocvoc
@@ -125,17 +127,13 @@ class Badger:
         return current_projects
 
     def pipe(self, job):
-        adir = os.path.realpath(os.path.join(__file__, ".."))
-        pide_fn = os.path.join(adir, "jobs.pide")
-        if not os.path.isfile(pide_fn):
-            raise FileNotFoundError("Pide file not found")
         cdd = self.list()
         savedPath = os.getcwd()
         for project in cdd:
             print(f"*PIPE {job} for project {project}")
             os.chdir(os.path.abspath(cdd[project]))
             # print(f"*NEW DIR {os.getcwd()}")
-            Pipeline(pide_fn, job)
+            Pipeline(job)
             os.chdir(savedPath)  # return to original path
             # print(f"*NEW DIR {os.getcwd()}")
 
@@ -185,9 +183,33 @@ class Badger:
         self.fix_mpx()
         self.pipe("lido")
 
+    def zipxml(self):
+        """
+        For all projects, produce a zipfile that contains only the xml part of the projects
+        """
+        now = datetime.now()
+        fn = now.strftime("%Y%m%d-%H%M%Sxml.zip")
+        print(f"**Writing xml only to zip: {fn}")
 
-#
-#
+        cdd = b.list()
+        with zipfile.ZipFile(fn, 'w', zipfile.ZIP_DEFLATED) as azip:
+            for project in cdd:
+                print(f"{project}: {cdd[project]}")
+                tozip = list()
+                tozip.append(os.path.join(cdd[project],'2-MPX')) # hardwired paths are not cool
+                tozip.append(os.path.join(cdd[project],'3-LIDO'))
+                for dir in tozip:
+                    for root, dirs, files in os.walk(dir):
+                        aroot=os.path.relpath(root)
+                        print(f"adding {root} as {aroot}")
+                        azip.write(root, os.path.relpath(root))
+                        for file in files:
+                            path = os.path.join(root, file)
+                            if os.path.isfile(path): # regular files only
+                                arcname = os.path.join(root, file)
+                                print(f"adding {arcname}")
+                                azip.write(path,arcname)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -196,7 +218,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-c",
         "--cmd",
-        help="Pick your command: del|fixmpx|list|pipe|upvindex|uptrans|vocvoc",
+        help="Pick your command: del|fixmpx|list|pipe|upvindex|uptrans|vocvoc|writeback|zipall|zipxml",
         required=True,
     )
     parser.add_argument("-p", "--param", help="For pipe you need parameter.")
@@ -229,5 +251,7 @@ if __name__ == "__main__":
         b.vocvoc()
     elif args.cmd.lower() == "writeback":
         b.writeback()
+    elif args.cmd.lower() == "zip":
+        b.zipxml()
     else:
         raise TypeError("Error: Unknown command!")
