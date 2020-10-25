@@ -1,7 +1,8 @@
 import os
 import argparse
 import re
-import zipfile
+from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 from datetime import datetime
 from Pipeline import Pipeline
 from lvlup.ExcelTool import ExcelTool
@@ -42,6 +43,13 @@ badger.py -c writeback  series of the following commands, which updates everythi
                         - vovvoc
                         - fixmpx
                         - pipe lido
+
+badger.py -c zip -p xml for all projects pack current state into a zip file
+                        xml: all xml files (in 2-MPX, 3-LIDO, 3-SHF)
+                        all: all files in . (including IGNORE, but except **/*.zip files) 
+                        rst: 3-LIDO
+                        rstall: 3-LIDO, pix2
+                        shf: pix, 3-SHF
 
 Note: badger.py looks for the projects' data directories relative to the 
 current working directory.
@@ -183,32 +191,40 @@ class Badger:
         self.fix_mpx()
         self.pipe("lido")
 
-    def zipxml(self):
+    def zip(self, keyword):
         """
         For all projects, produce a zipfile that contains only the xml part of the projects
         """
-        now = datetime.now()
-        fn = now.strftime("%Y%m%d-%H%M%Sxml.zip")
-        print(f"**Writing xml only to zip: {fn}")
+        known_dirs = {
+            'all': ['.'],
+            'rst': ['3-LIDO'],
+            'rstall': ['3-LIDO', 'pix', 'pix2'],
+            'shf': ['pix', '3-SHF'],
+            'xml': ['2-MPX', '3-LIDO', '3-SHF'],
+        }
+        if keyword in known_dirs:
+            now = datetime.now()
+            zip_fn = now.strftime("%Y%m%d-%H%M%S" + keyword + ".zip")
+        else:
+            raise TypeError("Unknown keyword!")
 
-        cdd = b.list()
-        with zipfile.ZipFile(fn, 'w', zipfile.ZIP_DEFLATED) as azip:
-            for project in cdd:
-                print(f"{project}: {cdd[project]}")
-                tozip = list()
-                tozip.append(os.path.join(cdd[project],'2-MPX')) # hardwired paths are not cool
-                tozip.append(os.path.join(cdd[project],'3-LIDO'))
-                for dir in tozip:
-                    for root, dirs, files in os.walk(dir):
-                        aroot=os.path.relpath(root)
-                        print(f"adding {root} as {aroot}")
-                        azip.write(root, os.path.relpath(root))
-                        for file in files:
-                            path = os.path.join(root, file)
-                            if os.path.isfile(path): # regular files only
-                                arcname = os.path.join(root, file)
-                                print(f"adding {arcname}")
-                                azip.write(path,arcname)
+        print(f"**Writing {keyword} to zip: {zip_fn}")
+
+        if keyword == "all":
+            with ZipFile(zip_fn, 'w', ZIP_DEFLATED) as zf:
+                for item in Path().rglob("*"):
+                    if (item.suffix != ".zip"):
+                        print(f"adding {item}")
+                        zf.write(item)
+        else: 
+            cdd = b.list()
+            with ZipFile(zip_fn, 'w', ZIP_DEFLATED, allowZip64=True) as zf:
+                for project in cdd:
+                    for file_item in known_dirs[keyword]:
+                        path = Path(cdd[project], file_item)
+                        for file in path.rglob('*'):
+                            print(f"adding {file}")
+                            zf.write(file)
 
 
 if __name__ == "__main__":
@@ -252,6 +268,6 @@ if __name__ == "__main__":
     elif args.cmd.lower() == "writeback":
         b.writeback()
     elif args.cmd.lower() == "zip":
-        b.zipxml()
+        b.zip(args.param)
     else:
         raise TypeError("Error: Unknown command!")
