@@ -18,26 +18,26 @@ import vfix
 import shf
 import validate
 
-cpRes:
+cpRes:                          # this job is called 'cpRes'
     input 2-MPX/lvlup-smbfreigabe.mpx # should run only over smbfreigabe, not general levelup.mpx for smaller selction
     mpx.cpRes ../pix            # NEW: only cp resources with veröffentlichen=ja (no case)
     input 2-MPX/levelup-sort.mpx  # 
-    mpx.cpRes ../pix2           # NEW: only cp resources with veröffentlichen=ja (no case) irrespective of smb-freigabe
+    mpx.cpRes ../pix2           # NEW: irrespective of smb-freigabe
 
 datenblatt: # for Recherchestationen
     input 2-MPX/levelup-sort.mpx
-    xsl.xsl rst-datenblatt.xsl 3/rst-datenblatt.html 
+    xsl.xsl rst-datenblatt.xsl 3-LIDO/rst-datenblatt.html 
 
-lido:
+lido:       # currently only used for rst
     input 2-MPX/vfix.mpx # new
-    xsl.xsl mpx2lido.xsl 3/vfix.lido
-    xsl.xsl lido2html.xsl 3/vfix.html
-    validate.validate 3/vfix.lido
+    xsl.xsl mpx2lido.xsl 3-LIDO/vfix.lido
+    xsl.xsl lido2html.xsl 3-LIDO/vfix.html
+    validate.validate 3-LIDO/vfix.lido
 
-    input 3/vfix.lido
-    xsl.xsl lido2datenblatt.xsl 3/vfix.lido-datenblatt.html
+    input 3-LIDO/vfix.lido
+    xsl.xsl lido2datenblatt.xsl 3-LIDO/vfix.lido-datenblatt.html
 
-mpx:                            # this job is called 'mpx'
+mpx:
     input unused                # no input since mv2zero always acts on ./*.xls
     mv2zero 0-IN                # mv all matching files to zero 
     xls2xml 1-XML               # transform all files in 0-IN to xml files in 1-XML
@@ -48,19 +48,22 @@ mpx:                            # this job is called 'mpx'
     validate.validate 2-MPX/levelup-sort.mpx # validate levelup.mpx
     input 2-MPX/levelup-sort.mpx
     testMpx                     # run tests to verify mpx
+    #input 2-MPX/lvlup-smbfreigabe.mpx
     #cpRes ../pix               # currently separate job
+    input 2-MPX/levelup-sort.mpx 
+    #cpRes ../pix2              
 
 
 shf:
     input 2-MPX/levelup-sort.mpx# mdvos Liste tested
-    mdl 3/shf-mdl.xlsx
+    mdl 3-SHF/shf-mdl.xlsx
 
     input 2-MPX/lvlup.smbfreigabe.mpx
-    xsl.xsl SHF.xsl 3/shf-smbfreigabe.npx
-    npx2csv 3                   # out_dir; produces 2 csv files
+    xsl.xsl SHF.xsl 3-SHF/smbfreigabe.npx
+    npx2csv 3-SHF               # out_dir; produces 2 csv files
 
-    input 3/shf-smbfreigabe.npx
-    xsl.xsl shf2Html.xsl 3/shf-smbfreigabe.html	
+    input 3-SHF/shf-smbfreigabe.npx
+    xsl.xsl shf2Html.xsl 3-SHF/shf-smbfreigabe.html	
 
-    input 3/shf-smbfreigabe.npx
+    input 3-SHF/shf-smbfreigabe.npx
     testShf 2-MPX/lvlup-smbfreigabe.mpx # test includes comparison with pre-npx data
