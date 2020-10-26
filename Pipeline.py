@@ -43,9 +43,10 @@ sys.path.append(os.path.realpath(os.path.join(__file__, "../../plugin")))
 
 
 class Pipeline:
-    def __init__(self, pide_fn, job, flag=None):
+    def __init__(self, job, pide_fn=None, flag=None):
+        if pide_fn is None:
+            pide_fn = os.path.realpath(os.path.join(__file__,"../jobs.pide"))
         self.parse_pide(pide_fn)
-        # self.show()
         self.execute(job)
 
     def execute(self, job):
@@ -62,9 +63,6 @@ class Pipeline:
 
                 # print (f"**input {cmd[1]}")
                 self.current = cmd[1]
-                # if not os.path.isfile(cmd[1]):
-                #    raise FileNotFoundError(errno.ENOENT,
-                #        os.strerror(errno.ENOENT), cmd[1])
             else:  # regular command
                 if "." in cmd[0]:
                     pkg, com = cmd[0].split(".")
@@ -156,8 +154,8 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--flag", help="Flag handed to pipeline parser")
     parser.add_argument("-j", "--job", help="Execute job by name", required=True)
     parser.add_argument(
-        "-p", "--pipe", nargs="?", required=True, help="Location for pipeline file"
+        "-p", "--pide", nargs="?", required=False, help="Location for pipeline description file"
     )
     args = parser.parse_args()
 
-    p = Pipeline(args.pipe, args.job, args.flag)
+    p = Pipeline(args.job, args.pide, args.flag)

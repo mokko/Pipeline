@@ -1,6 +1,9 @@
 import os
 import argparse
 import re
+from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
+from datetime import datetime
 from Pipeline import Pipeline
 from lvlup.ExcelTool import ExcelTool
 from lvlup.vocvoc import vocvoc
@@ -40,6 +43,13 @@ badger.py -c writeback  series of the following commands, which updates everythi
                         - vovvoc
                         - fixmpx
                         - pipe lido
+
+badger.py -c zip -p xml for all projects pack current state into a zip file
+                        xml: all xml files (in 2-MPX, 3-LIDO, 3-SHF)
+                        all: all files in . (including IGNORE, but except **/*.zip files) 
+                        rst: 3-LIDO
+                        rstall: 3-LIDO, pix2
+                        shf: pix, 3-SHF
 
 Note: badger.py looks for the projects' data directories relative to the 
 current working directory.
@@ -125,17 +135,13 @@ class Badger:
         return current_projects
 
     def pipe(self, job):
-        adir = os.path.realpath(os.path.join(__file__, ".."))
-        pide_fn = os.path.join(adir, "jobs.pide")
-        if not os.path.isfile(pide_fn):
-            raise FileNotFoundError("Pide file not found")
         cdd = self.list()
         savedPath = os.getcwd()
         for project in cdd:
             print(f"*PIPE {job} for project {project}")
             os.chdir(os.path.abspath(cdd[project]))
             # print(f"*NEW DIR {os.getcwd()}")
-            Pipeline(pide_fn, job)
+            Pipeline(job)
             os.chdir(savedPath)  # return to original path
             # print(f"*NEW DIR {os.getcwd()}")
 
@@ -185,9 +191,41 @@ class Badger:
         self.fix_mpx()
         self.pipe("lido")
 
+    def zip(self, keyword):
+        """
+        For all projects, produce a zipfile that contains only the xml part of the projects
+        """
+        known_dirs = {
+            'all': ['.'],
+            'rst': ['3-LIDO'],
+            'rstall': ['3-LIDO', 'pix', 'pix2'],
+            'shf': ['pix', '3-SHF'],
+            'xml': ['2-MPX', '3-LIDO', '3-SHF'],
+        }
+        if keyword in known_dirs:
+            now = datetime.now()
+            zip_fn = now.strftime("%Y%m%d-%H%M%S" + keyword + ".zip")
+        else:
+            raise TypeError("Unknown keyword!")
 
-#
-#
+        print(f"**Writing {keyword} to zip: {zip_fn}")
+
+        if keyword == "all":
+            with ZipFile(zip_fn, 'w', ZIP_DEFLATED) as zf:
+                for item in Path().rglob("*"):
+                    if (item.suffix != ".zip"):
+                        print(f"adding {item}")
+                        zf.write(item)
+        else: 
+            cdd = b.list()
+            with ZipFile(zip_fn, 'w', ZIP_DEFLATED, allowZip64=True) as zf:
+                for project in cdd:
+                    for file_item in known_dirs[keyword]:
+                        path = Path(cdd[project], file_item)
+                        for file in path.rglob('*'):
+                            print(f"adding {file}")
+                            zf.write(file)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -196,7 +234,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-c",
         "--cmd",
-        help="Pick your command: del|fixmpx|list|pipe|upvindex|uptrans|vocvoc",
+        help="Pick your command: del|fixmpx|list|pipe|upvindex|uptrans|vocvoc|writeback|zipall|zipxml",
         required=True,
     )
     parser.add_argument("-p", "--param", help="For pipe you need parameter.")
@@ -229,5 +267,7 @@ if __name__ == "__main__":
         b.vocvoc()
     elif args.cmd.lower() == "writeback":
         b.writeback()
+    elif args.cmd.lower() == "zip":
+        b.zip(args.param)
     else:
         raise TypeError("Error: Unknown command!")
