@@ -8,7 +8,7 @@
 #conf key value; N.B. the value preserves spaces (except at the end of the line)
 conf saxon C:\Program Files\Saxonica\SaxonHE10.2N\bin\transform.exe
 #conf saxon C:\Program Files\Saxonica\SaxonHE10.2J\saxon-he-10.2.exe
-#conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
+conf saxon C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar
 #spaces are ONLY ALLOWED in 2nd parameter of conf, not in other paths
 
 import lido
@@ -58,15 +58,15 @@ mpx:
 
 
 shf:
-    input 2-MPX/levelup-sort.mpx# mdvos Liste tested
+    input 2-MPX/levelup-sort.mpx# mdvos Liste
     mdl 3-SHF/shf-mdl.xlsx
 
-    input 2-MPX/lvlup.smbfreigabe.mpx
-    xsl.xsl SHF.xsl 3-SHF/smbfreigabe.npx
+    input 2-MPX/levelup-sort.mpx
+    xsl.xsl SHF.xsl 3-SHF/levelup.npx
     npx2csv 3-SHF               # out_dir; produces 2 csv files
 
-    input 3-SHF/shf-smbfreigabe.npx
-    xsl.xsl shf2Html.xsl 3-SHF/shf-smbfreigabe.html	
+    input 3-SHF/levelup.npx
+    xsl.xsl shf2Html.xsl 3-SHF/levelup.html	
 
-    input 3-SHF/shf-smbfreigabe.npx
-    testShf 2-MPX/lvlup-smbfreigabe.mpx # test includes comparison with pre-npx data
+    input 3-SHF/levelup.npx
+    testShf 2-MPX/levelup-sort.mpx # test includes comparison with pre-npx data
