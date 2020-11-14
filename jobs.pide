@@ -31,7 +31,13 @@ datenblatt: # for Recherchestationen
     input 2-MPX/vfix.mpx
     xsl.xsl rst-datenblatt.xsl 3-LIDO/vfix.rst-datenblatt.html 
 
-lido:       # currently only used for rst
+lidoCA:     # new CrossAsia
+    input 2-MPX/levelup-sort.mpx 
+    xsl.xsl mpx2lido.xsl 3-LIDO/levelup.lido
+    xsl.xsl lido2html.xsl 3-LIDO/levelup.html
+    validate.validate 3-LIDO/levelup.lido
+
+lido:       # currently only used for rst; perhaps also CrossAsia
     input 2-MPX/vfix.mpx # new
     xsl.xsl mpx2lido.xsl 3-LIDO/vfix.lido
     xsl.xsl lido2html.xsl 3-LIDO/vfix.html
@@ -46,7 +52,7 @@ mpx:
     xls2xml 1-XML               # transform all files in 0-IN to xml files in 1-XML
     join 1-XML/join.xml         # join all xml files into 1-XML/join.xml 
     lvlup 2-MPX/levelup.mpx     # create levelup.mpx file
-	xsl.xsl mpx_sort.xsl 2-MPX/levelup-sort.mpx
+    xsl.xsl mpx_sort.xsl 2-MPX/levelup-sort.mpx
     xsl.xsl filter_freigegeben.xsl 2-MPX/lvlup-smbfreigabe.mpx # smb Freigabe & veröffentlichen = Ja
     validate.validate 2-MPX/levelup-sort.mpx # validate levelup.mpx
     input 2-MPX/levelup-sort.mpx

@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:func="http://www.mpx.org/mpxfunc"
-    xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
+    xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx mpxfunc"
     xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 
     <xsl:import href="mpx2lido/category.xsl" />

@@ -1171,6 +1171,7 @@
     </xsd:annotation>
     <xsd:simpleType>
         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AKu-Fotoarchiv"/>
             <xsd:enumeration value="AKu-Ostasiatische Kunst"/>
             <xsd:enumeration value="AKu-Süd-, Südost- und Zentralasien"/>
             <xsd:enumeration value="EM-Afrika"/>

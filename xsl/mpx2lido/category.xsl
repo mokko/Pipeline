@@ -49,6 +49,8 @@
             <xsl:choose>
                 <xsl:when test=". eq 'Allgemein' 
                     or . eq 'Musikinstrument' 
+                    or . eq 'Archivalie - Einzelblatt'
+                    or . eq 'Fotografie'
                     or . eq 'Audio'">
                     <lido:conceptID lido:type="URI">
                         <xsl:text>http://www.cidoc-crm.org/crm-concepts/E22</xsl:text>
