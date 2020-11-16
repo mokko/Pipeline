@@ -522,6 +522,7 @@
     <!-- zielgruppe (Film) -->
    <xsd:element ref="zielgruppe" minOccurs="0" maxOccurs="1"/>
     <!-- zusatzgeräte (Film?) -->
+   <xsd:element ref="zusatzBemerkung" minOccurs="0" maxOccurs="1"/>
    </xsd:sequence>
   <xsd:attribute name="exportdatum" type="xsd:dateTime"/>
   <xsd:attribute name="objId" type="xsd:integer"/>
