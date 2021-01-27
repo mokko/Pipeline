@@ -112,9 +112,9 @@ class cpResources:
                             if not os.path.isfile(path):
                                 logging.debug(f"{mulId}: {path}: Datei nicht am Ort")
 
-    ##############
-    # PRIVATE STUFF
-    ##############
+    ###############
+    #PRIVATE STUFF#
+    ###############
 
     def _cpFile(self, in_path, out_path):
         """cp file to out_path while reporting missing files
@@ -154,19 +154,21 @@ class cpResources:
         try:
             pfad = mume.find("mpx:pfadangabe", self.ns).text
         except:
-            error = 1
+            logging.error (f"mulId-{mulId}: No mpx:pfadangabe")
+            error += 1
         try:
             erw = mume.find("mpx:erweiterung", self.ns).text
         except:
-            error = 1
+            logging.error (f"mulId-{mulId}: No mpx:erweiterung")
+            error += 1
         try:
             datei = mume.find("mpx:dateiname", self.ns).text
         except:
-            error = 1
+            logging.error (f"mulId-{mulId}: No mpx:dateiname")
+            error += 1
 
-        if error == 1:
-            logging.debug (f"Path incomplete mulId: {mulId}")
-            return  # returns None, right?
+        if error > 0:
+            return None
         return f"{pfad}\{datei}.{erw}"
 
     def _init_log(self, outdir):
@@ -187,21 +189,25 @@ class cpResources:
 
     def _out_fn(self, mume, outdir, pattern):
         old = self._fullpath(mume)
-        ls = pattern.split(".")
-        out = []
-        for each in ls:
-            if each == "mulId":
-                out.append(mume.get("mulId", self.ns))
-            if each == "objId":
-                out.append(mume.find("mpx:verknüpftesObjekt", self.ns).text)
-            if each == "dateiname":
-                out.append(mume.find("mpx:dateiname", self.ns).text)
-        # always implicitly add lower-cased file extension.
-        out.append(mume.find("mpx:erweiterung", self.ns).text.lower())
-        fn = ".".join(out)
-        new = os.path.join(outdir, fn)
-        # print (f"{pattern}:::::{old} ->{new}")
-        return old, new
+        if old is not None:
+            print (f"{old}")
+            ls = pattern.split(".")
+            out = []
+            for each in ls:
+                if each == "mulId":
+                    out.append(mume.get("mulId", self.ns))
+                if each == "objId":
+                    out.append(mume.find("mpx:verknüpftesObjekt", self.ns).text)
+                if each == "dateiname":
+                    out.append(mume.find("mpx:dateiname", self.ns).text)
+            # always implicitly add lower-cased file extension.
+            out.append(mume.find("mpx:erweiterung", self.ns).text.lower())
+            fn = ".".join(out)
+            new = os.path.join(outdir, fn)
+            # print (f"{pattern}:::::{old} ->{new}")
+            return old, new
+        else:
+            return None, None
 
 
 if __name__ == "__main__":
