@@ -1,7 +1,7 @@
 """ class that copies resources listed in xml to a destination directory
 
 - expects sourceXml to be mpx
-- writes a log with encountered problems into outdir/report.log 
+- writes a log with encountered problems into outdir/YYMMDD.report.log 
 
 USAGE
  rc = ResourceCp (mpx)
@@ -30,6 +30,7 @@ import os
 import sys
 import shutil
 import datetime
+import logging
 
 _verbose = 1
 
@@ -56,7 +57,7 @@ class cpResources:
         and b) have mpx:veröffentlichen = ja"""
 
         self._init_log(outdir)
-        self._write_log("RUN freigegebene")
+        logging.debug("RUN freigegebene")
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             fg = mume.find("mpx:veröffentlichen", self.ns)
@@ -68,10 +69,9 @@ class cpResources:
                     try:
                         self._cpFile(old_path, new_path)
                     except:
-                        self._write_log(f"File not found: {old_path}")
+                        logging.debug(f"File not found: {old_path}")
             else: pass
                 # print("record has no mpx:veröffentlichen!")
-        self._close_log()
 
     def tifs(self, outdir, pattern):
         """Copy tifs based on identNr to outdir/pattern.ext.
@@ -110,15 +110,11 @@ class cpResources:
                         path = self._fullpath(mume)  # will log incomplete path
                         if path is not None:
                             if not os.path.isfile(path):
-                                self._write_log(f"{mulId}: {path}: Datei nicht am Ort")
-        self._close_log()
+                                logging.debug(f"{mulId}: {path}: Datei nicht am Ort")
 
     ##############
     # PRIVATE STUFF
     ##############
-
-    def _close_log(self):
-        self._log.close()
 
     def _cpFile(self, in_path, out_path):
         """cp file to out_path while reporting missing files
@@ -127,7 +123,7 @@ class cpResources:
 
         # print (f"Working on {in_path}")
         if not os.path.exists(in_path):
-            self._write_log(f"Source file not found: {in_path}")
+            logging.debug(f"Source file not found: {in_path}")
             return
         if os.path.exists(out_path):
             # overwrite ONLY if source is newer
@@ -169,7 +165,7 @@ class cpResources:
             error = 1
 
         if error == 1:
-            self._write_log(f"Path incomplete mulId: {mulId}")
+            logging.debug (f"Path incomplete mulId: {mulId}")
             return  # returns None, right?
         return f"{pfad}\{datei}.{erw}"
 
@@ -178,7 +174,16 @@ class cpResources:
             os.makedirs(outdir)
         # line buffer so everything gets written when it's written
         # so CTRL+C ends the program
-        self._log = open(os.path.join(outdir, "report.log"), mode="a", buffering=1)
+        today = datetime.date.today()
+        log_fn = os.path.join(outdir, today.strftime("%Y%m%d.report.log"))
+        logging.basicConfig(
+            datefmt="%I:%M:%S %p",
+            filename=log_fn,
+            filemode="w",
+            level=logging.DEBUG,
+            format="%(asctime)s: %(message)s",
+        )
+
 
     def _out_fn(self, mume, outdir, pattern):
         old = self._fullpath(mume)
@@ -197,10 +202,6 @@ class cpResources:
         new = os.path.join(outdir, fn)
         # print (f"{pattern}:::::{old} ->{new}")
         return old, new
-
-    def _write_log(self, msg):
-        self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
-        print(f"LOG: {msg}")
 
 
 if __name__ == "__main__":
