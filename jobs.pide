@@ -35,7 +35,7 @@ lidoCA:     # new CrossAsia
     input 2-MPX/levelup-sort.mpx 
     xsl.xsl mpx2lido.xsl 3-LIDO/levelup.lido
     xsl.xsl lido2html.xsl 3-LIDO/levelup.html
-    validate.validate 3-LIDO/levelup.lido
+    #validate.validate 3-LIDO/levelup.lido
 
 lidoSMB:
     input 2-MPX/lvlup-smbfreigabe.mpx 
@@ -48,7 +48,7 @@ lido:       # currently only used for rst; perhaps also CrossAsia
     input 2-MPX/vfix.mpx # new
     xsl.xsl mpx2lido.xsl 3-LIDO/vfix.lido
     xsl.xsl lido2html.xsl 3-LIDO/vfix.html
-    validate.validate 3-LIDO/vfix.lido
+    #validate.validate 3-LIDO/vfix.lido
 
     input 3-LIDO/vfix.lido
     xsl.xsl lido2datenblatt.xsl 3-LIDO/vfix.lido-datenblatt.html
