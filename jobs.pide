@@ -73,6 +73,9 @@ mpx:
 rpx:
 	input unused
 	join join.rpx
+    xsl.xsl rpx2lido.xsl 2-LIDO/join.lido
+
+
 
 shf:
     input 2-MPX/levelup-sort.mpx# mdvos Liste
