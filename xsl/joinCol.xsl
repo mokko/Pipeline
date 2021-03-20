@@ -24,5 +24,4 @@
 			</xsl:for-each>
 		</museumPlusExport>
 	</xsl:template>
-
 </xsl:stylesheet>
