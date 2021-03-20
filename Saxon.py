@@ -1,11 +1,10 @@
 """ A very thin wrapper around Saxon that uses Python's subprocess
 
 USAGE 
-    s=Saxon(saxon_path) 
-
-    s.transform (input, xsl, output)     #plain transform, creates output dir if necessary
-    s.join (source, stylesheet, output)  #apply joinCol.xsl to source and write result to output
-
+    s = Saxon(saxon_path) 
+    s.transform (input, xsl, output)     # plain transform, creates output dir if necessary
+    s.join (source, stylesheet, output)  # copies xsl temporarily to target dir 
+                                         # before applying it
 SAXON VERSION
     On Windows easiest way seems to be to use built for NET platform. Alternatively, this class 
     can also use the original Saxon in java. 
