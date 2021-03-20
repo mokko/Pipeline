@@ -8,7 +8,7 @@ USAGE
 
 SAXON VERSION
     On Windows easiest way seems to be to use built for NET platform. Alternatively, this class 
-    can also use the original Saxon in java.
+    can also use the original Saxon in java. 
 
 SEE ALSO
     transform -s:source -xsl:stylesheet -o:output
@@ -19,16 +19,19 @@ SEE ALSO
 import os
 import shutil
 import subprocess
-
-# import sys
+from pathlib import Path
 from subprocess import Popen, PIPE
 
 
 class Saxon:
     def __init__(self, saxon_path):
-        self.lib = saxon_path
+        if Path(saxon_path).exists():
+            self.lib = saxon_path
+        else:
+            raise FileNotFoundError(f"Saxon not found at '{saxon_path}'!")
+
         self.report_fn = None
-        if self.lib.endswith("transform.exe"):
+        if self.lib.endswith("Transform.exe"):
             self.type = ".net"
         else:
             self.type = "java"
@@ -109,4 +112,12 @@ class Saxon:
 
 
 if __name__ == "__main__":
-    pass
+    import argparse
+    parser = argparse.ArgumentParser(description="Simplistic Saxon Command Line Front End")
+    parser.add_argument("-l", "--lib", help="Saxon location")
+    parser.add_argument("-s", "--source", help="input file")
+    parser.add_argument("-x", "--xsl", help="xsl file")
+    parser.add_argument("-o", "--output", help="ouput file")
+    args = parser.parse_args()
+    s = Saxon(args.lib)
+    s.transform(args.source, args.xsl, args.output)

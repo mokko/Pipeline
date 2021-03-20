@@ -49,10 +49,10 @@
 
 	<!-- identity -->
 	<xsl:template match="@*|node()">
-		<xsl:message>
+		<!-- xsl:message>
 			<xsl:text>:</xsl:text>
-			<xsl:value-of select="name()"/>
-		</xsl:message>
+			<xsl:value-of select="name()"/></xsl:message>
+		-->
 		<xsl:copy>
 	    	<xsl:apply-templates select="@*|node()">
 			</xsl:apply-templates>
