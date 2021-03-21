@@ -9,13 +9,14 @@
     <xsl:import href="rpx2lido/category.xsl" />
     <!-- Descriptive Metadata -->
     <xsl:import href="rpx2lido/objectClassificationWrap.xsl" />
-    <xsl:import href="rpx2lido/objectIdentificationWrap.xsl" />
+	<!--     <xsl:import href="rpx2lido/objectIdentificationWrap.xsl" />
     <xsl:import href="rpx2lido/eventWrap.xsl" />
-    <xsl:import href="rpx2lido/objectRelationWrap.xsl" />
-    <!-- Administrative Metadata -->
+    <xsl:import href="rpx2lido/objectRelationWrap.xsl" -->
+    <!-- Administrative Metadata 
     <xsl:import href="rpx2lido/rightsWorkWrap.xsl" />
     <xsl:import href="rpx2lido/recordWrap.xsl" />
-    <xsl:import href="rpx2lido/resourceWrap.xsl" />
+    <xsl:import href="rpx2lido/resourceWrap.xsl"  -->
+    
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
 
@@ -23,6 +24,39 @@
         <lido:lidoWrap>
             <xsl:apply-templates select="/ObjectList/Object" />
         </lido:lidoWrap>
+    </xsl:template>
+
+    <xsl:template match="/ObjectList/Object">
+        <!-- xsl:message>
+            <xsl:text>2LIDO-objId: </xsl:text>
+            <xsl:value-of select="@objId" />
+        -->
+        <lido:lido>
+            <lido:lidoRecID>
+                <xsl:attribute name="lido:source">
+                    <xsl:text>Staatliche Museen zu Berlin</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="lido:type">local</xsl:attribute>
+                <xsl:value-of select="@id" />
+            </lido:lidoRecID>
+
+            <!-- lido:category -->
+            <xsl:apply-templates mode="category" select="objekttyp" />
+
+            <lido:descriptiveMetadata xml:lang="de">
+                <xsl:call-template name="objectClassificationWrap"/>
+                <!-- xsl:call-template name="objectIdentificationWrap"/>
+                <xsl:call-template name="eventWrap"/>
+                <xsl:call-template name="objectRelationWrap"/> -->
+            </lido:descriptiveMetadata>
+
+            <lido:administrativeMetadata xml:lang="en">
+            <!--
+                <xsl:call-template name="rightsWorkWrap"/>
+                <xsl:call-template name="recordWrap"/>
+                <xsl:call-template name="resourceWrap"/>  -->
+            </lido:administrativeMetadata>
+        </lido:lido>
     </xsl:template>
 
     <xsl:function name="func:en-from-dict">

@@ -2,25 +2,53 @@
 
 	<!-- 
 	
-		rpx stands MPX for RIA which is my xml export from new version of MuseumPlus
-		principles: 
+		rpx stands for "MPX for RIA" which is my xml export from new version 
+		of MuseumPlus.
+		It's built with these principles in mind: 
+		- the least changes to Zetcom's inbuilt xml export, i.e. we leave 
+		  Objects and ObjectList in English and capitalization as provided by 
+		  Zetcom 
+		- basis for element tags are the screen labels
+		- alphabetical order where possible
+		- no xml arguments (with a few exceptions, only id)
 		- no sonderzeichen: Zetcom doesn't allow sonderzeichen in element names, so 
   		  "masse" instead of "maße"
-		- basis for elements are the screen labels
-		- i use small camel capitalization for elements, leaving out spaces, periods etc.
-		- the least changes possible, i.e. we leave Objects and ObjectList in English and
-		  capitalization as provided by Zetcom 
+		- i use small camel capitalization for elements, leaving out spaces, 
+		  periods etc.
 
 	TODO:
 		- Add objId to 3.2 Export
-		- change "gruppen" to "gruppe"
+		- change "gruppen" to "gruppe" in gruppenList/gruppe[n]/letzteAenderung
 		- dont export letzteAenderungVon, replace with letzteAenderung
-	    - what to do with empty <materialTechnik> tags? just leave it?
-	    
-	As before we want to ONE xml export to rule them all, so all fields can be 
-	exported UNFILTERED. We can filter elements, records and values later.
+	    - what to do with empty <materialTechnik> tags? just leave them?
+	    - nationalität->nationalitaet
+	    - erwerbungsjahr/datum
+	    - erwerbungsart
+	    - erwerbungVon
+
+	STRATEGY	    
+	As before, we want to ONE xml export to rule them all, so all fields can be 
+	exported UNFILTERED. We filter elements, records and values later. 
 	
-	 -->
+	FILTER
+	-what should we filter? certain fields
+	-HF Ausstellung
+	
+	Which fields should I add next? What is priority? 
+	-sachbegriff cluster
+	-titel Cluster
+
+	QUESTIONS	
+	Should we fix Bereich? "EMSudundSudostasien"-> "EM-Süd- und Südostasien"?
+	- not a priority, so no!
+	
+	PROBLEMS IN ZETCOM EXPORT
+	- Sektion und Ausstellung sind nicht verbunden
+	- XML Export exports only one data source, although several can be specified. 
+	  (check again when id is included)
+	
+	-->
+
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
 		indent="yes" />
 	<xsl:strip-space elements="*" />
