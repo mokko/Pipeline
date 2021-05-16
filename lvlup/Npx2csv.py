@@ -83,8 +83,8 @@ class Npx2csv:
 
 
 if __name__ == "__main__":
-    # import argparse
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('-i', '--input', required=True)
-    # args = parser.parse_args()
-    Npx2csv("3-SHF/shf.xml", "3-SHF")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--input', required=True)
+    args = parser.parse_args()
+    Npx2csv(args.input, ".")
