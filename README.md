@@ -6,9 +6,9 @@ controlled way, much like a shell script. Each step has an input,
 parameters, output 
 
 Default behavior is to take output from previous step as input for the next 
-step.
+step, much like in shell scripts.
 
-You can write your own python plugins 
+Write your own python plugins 
 
 The pipeline is described in a pide file (pipeline description) which is 
 equivalent to a shell script.

@@ -37,15 +37,15 @@ import xml.etree.ElementTree as ET
 
 
 class Npx2csv:
-    def __init__(self, infile, outdir):
+    def __init__(self, infile, out):
         self.ns = {
             "npx": "http://www.mpx.org/npx",  # npx is no mpx
         }
         self.tree = ET.parse(infile)
 
         entities = {
-            path.join(outdir, "shf-so.csv"): "npx:sammlungsobjekt",
-            path.join(outdir, "shf-mm.csv"): "npx:multimediaobjekt",
+            f"{out}-so.csv": "npx:sammlungsobjekt",
+            f"{out}-mm.csv": "npx:multimediaobjekt",
         }
 
         for file in entities:
