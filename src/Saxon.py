@@ -69,7 +69,7 @@ class Saxon:
             print(f"{output} exists already, no overwrite")
         else:
             if not os.path.isdir(out_dir):
-                os.mkdir(out_dir)  # no chmod
+                os.makedirs(out_dir)  # no chmod
             self._transform(source, stylesheet, output, self.report_fn)
 
     #
@@ -89,7 +89,7 @@ class Saxon:
 
         cmd = f"{self.lib} -s:{source} -xsl:{stylesheet} -o:{output}"
         if self.type == "java":
-            cmd = f"java -Xmx1024m -jar {cmd}"
+            cmd = f"java -Xmx1200m -jar {cmd}"
         print(cmd)
         # check=True:dies on error
         # https://stackoverflow.com/questions/89228
