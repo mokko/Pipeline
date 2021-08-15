@@ -35,26 +35,25 @@ class Saxon:
         else:
             self.type = "java"
 
-    def join(self, source, stylesheet, output_fn):
-        """ Join all lvl1 files into one big join file"""
+    def join(self, src_fn, xsl, out_fn):
+        """ 
+            Join all lvl1 files into one big join file.
+            Old version assumed that xsl is in out_dir; new version puts it in src_dir
+        """
 
-        if os.path.isfile(output_fn):  # only join if target doesn't exist yet
-            print(f"{output_fn} exists already, no overwrite")
+        if os.path.isfile(out_fn):  # only join if target doesn't exist yet
+            print(f"{out_fn} exists already, no overwrite")
         else:
-            # source=self._escapePath(self.lib+'/'+source)
-            # if os.path.isfile(source):
-            # styleorig=self.lib+'/'+stylesheet
-            targetdir = os.path.dirname(output_fn)
-            style_base = os.path.basename(stylesheet)
-            styletarget = os.path.join(targetdir, style_base)
-            print(f"output_fn: {output_fn}")
-            print(f"orig style: {stylesheet}")
-            print(f"style target: {styletarget}")
-            shutil.copy(
-                stylesheet, styletarget
-            )  # cp join stylesheet in same dir as *.xml
-            self.transform(source, styletarget, output_fn)
-            os.remove(styletarget)
+            out_dir = os.path.dirname(out_fn)
+            src_dir = os.path.dirname(src_fn)
+            xsl_base = os.path.basename(xsl)
+            xsl_new = os.path.join(src_dir, xsl_base)
+            #print(f"out_fn: {out_fn}")
+            #print(f"orig xsl: {xsl}")
+            #print(f"new xsl: {xsl_new}")
+            shutil.copy(xsl, xsl_new)  # cp join xsl in same dir as *.xml
+            self.transform(src_fn, xsl_new, out_fn)
+            os.remove(xsl_new)
 
     def transform(self, source, stylesheet, output):
         """Like normal transform plus
@@ -94,7 +93,7 @@ class Saxon:
         # check=True:dies on error
         # https://stackoverflow.com/questions/89228
         if self.report_fn is None:
-            # print ("no log file written")
+            #print ("no log file written")
             subprocess.run(
                 cmd, check=True, stderr=subprocess.STDOUT
             )  # overwrites output file without saying anything
